@@ -89,17 +89,21 @@
             <h4 class="mb-2">Welcome to Devi Admin! 👋</h4>
             <p class="mb-4">Please sign-in to your account.</p>
 
-            <form id="formAuthentication" class="mb-3" action="index.html" method="POST">
+            <form class="mb-3" action="{{ route('login') }}" method="POST">
+              @csrf
               <div class="mb-3">
                 <label for="email" class="form-label">Email or Username</label>
                 <input
                   type="text"
                   class="form-control"
                   id="email"
-                  name="email-username"
+                  name="username" value="{{ old('username') }}"
                   placeholder="Enter your email or username"
                   autofocus
                 />
+                @error('username')
+                    <small class="text-danger mt-1">{{ $errors->first('username') }}</small>
+                @enderror
               </div>
               <div class="mb-3 form-password-toggle">
                 <div class="d-flex justify-content-between">
@@ -114,11 +118,26 @@
                     placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                     aria-describedby="password"
                   />
-                  <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                  <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>                  
                 </div>
+                @error('password')
+                    <small class="text-danger mt-1">{{ $errors->first('password') }}</small>
+                @enderror
               </div>
-              <button class="btn btn-primary d-grid w-100">Sign in</button>
+              <button class="btn btn-primary btn-submit d-grid w-100">Sign in</button>
             </form>
+            <div class="text-center">
+              @if(session()->has('success'))
+                  <div class="alert alert-success">
+                      {{ session()->get('success') }}
+                  </div>
+              @endif
+              @if(session()->has('error'))
+                  <div class="alert alert-danger">
+                      {{ session()->get('error') }}
+                  </div>
+              @endif
+            </div>
           </div>
         </div>
         <!-- /Login -->
@@ -149,6 +168,7 @@
 
     <!-- Main JS -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
+    <script src="{{ asset('assets/js/script.js') }}"></script>
 
     <!-- Page JS -->
     <script src="{{ asset('assets/js/pages-auth.js') }}"></script>

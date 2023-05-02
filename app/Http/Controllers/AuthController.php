@@ -29,7 +29,8 @@ class AuthController extends Controller
     public function dash(){
         $role = Role::where('name', Auth::user()->roles->pluck('name')->implode(''))->first();
         $userbranches = UserBranch::where('user_id', Auth::user()->id)->get();
-        return view($role->dashboard, compact('userbranches'));
+        $dash = ($role->dashboard) ? $role->dashboard : 'dash.default' ;
+        return view($dash, compact('userbranches'));
     }
 
     public function setuserbranch(Request $request){

@@ -2,7 +2,10 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,10 +26,12 @@ Route::get('/', function () {
 Route::post('/', [AuthController::class, 'login']);
 
 Route::group(['middleware' => ['auth']], function(){
-
-    Route::get('/dash', [AuthController::class, 'dash'])->name('dash');
-    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/dash', [AuthController::class, 'dash'])->name('dash');    
     Route::post('/dash', [AuthController::class, 'setuserbranch'])->name('setuserbranch');
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+});
+
+Route::group(['middleware' => ['auth', 'branch']], function(){
 
     // User
     Route::get('/user', [UserController::class, 'index'])->name('user');
@@ -51,5 +56,29 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/branch/edit/{id}', [BranchController::class, 'edit'])->name('branch.edit');
     Route::put('/branch/edit/{id}', [BranchController::class, 'update'])->name('branch.update');
     Route::delete('/branch/delete/{id}', [BranchController::class, 'destroy'])->name('branch.delete');
+
+    // Category
+    Route::get('/category', [CategoryController::class, 'index'])->name('category');
+    Route::get('/category/create', [CategoryController::class, 'create'])->name('category.create');
+    Route::post('/category/create', [CategoryController::class, 'store'])->name('category.save');
+    Route::get('/category/edit/{id}', [CategoryController::class, 'edit'])->name('category.edit');
+    Route::put('/category/edit/{id}', [CategoryController::class, 'update'])->name('category.update');
+    Route::delete('/category/delete/{id}', [CategoryController::class, 'destroy'])->name('category.delete');
+
+    // Subcategory
+    Route::get('/subcategory', [SubcategoryController::class, 'index'])->name('subcategory');
+    Route::get('/subcategory/create', [SubcategoryController::class, 'create'])->name('subcategory.create');
+    Route::post('/subcategory/create', [SubcategoryController::class, 'store'])->name('subcategory.save');
+    Route::get('/subcategory/edit/{id}', [SubcategoryController::class, 'edit'])->name('subcategory.edit');
+    Route::put('/subcategory/edit/{id}', [SubcategoryController::class, 'update'])->name('subcategory.update');
+    Route::delete('/subcategory/delete/{id}', [SubcategoryController::class, 'destroy'])->name('subcategory.delete');
+
+    // Product
+    Route::get('/product', [ProductController::class, 'index'])->name('product');
+    Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
+    Route::post('/product/create', [ProductController::class, 'store'])->name('product.save');
+    Route::get('/product/edit/{id}', [ProductController::class, 'edit'])->name('product.edit');
+    Route::put('/product/edit/{id}', [ProductController::class, 'update'])->name('product.update');
+    Route::delete('/product/delete/{id}', [ProductController::class, 'destroy'])->name('product.delete');
 
 });

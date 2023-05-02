@@ -70,39 +70,22 @@
                 </a>
                 <ul class="menu-sub">                    
                     <li class="menu-item">
-                        <a href="/branch" class="menu-link">
+                        <a href="/category" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-checkbox"></i>
                             <div data-i18n="Category Management">Category Management</div>
                         </a>
                     </li>
                     <li class="menu-item">
-                        <a href="/user" class="menu-link">
+                        <a href="/subcategory" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-checkbox-square"></i>
                             <div data-i18n="Subcategory Management">Subcategory Management</div>
                         </a>
                     </li>
                     <li class="menu-item">
-                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <a href="/product" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-gift"></i>
                             <div data-i18n="Product Management">Product Management</div>
                         </a>
-                        <ul class="menu-sub">
-                          <li class="menu-item">
-                            <a href="/dash" class="menu-link">
-                              <div data-i18n="Lens">Lens</div>
-                            </a>
-                          </li>
-                          <li class="menu-item">
-                            <a href="/dash" class="menu-link">
-                              <div data-i18n="Frame">Frame</div>
-                            </a>
-                          </li>
-                          <li class="menu-item">
-                            <a href="/dash" class="menu-link">
-                              <div data-i18n="Medicine">Medicine</div>
-                            </a>
-                          </li>
-                        </ul>
                     </li>
                     <li class="menu-item">
                         <a href="/role" class="menu-link">

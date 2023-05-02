@@ -113,6 +113,11 @@
                       </a>
                     </li>
                     <li>
+                      <a class="dropdown-item" href="/dash">
+                        Current Branch: <strong>{{ (Session::get('branch')) ? branches()->find(Session::get('branch'))->name : '' }}</strong>
+                      </a>
+                    </li>
+                    <li>
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>

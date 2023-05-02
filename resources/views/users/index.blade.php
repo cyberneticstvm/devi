@@ -25,7 +25,7 @@
                             <div class="text-end"><a href="/user/create" type="button" class="btn btn-success"><span class="tf-icons bx bx-plus me-1"></span>Add Record</a></div>
                             <div class="card-datatable table-responsive pt-0">
                                 <table class="datatable-basic table table-bordered table-sm">
-                                    <thead><tr><th>SL No</th><th>User Name</th><th>Username</th><th>Email</th><th>User Role</th><th>Branches</th><th>Edit</th><th>Delete</th></tr></thead>
+                                    <thead><tr><th>SL No</th><th>Full Name</th><th>Username</th><th>Email</th><th>User Role</th><th>Branches</th><th>Edit</th><th>Delete</th></tr></thead>
                                     <tbody>
                                         @php $c = 1; @endphp
                                         @forelse($users as $key => $user)

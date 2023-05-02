@@ -26,8 +26,9 @@ class AuthController extends Controller
     }
 
     public function dash(){
-        $role = Role::where('name', Auth::user()->roles->pluck('name')->implode(''))->first();
-        return view($role->dashboard);
+        //$role = Role::where('name', Auth::user()->roles->pluck('name')->implode(''))->first();
+        //return view($role->dashboard);
+        return view('admin.dash');
     }
 
     public function logout(){

@@ -177,7 +177,7 @@
             <div class="row">
               <div class="col mb-3">
                 <label class="form-label">Branch</label>
-                <select class="form-control select2" name="branch">
+                <select class="form-control" name="branch">
                   @forelse($userbranches as $key => $br)
                     <option value="{{ $br->branch->id }}">{{ $br->branch->name }}</option>
                   @empty

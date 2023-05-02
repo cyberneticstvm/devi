@@ -22,7 +22,7 @@ Route::get('/', function () {
 })->name('login');
 Route::post('/', [AuthController::class, 'login']);
 
-//Route::group(['middleware' => ['auth']], function(){
+Route::group(['middleware' => ['auth']], function(){
 
     Route::get('/dash', [AuthController::class, 'dash'])->name('dash');
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -51,4 +51,4 @@ Route::post('/', [AuthController::class, 'login']);
     Route::put('/branch/edit/{id}', [BranchController::class, 'update'])->name('branch.update');
     Route::delete('/branch/delete/{id}', [BranchController::class, 'destroy'])->name('branch.delete');
 
-//});
+});

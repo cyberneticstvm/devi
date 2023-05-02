@@ -106,8 +106,8 @@
                             </div>
                           </div>
                           <div class="flex-grow-1">
-                            <span class="fw-semibold d-block lh-1"></span>
-                            <small></small>
+                            <span class="fw-semibold d-block lh-1">{{ Auth::user()->name }}</span>
+                            <small>{{ Auth::user()->roles->pluck('name')->implode('') }}</small>
                           </div>
                         </div>
                       </a>

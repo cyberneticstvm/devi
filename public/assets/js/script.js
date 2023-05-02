@@ -15,6 +15,10 @@ $(function(){
     $('.datatable-basic').DataTable();
 
     $('.select2').select2();
+
+    if(!$("#current_branch").val()){
+        $("#branchSelector").modal("show");
+    }
 });
 
 setTimeout(function () {

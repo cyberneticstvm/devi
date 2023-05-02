@@ -159,7 +159,41 @@
         @yield("content")
       </div>
     </div>
-
+    @if(!Session::get('branch'))
+    <div class="modal fade" id="branchSelector" data-bs-backdrop="static" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <form class="modal-content" method="post" action="{{ route('setuserbranch') }}">
+          @csrf
+          <input type="hidden" name="current_branch" id="current_branch" value="{{ Session::get('branch') }}" />
+          <div class="modal-header">
+            <h5 class="modal-title" id="backDropModalTitle">Select Branch</h5>
+            <a href="/logout"
+              type="button"
+              class="btn-close"
+              aria-label="Close"
+            ></a>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col mb-3">
+                <label class="form-label">Branch</label>
+                <select class="form-control select2" name="branch">
+                  @forelse($userbranches as $key => $br)
+                    <option value="{{ $br->branch->id }}">{{ $br->branch->name }}</option>
+                  @empty
+                  @endforelse
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <a href="/logout" type="button" class="btn btn-label-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary btn-submit">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    @endif
     <!-- Overlay -->
     <div class="layout-overlay layout-menu-toggle"></div>
 

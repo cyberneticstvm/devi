@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UserBranch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
@@ -27,7 +28,16 @@ class AuthController extends Controller
 
     public function dash(){
         $role = Role::where('name', Auth::user()->roles->pluck('name')->implode(''))->first();
-        return view($role->dashboard);
+        $userbranches = UserBranch::where('user_id', Auth::user()->id)->get();
+        return view($role->dashboard, compact('userbranches'));
+    }
+
+    public function setuserbranch(Request $request){
+        $this->validate($request, [
+            'branch' => 'required',
+        ]);
+        Session::put('branch', $request->branch);
+        return redirect()->route('dash')->with("success", "Branch updated successfully!");
     }
 
     public function logout(){

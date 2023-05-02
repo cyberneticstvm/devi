@@ -26,6 +26,7 @@ Route::group(['middleware' => ['auth']], function(){
 
     Route::get('/dash', [AuthController::class, 'dash'])->name('dash');
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::post('/dash', [AuthController::class, 'setuserbranch'])->name('setuserbranch');
 
     // User
     Route::get('/user', [UserController::class, 'index'])->name('user');

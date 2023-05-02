@@ -45,8 +45,8 @@ class BranchController extends Controller
             'mobile' => 'required|numeric|digits:10',
         ]);
         $input = $request->all();
-        $input['created_by'] = $request->user()->id;
-        $input['updated_by'] = $request->user()->id;
+        $input['created_by'] = 1;
+        $input['updated_by'] = 1;
         Branch::create($input);
         return redirect()->route('branch')->with('success', 'Branch created successfully');
     }

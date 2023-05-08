@@ -11,16 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('branches', function (Blueprint $table) {
+        Schema::create('patients', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 125)->unique();
-            $table->string('code', 10)->unique();
-            $table->string('gstin', 50)->nullable();
-            $table->string('address', 125)->nullable();
-            $table->string('email', 50)->nullable();
+            $table->string('name', 125);
+            $table->integer('age')->default(0);
+            $table->string('gender', 25)->nullable();
+            $table->string('place', 125)->nullable();
             $table->string('mobile', 10)->nullable();
-            $table->unsignedBigInteger('invoice_starts_with')->nullable();
-            $table->decimal('credit_limit', 7, 2)->default(0.00);
+            $table->unsignedBigInteger('branch_id')->references('id')->on('branches');
             $table->unsignedBigInteger('created_by')->references('id')->on('users');
             $table->unsignedBigInteger('updated_by')->references('id')->on('users');
             $table->timestamps();
@@ -32,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('branches');
+        Schema::dropIfExists('patients');
     }
 };

@@ -11,7 +11,7 @@
     <div class="container-fluid flex-grow-1 container-p-y">
         <div class="row">
             <div class="col">
-                <h4 class="py-3 breadcrumb-wrapper mb-4"><span class="text-muted fw-light">Branch Management/</span> Branch List</h4>
+                <h4 class="py-3 breadcrumb-wrapper mb-4"><span class="text-muted fw-light">Consultaton Management/</span> Consultation Register</h4>
             </div>
         </div>
         <div class="row">
@@ -22,24 +22,23 @@
                             @include("message")
                         </div>
                         <div class="card-body">
-                            <div class="text-end"><a href="/branch/create" type="button" class="btn btn-success"><span class="tf-icons bx bx-plus me-1"></span>Add Record</a></div>
                             <div class="card-datatable table-responsive pt-0">
                                 <table class="datatable-basic table table-bordered table-sm">
-                                    <thead><tr><th>SL No</th><th>Branch Name</th><th>Branch code</th><th>Address</th><th>Contact Number</th><th>GSTIN</th><th>Credit Limit</th><th>Edit</th><th>Delete</th></tr></thead>
+                                    <thead><tr><th>SL No</th><th>Mrn</th><th>Patient Name</th><th>Contact</th><th>Place</th><th>Doctor</th><th>Purpose of Visit</th><th>Edit</th><th>Delete</th></tr></thead>
                                     <tbody>
                                         @php $c = 1; @endphp
-                                        @forelse($branches as $key => $branch)
+                                        @forelse($consultations as $key => $con)
                                             <tr>
                                                 <td>{{ $c++ }}</td>
-                                                <td>{{ $branch->name }}</td>
-                                                <td>{{ $branch->code }}</td>
-                                                <td>{{ $branch->address }}</td>
-                                                <td>{{ $branch->mobile }}</td>
-                                                <td>{{ $branch->gstin }}</td>
-                                                <td>{{ $branch->credit_limit }}</td>
-                                                <td class="text-center"><a href="/branch/edit/{{ encrypt($branch->id) }}"><i class="fa fa-pencil text-warning"></i></a></td>
+                                                <td>{{ $con->mrn }}</td>
+                                                <td>{{ $con->patient->name }}</td>
+                                                <td>{{ $con->patient->mobile }}</td>
+                                                <td>{{ $con->patient->place }}</td>
+                                                <td>{{ $con->doctor->name }}</td>
+                                                <td>{{ $con->visitpurpose->name }}</td>
+                                                <td class="text-center"><a href="/consultation/edit/{{ encrypt($con->id) }}"><i class="fa fa-pencil text-warning"></i></a></td>
                                                 <td class="text-center">
-                                                    <form method="post" action="{{ route('branch.delete', $branch->id) }}">
+                                                    <form method="post" action="{{ route('consultation.delete', $con->id) }}">
                                                         @csrf 
                                                         @method("DELETE")
                                                         <button type="submit" class="border no-border" onclick="javascript: return confirm('Are you sure want to delete this record?');"><i class="fa fa-times text-danger"></i></button>

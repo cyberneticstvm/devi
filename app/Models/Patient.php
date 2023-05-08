@@ -5,19 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Branch extends Model
+class Patient extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'name',
-        'code',
-        'gstin',
-        'address',
-        'email',
+        'age',
+        'gender',
+        'place',
         'mobile',
-        'invoice_starts_with',
-        'credit_limit',
+        'branch_id',
         'created_by',
         'updated_by',
     ];

@@ -16,7 +16,7 @@ class BranchController extends Controller
         $this->middleware('permission:branch-create', ['only' => ['create','store']]);
         $this->middleware('permission:branch-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:branch-delete', ['only' => ['destroy']]);
-   }
+    }
 
     public function index()
     {
@@ -43,6 +43,7 @@ class BranchController extends Controller
             'gstin' => 'required',
             'address' => 'required',
             'mobile' => 'required|numeric|digits:10',
+            'credit_limit' => 'required',
         ]);
         $input = $request->all();
         $input['created_by'] = $request->user()->id;
@@ -79,6 +80,7 @@ class BranchController extends Controller
             'gstin' => 'required',
             'address' => 'required',
             'mobile' => 'required|numeric|digits:10',
+            'credit_limit' => 'required',
         ]);
         $input = $request->all();
         $input['updated_by'] = $request->user()->id;

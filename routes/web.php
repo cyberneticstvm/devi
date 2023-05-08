@@ -3,6 +3,8 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ConsultationController;
+use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SubcategoryController;
@@ -81,4 +83,19 @@ Route::group(['middleware' => ['auth', 'branch']], function(){
     Route::put('/product/edit/{id}', [ProductController::class, 'update'])->name('product.update');
     Route::delete('/product/delete/{id}', [ProductController::class, 'destroy'])->name('product.delete');
 
+    // Patient
+    Route::get('/patient', [PatientController::class, 'index'])->name('patient');
+    Route::get('/patient/create/{id}', [PatientController::class, 'create'])->name('patient.create');
+    Route::post('/patient/create/{id}', [PatientController::class, 'store'])->name('patient.save');
+    Route::get('/patient/edit/{id}', [PatientController::class, 'edit'])->name('patient.edit');
+    Route::put('/patient/edit/{id}', [PatientController::class, 'update'])->name('patient.update');
+    Route::delete('/patient/delete/{id}', [PatientController::class, 'destroy'])->name('patient.delete');
+    Route::post('/patient/proceed', [PatientController::class, 'proceed'])->name('patient.proceed');
+
+    Route::get('/consultation', [ConsultationController::class, 'index'])->name('consultation');
+    Route::get('/consultation/create', [ConsultationController::class, 'create'])->name('consultation.create');
+    Route::post('/consultation/create', [ConsultationController::class, 'store'])->name('consultation.save');
+    Route::get('/consultation/edit/{id}', [ConsultationController::class, 'edit'])->name('consultation.edit');
+    Route::put('/consultation/edit/{id}', [ConsultationController::class, 'update'])->name('consultation.update');
+    Route::delete('/consultation/delete/{id}', [ConsultationController::class, 'destroy'])->name('consultation.delete');
 });

@@ -110,13 +110,19 @@
                 </a>
                 <ul class="menu-sub">
                     <li class="menu-item">
-                        <a href="/dash" class="menu-link">
+                        <a href="/patient" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-user-check"></i>
                             <div data-i18n="Patient">Patient</div>
                         </a>
                     </li>
                     <li class="menu-item">
-                        <a href="/dash" class="menu-link">
+                        <a href="/consultation" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-list-check"></i>
+                            <div data-i18n="Consultation">Consultation</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="/appointment" class="menu-link">
                             <i class="menu-icon tf-icons bx bxs-user-account"></i>
                             <div data-i18n="Appointment">Appointment</div>
                         </a>

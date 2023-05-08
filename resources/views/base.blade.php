@@ -193,7 +193,7 @@
           </div>
           <div class="modal-footer">
             <a href="/logout" type="button" class="btn btn-label-secondary">Cancel</a>
-            <button type="submit" class="btn btn-primary btn-submit">Save</button>
+            <button type="submit" class="btn btn-primary btn-submit">Update</button>
           </div>
         </form>
       </div>

@@ -64,6 +64,13 @@
                                     <label class="form-label">Invoice Starts With </label>
                                     {!! Form::number('invoice_starts_with', null, array('placeholder' => '0','class' => 'form-control')) !!}
                                 </div>
+                                <div class="col-md-2 mb-3">
+                                    <label class="form-label req">Credit Limit </label>
+                                    {!! Form::number('credit_limit', null, array('placeholder' => '0.00','class' => 'form-control', 'step' => 'any')) !!}
+                                    @error('credit_limit')
+                                    <small class="text-danger">{{ $errors->first('credit_limit') }}</small>
+                                    @enderror
+                                </div>
                             </div>                            
                             <div class="row">
                                 <div class="col text-end demo-inline-spacing">

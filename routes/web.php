@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CategoryController;
@@ -98,4 +99,12 @@ Route::group(['middleware' => ['auth', 'branch']], function(){
     Route::get('/consultation/edit/{id}', [ConsultationController::class, 'edit'])->name('consultation.edit');
     Route::put('/consultation/edit/{id}', [ConsultationController::class, 'update'])->name('consultation.update');
     Route::delete('/consultation/delete/{id}', [ConsultationController::class, 'destroy'])->name('consultation.delete');
+
+    // Appointment
+    Route::get('/appointment', [AppointmentController::class, 'index'])->name('appointment');
+    Route::get('/appointment/create', [AppointmentController::class, 'create'])->name('appointment.create');
+    Route::post('/appointment/create', [AppointmentController::class, 'store'])->name('appointment.save');
+    Route::get('/appointment/edit/{id}', [AppointmentController::class, 'edit'])->name('appointment.edit');
+    Route::put('/appointment/edit/{id}', [AppointmentController::class, 'update'])->name('appointment.update');
+    Route::delete('/appointment/delete/{id}', [AppointmentController::class, 'destroy'])->name('appointment.delete');
 });

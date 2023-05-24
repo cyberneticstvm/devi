@@ -1,0 +1,63 @@
+@extends("base")
+@section("content")
+<!-- Layout container -->
+<div class="layout-page">
+    <!-- Content wrapper -->
+    <div class="content-wrapper">
+    @include("nav")
+
+    <!-- Content -->
+
+    <div class="container-fluid flex-grow-1 container-p-y">
+        <div class="row">
+            <div class="col">
+                <h4 class="py-3 breadcrumb-wrapper mb-4"><span class="text-muted fw-light">Appointment Management/</span> Appointment Register</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="row">
+                <div class="col-xxl">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            @include("message")
+                        </div>
+                        <div class="card-body">
+                            <div class="text-end"><a href="/appointment/create" type="button" class="btn btn-success"><span class="tf-icons bx bx-plus me-1"></span>Add Record</a></div>
+                            <div class="card-datatable table-responsive pt-0">
+                                <table class="datatable-basic table table-bordered table-sm">
+                                    <thead><tr><th>SL No</th><th>Patient Name</th><th>Contact</th><th>Place</th><th>Doctor</th><th>Time</th><th>Delete</th></tr></thead>
+                                    <tbody>
+                                        @php $c = 1; @endphp
+                                        @forelse($appointments as $key => $app)
+                                            <tr>
+                                                <td>{{ $c++ }}</td>
+                                                <td>{{ $app->name }}</td>
+                                                <td>{{ $app->mobile }}</td>
+                                                <td>{{ $app->place }}</td>
+                                                <td>{{ $app->doctor->name }}</td>
+                                                <td>{{ $app->appointment_time->format('h:i a') }}</td>
+                                                <td class="text-center">
+                                                    <form method="post" action="{{ route('appointment.delete', $app->id) }}">
+                                                        @csrf 
+                                                        @method("DELETE")
+                                                        <button type="submit" class="border no-border" onclick="javascript: return confirm('Are you sure want to delete this record?');"><i class="fa fa-times text-danger"></i></button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @empty
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/ Content -->
+    @include("footer")
+</div>
+
+<!--/ Layout container -->
+@endsection

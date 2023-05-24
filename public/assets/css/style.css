@@ -14,3 +14,14 @@
     background-color: #ff5b5c !important;
     color: #fff !important;
 }
+.slot{
+    padding: 2px;
+    border: 1px solid;
+    text-align: center;
+    margin: 5px;
+    cursor: pointer;
+}
+.booked{
+    background-color: red;
+    color: #fff;
+}

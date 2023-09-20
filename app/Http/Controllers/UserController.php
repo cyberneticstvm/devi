@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Branch;
 use App\Models\User;
+use App\Models\UserBranch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
@@ -61,7 +63,8 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::pluck('name', 'name')->all();
-        return view('backend.user.create', compact('roles'));
+        $branches = Branch::pluck('name', 'id');
+        return view('backend.user.create', compact('roles', 'branches'));
     }
 
     /**
@@ -76,21 +79,21 @@ class UserController extends Controller
             'mobile' => 'required|numeric|digits:10',
             'password' => 'required|confirmed',
             'roles' => 'required',
+            'branches' => 'required',
         ]);
     
         $input = $request->all();
-        $input['password'] = Hash::make($input['password']);
-    
+        $input['password'] = Hash::make($input['password']);    
         $user = User::create($input);
         $user->assignRole($request->input('roles'));
-        /*$data = [];
-        foreach($request->branch as $key => $br):
+        $data = [];
+        foreach($request->branches as $key => $br):
             $data [] = [
                 'user_id' => $user->id,
                 'branch_id' => $br,
             ];
         endforeach;
-        UserBranch::insert($data);*/
+        UserBranch::insert($data);
         return redirect()->route('users')
                         ->with('success','User created successfully');
     }

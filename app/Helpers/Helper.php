@@ -1,7 +1,9 @@
 <?php
 
-function test(){
-    return true;
+use App\Models\Branch;
+
+function branches(){
+    return Branch::all();
 }
 
 ?>

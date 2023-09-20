@@ -42923,3 +42923,18 @@ html[dir=rtl] body.dark-only .page-wrapper .page-body-wrapper .page-body .card:n
   color: red;
   font-weight: bold;
 }
+.select2-container--default .select2-selection--multiple{
+  border-radius: 0.25rem !important;
+  border-color: #efefef;
+  height: 47px !important;
+  padding: 10px;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice{
+  background-color: #fff !important;
+}
+.form-control{
+  border-radius: 0.25rem !important;
+  border-color: #efefef;
+  height: 47px !important;
+  padding: 10px;
+}

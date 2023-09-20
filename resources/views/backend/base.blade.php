@@ -29,6 +29,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('/backend/assets/css/vendors/scrollbar.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('/backend/assets/css/vendors/animate.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('/backend/assets/css/vendors/datatables.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <!-- Plugins css Ends-->
     <!-- Bootstrap css-->
     <link rel="stylesheet" type="text/css" href="{{ asset('/backend/assets/css/vendors/bootstrap.css') }}">
@@ -68,7 +69,7 @@
               <li class="profile-nav onhover-dropdown pe-0 py-0">
                 <div class="media profile-media"><img class="b-r-10" src="{{ asset('/backend/assets/images/dashboard/profile.png') }}" alt="">
                   <div class="media-body"><span>{{ Auth::user()->name }}</span>
-                    <p class="mb-0">Admin <i class="middle fa fa-angle-down"></i></p>
+                    <p class="mb-0">{{ Auth::user()->roles->pluck('name') }}<i class="middle fa fa-angle-down"></i></p>
                   </div>
                 </div>
                 <ul class="profile-dropdown onhover-show-div">
@@ -262,6 +263,7 @@
     <script src="{{ asset('/backend/assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('/backend/assets/js/datatable/datatables/datatable.custom1.js') }}"></script>
     <script src="{{ asset('/backend/assets/js/datatable/datatable_advance.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <!-- Plugins JS Ends-->
     <!-- Theme js-->
     <script src="{{ asset('/backend/assets/js/script.js') }}"></script>

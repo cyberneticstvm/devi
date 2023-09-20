@@ -40,7 +40,9 @@
                                         <th>Name</th>
                                         <th>Username</th>
                                         <th>Email</th>
-                                        <th>Mobile</th>                            
+                                        <th>Mobile</th> 
+                                        <th>Role</th>                           
+                                        <th>Branches</th>                            
                                         <th>Edit</th>
                                         <th>Delete</th>
                                     </tr>
@@ -53,6 +55,8 @@
                                             <td>{{ $user->username }}</td>
                                             <td>{{ $user->email }}</td>
                                             <td>{{ $user->mobile }}</td>
+                                            <td><span class='badge badge-primary'>{{ $user->roles()->pluck('name')->implode(', ') }}</span></td>
+                                            <td>{{ branches()->whereIn('id', $user->branches->pluck('branch_id'))->pluck('name')->implode(', ') }}</td>
                                             <td class="text-center"><a href=""><i class="fa fa-pencil text-warning"></i></a></td>
                                             <td class="text-center"><a href=""><i class="fa fa-trash text-danger"></i></a></td>
                                         </tr>

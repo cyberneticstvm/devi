@@ -13,10 +13,10 @@ class RoleController extends Controller
      * Display a listing of the resource.
      */
     function __construct()    {
-         /*$this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
          $this->middleware('permission:role-create', ['only' => ['create','store']]);
          $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
-         $this->middleware('permission:role-delete', ['only' => ['destroy']]);*/
+         $this->middleware('permission:role-delete', ['only' => ['destroy']]);
     }
 
     public function index()
@@ -63,7 +63,7 @@ class RoleController extends Controller
      */
     public function edit(string $id)
     {
-        $role = Role::find(decrypt($id));
+        $role = Role::findOrFail(decrypt($id));
         $permissions = Permission::get();
         $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id", decrypt($id))
             ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
@@ -82,7 +82,7 @@ class RoleController extends Controller
             'permission' => 'required',
         ]);
     
-        $role = Role::find($id);
+        $role = Role::findOrFail($id);
         $role->name = $request->input('name');
         $role->save();
     
@@ -96,7 +96,7 @@ class RoleController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(string $id){
-        Role::where('id', $id)->delete();
+        Role::findOrFail(decrypt($id))->delete();
         return redirect()->route('roles')
                         ->with('success','Role deleted successfully');
     }

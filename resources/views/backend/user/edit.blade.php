@@ -62,14 +62,14 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label req">Branch <small>(Multiple selection enabled)</small></label>
-                                    {{ html()->select($name = 'branches', $value = $branches, NULL)->class('form-control select2')->multiple() }}
+                                    {{ html()->select($name = 'branches[]', $value = branches()->pluck('name', 'id'), $branches->pluck('id'))->class('form-control select2')->multiple() }}
                                     @error('branches')
                                         <small class="text-danger">{{ $errors->first('branches') }}</small>
                                     @enderror
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label req">Role</label>
-                                    {{ html()->select($name = 'roles', $value = $roles, $user->roles()->id)->class('form-control select2')->placeholder('Select Role') }}
+                                    {{ html()->select($name = 'roles', $value = $roles, $userRole)->class('form-control select2')->placeholder('Select Role') }}
                                     @error('roles')
                                         <small class="text-danger">{{ $errors->first('roles') }}</small>
                                     @enderror
@@ -83,7 +83,7 @@
                                 </div>
                                 <div class="col-12 text-end">
                                     <button class="btn btn-secondary" onClick="window.history.back()" type="button">Cancel</button>
-                                    <button class="btn btn-submit btn-success" type="submit">Save</button>
+                                    <button class="btn btn-submit btn-success" type="submit">Update</button>
                                 </div>
                             </form>
                         </div>

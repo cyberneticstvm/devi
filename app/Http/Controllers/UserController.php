@@ -8,7 +8,9 @@ use App\Models\UserBranch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Arr;
 use Hash;
+use DB;
 
 class UserController extends Controller
 {
@@ -16,10 +18,10 @@ class UserController extends Controller
      * Display a listing of the resource.
      */
     function __construct()    {
-        /*$this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index','store']]);
+        $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index','store']]);
         $this->middleware('permission:user-create', ['only' => ['create','store']]);
         $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
-        $this->middleware('permission:user-delete', ['only' => ['destroy']]);*/
+        $this->middleware('permission:user-delete', ['only' => ['destroy']]);
    }
 
     public function login(){
@@ -53,7 +55,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::latest()->get();
+        $users = User::withTrashed()->latest()->get();
         return view('backend.user.index', compact('users'));
     }
 
@@ -111,7 +113,11 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $user = User::findOrFail(decrypt($id));
+        $roles = Role::pluck('name','name')->all();
+        $userRole = $user->roles->pluck('name','name')->all();
+        $branches = UserBranch::where('user_id', decrypt($id))->get();    
+        return view('backend.user.edit',compact('user', 'roles', 'userRole', 'branches'));
     }
 
     /**
@@ -119,7 +125,29 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required',
+            'username' => 'required|unique:users,username,'.$id,
+            'email' => 'required|email|unique:users,email,'.$id,
+            'mobile' => 'required|numeric|digits:10',
+            'roles' => 'required',
+            'branches' => 'required',
+        ]);
+    
+        $input = $request->all();
+        if(!empty($input['password'])){ 
+            $input['password'] = Hash::make($input['password']);
+        }else{
+            $input = Arr::except($input, array('password'));    
+        }
+    
+        $user = User::findOrFail($id);
+        $user->update($input);
+        DB::table('model_has_roles')->where('model_id', $id)->delete();    
+        $user->assignRole($request->input('roles'));
+    
+        return redirect()->route('users')
+                        ->with('success','User updated successfully');
     }
 
     /**
@@ -127,6 +155,8 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        User::findOrFail(decrypt($id))->delete();
+        return redirect()->route('users')
+                        ->with('success','User deleted successfully');
     }
 }

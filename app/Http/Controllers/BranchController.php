@@ -11,10 +11,10 @@ class BranchController extends Controller
      * Display a listing of the resource.
      */
     function __construct(){
-        /*$this->middleware('permission:branch-list|branch-create|branch-edit|branch-delete', ['only' => ['index','store']]);
+        $this->middleware('permission:branch-list|branch-create|branch-edit|branch-delete', ['only' => ['index','store']]);
         $this->middleware('permission:branch-create', ['only' => ['create','store']]);
         $this->middleware('permission:branch-edit', ['only' => ['edit','update']]);
-        $this->middleware('permission:branch-delete', ['only' => ['destroy']]);*/
+        $this->middleware('permission:branch-delete', ['only' => ['destroy']]);
    }
 
     public function index()

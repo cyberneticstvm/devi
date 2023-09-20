@@ -9,6 +9,13 @@ class DoctorController extends Controller
     /**
      * Display a listing of the resource.
      */
+    function __construct(){
+        $this->middleware('permission:doctor-list|doctor-create|doctor-edit|doctor-delete', ['only' => ['index','store']]);
+        $this->middleware('permission:doctor-create', ['only' => ['create','store']]);
+        $this->middleware('permission:doctor-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:doctor-delete', ['only' => ['destroy']]);
+   }
+
     public function index()
     {
         //

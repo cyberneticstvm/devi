@@ -51,4 +51,8 @@ class User extends Authenticatable
     public function branches(){
         return $this->hasMany(UserBranch::class, 'user_id', 'id');
     }
+
+    public function status(){
+        return ($this->deleted_at) ? "<span class='badge badge-danger'>Deleted</span>" : "<span class='badge badge-success'>Active</span>";
+    }
 }

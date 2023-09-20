@@ -62,7 +62,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label req">Branch <small>(Multiple selection enabled)</small></label>
-                                    {{ html()->select($name = 'branches', $value = $branches, NULL)->class('form-control select2')->multiple() }}
+                                    {{ html()->select($name = 'branches[]', $value = $branches, NULL)->class('form-control select2')->multiple() }}
                                     @error('branches')
                                         <small class="text-danger">{{ $errors->first('branches') }}</small>
                                     @enderror

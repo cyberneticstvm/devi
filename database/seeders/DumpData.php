@@ -25,7 +25,7 @@ class DumpData extends Seeder
          ];
         
         foreach ($permissions as $permission) {
-            Permission::create(['name' => $permission, 'guard' => 'web']);
+            Permission::create(['name' => $permission, 'guard_name' => 'web']);
         }
 
         $user = User::create([

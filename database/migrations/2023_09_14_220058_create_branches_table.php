@@ -13,7 +13,18 @@ return new class extends Migration
     {
         Schema::create('branches', function (Blueprint $table) {
             $table->id();
+            $table->string('name', 125)->unique();
+            $table->string('code', 15)->unique();
+            $table->string('phone', 25)->nullable();
+            $table->string('email', 50)->nullable();
+            $table->string('address')->nullable();
+            $table->string('gstin', 25)->nullable();
+            $table->integer('display_capacity')->default(0);
+            $table->decimal('registration_fee')->default(0);
+            $table->unsignedBigInteger('created_by');
+            $table->unsignedBigInteger('updated_by');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

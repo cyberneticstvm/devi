@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BranchController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -49,7 +50,7 @@ Route::middleware(['web', 'auth'])->group(function(){
         Route::post('/save', 'store')->name('user.save');
         Route::get('/edit/{id}', 'edit')->name('user.edit');
         Route::post('/edit/{id}', 'update')->name('user.update');
-        Route::delete('/delete/{id}', 'destroy')->name('user.delete');
+        Route::get('/delete/{id}', 'destroy')->name('user.delete');
     });
 
     Route::prefix('backend/role')->controller(RoleController::class)->group(function(){          
@@ -58,7 +59,16 @@ Route::middleware(['web', 'auth'])->group(function(){
         Route::post('/save', 'store')->name('role.save');
         Route::get('/edit/{id}', 'edit')->name('role.edit');
         Route::post('/edit/{id}', 'update')->name('role.update');
-        Route::delete('/delete/{id}', 'destroy')->name('role.delete');
+        Route::get('/delete/{id}', 'destroy')->name('role.delete');
+    });
+
+    Route::prefix('backend/branch')->controller(BranchController::class)->group(function(){          
+        Route::get('/', 'index')->name('branches');
+        Route::get('/create', 'create')->name('branch.create');
+        Route::post('/save', 'store')->name('branch.save');
+        Route::get('/edit/{id}', 'edit')->name('branch.edit');
+        Route::post('/edit/{id}', 'update')->name('branch.update');
+        Route::get('/delete/{id}', 'destroy')->name('branch.delete');
     });
 
     Route::prefix('backend/patient')->controller(PatientController::class)->group(function(){        

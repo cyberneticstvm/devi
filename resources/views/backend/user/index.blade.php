@@ -54,7 +54,7 @@
                                             <td>{{ $user->email }}</td>
                                             <td>{{ $user->mobile }}</td>
                                             <td class="text-center"><a href=""><i class="fa fa-pencil text-warning"></i></a></td>
-                                            <td class="text-center"><a herf=""><i class="fa fa-trash text-danger"></i></a></td>
+                                            <td class="text-center"><a href=""><i class="fa fa-trash text-danger"></i></a></td>
                                         </tr>
                                     @empty
                                     @endforelse

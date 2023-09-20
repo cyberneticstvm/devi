@@ -138,6 +138,16 @@
                       <li><a href="{{ route('users') }}">User Register</a></li>
                       <li><a href="{{ route('roles') }}">Roles & Permissions</a></li>
                     </ul>
+                    <a class="sidebar-link sidebar-title" href="#">
+                      <svg class="stroke-icon">
+                        <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#stroke-project') }}"></use>
+                      </svg>
+                      <svg class="fill-icon">
+                        <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#fill-project') }}"></use>
+                      </svg><span>Branch Management</span></a>
+                    <ul class="sidebar-submenu">
+                      <li><a href="{{ route('branches') }}">Branch Register</a></li>
+                    </ul>
                   </li>
                   <li class="sidebar-main-title">
                     <div>
@@ -248,12 +258,14 @@
     <script src="{{ asset('/backend/assets/js/slick/slick.min.js') }}"></script>
     <script src="{{ asset('/backend/assets/js/slick/slick.js') }}"></script>
     <script src="{{ asset('/backend/assets/js/header-slick.js') }}"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js" type="text/javascript"></script>
     <script src="{{ asset('/backend/assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('/backend/assets/js/datatable/datatables/datatable.custom1.js') }}"></script>
     <script src="{{ asset('/backend/assets/js/datatable/datatable_advance.js') }}"></script>
     <!-- Plugins JS Ends-->
     <!-- Theme js-->
     <script src="{{ asset('/backend/assets/js/script.js') }}"></script>
+    <script src="{{ asset('/backend/assets/js/devi.js') }}"></script>
     <!--<script src="{{ asset('/backend/assets/js/theme-customizer/customizer.js') }}"></script>-->
     @include("backend.message")
   </body>

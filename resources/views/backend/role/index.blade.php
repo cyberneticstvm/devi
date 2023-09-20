@@ -48,7 +48,7 @@
                                             <td>{{ $key + 1 }}</td>
                                             <td>{{ $role->name }}</td>
                                             <td class="text-center"><a href="{{ route('role.edit', encrypt($role->id)) }}"><i class="fa fa-pencil text-warning"></i></a></td>
-                                            <td class="text-center"><a herf=""><i class="fa fa-trash text-danger"></i></a></td>
+                                            <td class="text-center"><a href=""><i class="fa fa-trash text-danger"></i></a></td>
                                         </tr>
                                     @empty
                                     @endforelse

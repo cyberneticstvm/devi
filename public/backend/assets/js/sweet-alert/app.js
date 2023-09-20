@@ -5,7 +5,7 @@
 (function () {
   var SweetAlert_custom = {
     init: function () {
-      (document.querySelector(".sweet-1").onclick = function () {
+      (document.querySelector(".dlt").onclick = function () {
         swal({
           title: "Welcome! to the cuba theme",
         });

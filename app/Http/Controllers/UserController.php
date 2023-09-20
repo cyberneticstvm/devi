@@ -11,6 +11,7 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Support\Arr;
 use Hash;
 use DB;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
@@ -41,8 +42,19 @@ class UserController extends Controller
     }
 
     public function dashboard(){
-        $branches = collect();
+        $branches = Branch::whereIn('id', UserBranch::where('user_id', Auth::id())->pluck('branch_id'))->pluck('name', 'id');
         return view('backend.dashboard', compact('branches'));
+    }
+
+    public function updateBranch(Request $request){
+        Session::put('branch', $request->branch);
+        if(Session::has('branch')):
+            return redirect()->route('dashboard')
+            ->withSuccess('User branch updated successfully!');
+        else:
+            return redirect()->route('dashboard')
+            ->withError('Please update branch!');
+        endif;
     }
 
     public function logout(Request $request){
@@ -143,7 +155,16 @@ class UserController extends Controller
     
         $user = User::findOrFail($id);
         $user->update($input);
-        DB::table('model_has_roles')->where('model_id', $id)->delete();    
+        $data = [];
+        foreach($request->branches as $key => $br):
+            $data [] = [
+                'user_id' => $user->id,
+                'branch_id' => $br,
+            ];
+        endforeach;        
+        DB::table('model_has_roles')->where('model_id', $id)->delete();
+        UserBranch::where('user_id', $id)->delete();
+        UserBranch::insert($data);    
         $user->assignRole($request->input('roles'));
     
         return redirect()->route('users')

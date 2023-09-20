@@ -44,6 +44,10 @@ Route::middleware(['web'])->group(function(){
 
 Route::middleware(['web', 'auth'])->group(function(){
     Route::get('/backend/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
+    Route::post('/user/branch/update', [UserController::class, 'updateBranch'])->name('user.branch.update');
+});
+
+Route::middleware(['web', 'auth', 'branch'])->group(function(){    
     Route::prefix('backend/user')->controller(UserController::class)->group(function(){          
         Route::get('/', 'index')->name('users');
         Route::get('/create', 'create')->name('user.create');

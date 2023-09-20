@@ -22,4 +22,6 @@ $(function(){
       placeholder: "Select",
       allowClear: true
     });
+
+    $("#branchSelector").modal('show');
 })

@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Branch;
+use App\Models\ConsultationType;
+use App\Models\Department;
 use App\Models\User;
 use App\Models\UserBranch;
 use Illuminate\Database\Seeder;
@@ -22,6 +24,7 @@ class DumpData extends Seeder
             'branch-list', 'branch-create', 'branch-edit', 'branch-delete',
             'doctor-list', 'doctor-create', 'doctor-edit', 'doctor-delete',
             'patient-list', 'patient-create', 'patient-edit', 'patient-delete',
+            'consultation-list', 'consultation-create', 'consultation-edit', 'consultation-delete',
          ];
         
         foreach ($permissions as $permission) {
@@ -50,6 +53,14 @@ class DumpData extends Seeder
         UserBranch::create([
             'user_id' => $user->id,
             'branch_id' => $branch->id
+        ]);
+
+        ConsultationType::create([
+            'name' => 'Consultation',
+        ]);
+
+        Department::create([
+            'name' => 'Ophthalmology',
         ]);
 
     }

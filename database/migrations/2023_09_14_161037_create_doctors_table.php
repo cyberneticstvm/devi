@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('email', 50)->nullable();
             $table->string('mobile', 10)->nullable();
             $table->decimal('fee', 7, 2)->default(0);
+            $table->unsignedBigInteger('created_by')->default(0);
+            $table->unsignedBigInteger('updated_by')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

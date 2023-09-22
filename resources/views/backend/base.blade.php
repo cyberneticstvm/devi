@@ -134,6 +134,17 @@
                       </svg>
                       <svg class="fill-icon">
                         <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#fill-project') }}"></use>
+                      </svg><span>Consultation</span></a>
+                    <ul class="sidebar-submenu">
+                      <li><a href="{{ route('patients') }}">Patient Register</a></li>
+                      <li><a href="{{ route('consultations') }}">Consultation Register</a></li>
+                    </ul>
+                    <a class="sidebar-link sidebar-title" href="#">
+                      <svg class="stroke-icon">
+                        <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#stroke-project') }}"></use>
+                      </svg>
+                      <svg class="fill-icon">
+                        <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#fill-project') }}"></use>
                       </svg><span>User & Roles</span></a>
                     <ul class="sidebar-submenu">
                       <li><a href="{{ route('users') }}">User Register</a></li>
@@ -148,6 +159,16 @@
                       </svg><span>Branch Management</span></a>
                     <ul class="sidebar-submenu">
                       <li><a href="{{ route('branches') }}">Branch Register</a></li>
+                    </ul>
+                    <a class="sidebar-link sidebar-title" href="#">
+                      <svg class="stroke-icon">
+                        <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#stroke-project') }}"></use>
+                      </svg>
+                      <svg class="fill-icon">
+                        <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#fill-project') }}"></use>
+                      </svg><span>Doctor Management</span></a>
+                    <ul class="sidebar-submenu">
+                      <li><a href="{{ route('doctors') }}">Doctor Register</a></li>
                     </ul>
                   </li>
                   <li class="sidebar-main-title">

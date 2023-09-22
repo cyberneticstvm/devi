@@ -109,7 +109,7 @@ class UserController extends Controller
         endforeach;
         UserBranch::insert($data);
         return redirect()->route('users')
-                        ->with('success','User created successfully');
+                        ->with('success','User has been created successfully');
     }
 
     /**
@@ -168,7 +168,7 @@ class UserController extends Controller
         $user->assignRole($request->input('roles'));
     
         return redirect()->route('users')
-                        ->with('success','User updated successfully');
+                        ->with('success','User has been updated successfully');
     }
 
     /**

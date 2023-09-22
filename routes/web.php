@@ -1,8 +1,9 @@
 <?php
 
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\ConsultationController;
+use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\PatientController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -48,7 +49,7 @@ Route::middleware(['web', 'auth'])->group(function(){
 });
 
 Route::middleware(['web', 'auth', 'branch'])->group(function(){    
-    Route::prefix('backend/user')->controller(UserController::class)->group(function(){          
+    Route::prefix('/backend/user')->controller(UserController::class)->group(function(){          
         Route::get('/', 'index')->name('users');
         Route::get('/create', 'create')->name('user.create');
         Route::post('/save', 'store')->name('user.save');
@@ -57,7 +58,7 @@ Route::middleware(['web', 'auth', 'branch'])->group(function(){
         Route::get('/delete/{id}', 'destroy')->name('user.delete');
     });
 
-    Route::prefix('backend/role')->controller(RoleController::class)->group(function(){          
+    Route::prefix('/backend/role')->controller(RoleController::class)->group(function(){          
         Route::get('/', 'index')->name('roles');
         Route::get('/create', 'create')->name('role.create');
         Route::post('/save', 'store')->name('role.save');
@@ -66,7 +67,7 @@ Route::middleware(['web', 'auth', 'branch'])->group(function(){
         Route::get('/delete/{id}', 'destroy')->name('role.delete');
     });
 
-    Route::prefix('backend/branch')->controller(BranchController::class)->group(function(){          
+    Route::prefix('/backend/branch')->controller(BranchController::class)->group(function(){          
         Route::get('/', 'index')->name('branches');
         Route::get('/create', 'create')->name('branch.create');
         Route::post('/save', 'store')->name('branch.save');
@@ -75,7 +76,31 @@ Route::middleware(['web', 'auth', 'branch'])->group(function(){
         Route::get('/delete/{id}', 'destroy')->name('branch.delete');
     });
 
-    Route::prefix('backend/patient')->controller(PatientController::class)->group(function(){        
-        Route::get('/registration', 'create')->name('patient.registration');
+    Route::prefix('/backend/doctor')->controller(DoctorController::class)->group(function(){          
+        Route::get('/', 'index')->name('doctors');
+        Route::get('/create', 'create')->name('doctor.create');
+        Route::post('/save', 'store')->name('doctor.save');
+        Route::get('/edit/{id}', 'edit')->name('doctor.edit');
+        Route::post('/edit/{id}', 'update')->name('doctor.update');
+        Route::get('/delete/{id}', 'destroy')->name('doctor.delete');
     });
+
+    Route::prefix('/backend/patient')->controller(PatientController::class)->group(function(){          
+        Route::get('/', 'index')->name('patients');
+        Route::get('/create/{type}/{type_id}', 'create')->name('patient.create');
+        Route::post('/save', 'store')->name('patient.save');
+        Route::get('/edit/{id}', 'edit')->name('patient.edit');
+        Route::post('/edit/{id}', 'update')->name('patient.update');
+        Route::get('/delete/{id}', 'destroy')->name('patient.delete');
+    });
+
+    Route::prefix('/backend/consultation')->controller(ConsultationController::class)->group(function(){          
+        Route::get('/', 'index')->name('consultations');
+        Route::get('/create/{pid}', 'create')->name('consultation.create');
+        Route::post('/save', 'store')->name('consultation.save');
+        Route::get('/edit/{id}', 'edit')->name('consultation.edit');
+        Route::post('/edit/{id}', 'update')->name('consultation.update');
+        Route::get('/delete/{id}', 'destroy')->name('consultation.delete');
+    });
+
 });

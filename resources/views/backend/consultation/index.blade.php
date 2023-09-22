@@ -5,7 +5,7 @@
         <div class="page-title">
             <div class="row">
             <div class="col-6">
-                <h3>Patient Register</h3>
+                <h3>Consultation Register</h3>
             </div>
             <div class="col-6">
                 <ol class="breadcrumb">
@@ -13,8 +13,8 @@
                     <svg class="stroke-icon">
                         <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#stroke-home') }}"></use>
                     </svg></a></li>
-                <li class="breadcrumb-item">Patients</li>
-                <li class="breadcrumb-item active">Patient Register</li>
+                <li class="breadcrumb-item">Consultation</li>
+                <li class="breadcrumb-item active">Consultation Register</li>
                 </ol>
             </div>
             </div>
@@ -27,8 +27,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="row">
-                            <div class="col"><h5>Patient Register</h5><span>Patient Management</span></div>
-                            <div class="col text-end"><a href="{{ route('patient.create', ['type' => 'Direct', 'type_id' => '0']) }}" class="btn btn-primary" type="button">Add New</a></div>
+                            <div class="col"><h5>Consultation Register</h5><span>Consultation Management</span></div>
                         </div>
                     </div>
                     <div class="card-body">
@@ -37,28 +36,30 @@
                                 <thead>
                                     <tr>
                                         <th>SL No</th>
+                                        <th>MRN</th>
                                         <th>Patient Name</th>
                                         <th>Patient ID</th>
-                                        <th>Mobile</th> 
-                                        <th>Place</th>                           
-                                        <th>Review</th>                           
+                                        <th>Doctor</th>
+                                        <th>Prescription</th>
+                                        <th>Receipt</th>                          
                                         <th>Status</th>                           
                                         <th>Edit</th>
                                         <th>Delete</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse($patients as $key => $patient)
+                                    @forelse($consultations as $key => $con)
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
-                                            <td>{{ $patient->name }}</td>
-                                            <td>{{ $patient->patient_id }}</td>
-                                            <td>{{ $patient->mobile }}</td>
-                                            <td>{{ $patient->place }}</td>
-                                            <td class="text-center"><a href="/backend/consultation/create/{{ encrypt($patient->id) }}">Review</a></td>
-                                            <td>{!! $patient->status() !!}</td>
-                                            <td class="text-center"><a href="{{ route('patient.edit', encrypt($patient->id)) }}"><i class="fa fa-pencil text-warning"></i></a></td>
-                                            <td class="text-center"><a href="{{ route('patient.delete', encrypt($patient->id)) }}" class="dlt"><i class="fa fa-trash text-danger"></i></a></td>
+                                            <td>{{ $con->mrn }}</td>
+                                            <td>{{ $con->patient->name }}</td>
+                                            <td>{{ $con->patient->patient_id }}</td>
+                                            <td>{{ $con->doctor->name }}</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>{!! $con->status() !!}</td>
+                                            <td class="text-center"><a href="{{ route('consultation.edit', encrypt($con->id)) }}"><i class="fa fa-pencil text-warning"></i></a></td>
+                                            <td class="text-center"><a href="{{ route('consultation.delete', encrypt($con->id)) }}" class="dlt"><i class="fa fa-trash text-danger"></i></a></td>
                                         </tr>
                                     @empty
                                     @endforelse

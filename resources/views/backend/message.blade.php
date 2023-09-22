@@ -39,6 +39,15 @@ toast.fire({
 })
 </script>
 @endif
+@if(session()->has('warning'))
+<script>
+toast.fire({
+    icon: 'warning',
+    title: "{{ session()->get('warning') }}",
+    color: 'orange'
+})
+</script>
+@endif
 <script>
     function success(res){
         toast.fire({

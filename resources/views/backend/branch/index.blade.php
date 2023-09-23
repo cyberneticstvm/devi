@@ -59,8 +59,8 @@
                                             <td>{{ $item->gstin }}</td>
                                             <td>{{ $item->registration_fee }}</td>
                                             <td class="text-center">{!! $item->status() !!}</td>
-                                            <td class="text-center"><a href="{{ route('branch.edit', encrypt($item->id)) }}"><i class="fa fa-pencil text-warning"></i></a></td>
-                                            <td class="text-center"><a href="{{ route('branch.delete', encrypt($item->id)) }}" class="dlt"><i class="fa fa-trash text-danger"></i></a></td>
+                                            <td class="text-center"><a href="{{ route('branch.edit', encrypt($item->id)) }}"><i class="fa fa-edit text-muted fa-lg"></i></a></td>
+                                            <td class="text-center"><a href="{{ route('branch.delete', encrypt($item->id)) }}" class="dlt"><i class="fa fa-trash text-danger fa-lg"></i></a></td>
                                         </tr>
                                     @empty
                                     @endforelse

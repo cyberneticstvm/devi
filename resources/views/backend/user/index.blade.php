@@ -59,8 +59,8 @@
                                             <td>{{ $user->roles()->pluck('name')->implode(', ') }}</td>
                                             <td>{{ branches()->whereIn('id', $user->branches->pluck('branch_id'))->pluck('name')->implode(', ') }}</td>
                                             <td>{!! $user->status() !!}</td>
-                                            <td class="text-center"><a href="{{ route('user.edit', encrypt($user->id)) }}"><i class="fa fa-pencil text-warning"></i></a></td>
-                                            <td class="text-center"><a href="{{ route('user.delete', encrypt($user->id)) }}" class="dlt"><i class="fa fa-trash text-danger"></i></a></td>
+                                            <td class="text-center"><a href="{{ route('user.edit', encrypt($user->id)) }}"><i class="fa fa-edit text-muted fa-lg"></i></a></td>
+                                            <td class="text-center"><a href="{{ route('user.delete', encrypt($user->id)) }}" class="dlt"><i class="fa fa-trash text-danger fa-lg"></i></a></td>
                                         </tr>
                                     @empty
                                     @endforelse

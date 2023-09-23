@@ -55,11 +55,11 @@
                                             <td>{{ $con->patient->name }}</td>
                                             <td>{{ $con->patient->patient_id }}</td>
                                             <td>{{ $con->doctor->name }}</td>
-                                            <td></td>
-                                            <td></td>
+                                            <td class="text-center"><a href="{{ route('pdf.prescription', encrypt($con->id)) }}" target="_blank"><i class="fa fa-file-pdf-o text-success fa-lg"></i></td>
+                                            <td class="text-center"><a href="{{ route('pdf.consultation.receipt', encrypt($con->id)) }}" target="_blank"><i class="fa fa-file-pdf-o text-success fa-lg"></i></td>
                                             <td>{!! $con->status() !!}</td>
-                                            <td class="text-center"><a href="{{ route('consultation.edit', encrypt($con->id)) }}"><i class="fa fa-pencil text-warning"></i></a></td>
-                                            <td class="text-center"><a href="{{ route('consultation.delete', encrypt($con->id)) }}" class="dlt"><i class="fa fa-trash text-danger"></i></a></td>
+                                            <td class="text-center"><a href="{{ route('consultation.edit', encrypt($con->id)) }}"><i class="fa fa-edit text-muted fa-lg"></i></a></td>
+                                            <td class="text-center"><a href="{{ route('consultation.delete', encrypt($con->id)) }}" class="dlt"><i class="fa fa-trash text-danger fa-lg"></i></a></td>
                                         </tr>
                                     @empty
                                     @endforelse

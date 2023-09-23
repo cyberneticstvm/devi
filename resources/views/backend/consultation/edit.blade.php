@@ -32,6 +32,18 @@
                         <div class="card-wrapper">
                             <form class="row g-3" method="post" action="{{ route('consultation.edit', $consultation->id) }}">
                                 @csrf
+                                <div class="col-md-4">
+                                    <label class="form-label">Patient Name</label>
+                                    {{ html()->text($name = 'pname', $value = $consultation->patient->name)->class('form-control')->attribute('readonly') }}
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Patient ID</label>
+                                    {{ html()->text($name = 'pid', $value = $consultation->patient->patient_id)->class('form-control')->attribute('readonly') }}
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Patient Mobile</label>
+                                    {{ html()->text($name = 'pmobile', $value = $consultation->patient->mobile)->class('form-control')->attribute('readonly') }}
+                                </div>
                                 <div class="col-md-3">
                                     <label class="form-label req">Purpose of Visit</label>
                                     {{ html()->select($name = 'consultation_type', $value = $ctypes, $consultation->consultation_type)->class('form-control select2')->placeholder('Select') }}

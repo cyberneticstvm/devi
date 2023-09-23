@@ -7,6 +7,15 @@ use App\Models\Doctor;
 use App\Models\Patient;
 use Illuminate\Support\Facades\DB;
 
+
+function title(){
+    return 'DEVI EYE HOSPITALS & OPTICIANS';
+}
+
+function qrCodeText(){
+    return 'https://devieyecare.com';
+}
+
 function branches(){
     return Branch::all();
 }

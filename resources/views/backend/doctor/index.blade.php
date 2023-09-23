@@ -57,8 +57,8 @@
                                             <td>{{ $doc->mobile }}</td>
                                             <td>{{ $doc->fee }}</td>
                                             <td>{!! $doc->status() !!}</td>
-                                            <td class="text-center"><a href="{{ route('doctor.edit', encrypt($doc->id)) }}"><i class="fa fa-pencil text-warning"></i></a></td>
-                                            <td class="text-center"><a href="{{ route('doctor.delete', encrypt($doc->id)) }}" class="dlt"><i class="fa fa-trash text-danger"></i></a></td>
+                                            <td class="text-center"><a href="{{ route('doctor.edit', encrypt($doc->id)) }}"><i class="fa fa-edit text-muted fa-lg"></i></a></td>
+                                            <td class="text-center"><a href="{{ route('doctor.delete', encrypt($doc->id)) }}" class="dlt"><i class="fa fa-trash text-danger fa-lg"></i></a></td>
                                         </tr>
                                     @empty
                                     @endforelse

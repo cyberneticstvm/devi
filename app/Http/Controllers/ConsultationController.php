@@ -80,7 +80,7 @@ class ConsultationController extends Controller
      */
     public function edit(string $id)
     {
-        $consultation = Consultation::findOrFail(decrypt($id));
+        $consultation = Consultation::with('patient')->findOrFail(decrypt($id));
         $ctypes = ConsultationType::pluck('name', 'id');
         $depts = Department::pluck('name', 'id');
         $doctors = Doctor::pluck('name', 'id');

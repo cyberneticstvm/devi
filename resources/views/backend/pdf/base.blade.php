@@ -42,6 +42,9 @@
     .h-50>tr>td{
       height: 50px;
     }
+    .fw-bold{
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>

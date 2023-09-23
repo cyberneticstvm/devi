@@ -11,7 +11,7 @@
         <h4 class="text-center">PRESCRIPTION</h4>
         <table class="table bordered" width="100%" cellspacing="0" cellpadding="0">
             <tbody>
-                <tr><td width="40%">Name / Age: {{ strtoupper($consultation->patient->name) }} / {{ $consultation->patient->age }}</td><td>Patient ID: {{ $consultation->patient->patient_id }}</td><td>MRN: {{ $consultation->mrn }}</td></tr>
+                <tr><td width="40%">Name / Age: {{ strtoupper($consultation->patient->name) }} / {{ $consultation->patient->age }}</td><td>ID: {{ $consultation->patient->patient_id }}</td><td>MRN: {{ $consultation->mrn }}</td></tr>
                 <tr><td>Place: {{ $consultation->patient->place }}</td><td>Contact: {{ $consultation->patient->mobile }}</td><td>Doctor: {{ $consultation->doctor->name }}</td></tr>
             </tbody>
         </table>

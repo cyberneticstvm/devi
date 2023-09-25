@@ -56,11 +56,11 @@ class DumpData extends Seeder
             'branch_id' => $branch->id
         ]);
 
-        ConsultationType::create([
+        ConsultationType::insert([
             'name' => 'Consultation',
         ]);
 
-        Department::create([
+        Department::insert([
             'name' => 'Ophthalmology',
         ]);
 

@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -67,5 +68,12 @@ class Handler extends ExceptionHandler
             }
             return parent::render($request, $exception);
         });
+    }
+
+    public function render($request, Throwable $e){
+        if ($e instanceof ModelNotFoundException) {
+            return redirect()->back()->with('error', 'Requested record not found / deleted!');
+        }
+        return parent::render($request, $e);
     }
 }

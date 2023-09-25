@@ -46,7 +46,7 @@
             <div class="modal-body"> 
                 <div class="modal-toggle-wrapper">  
                     <ul class="modal-img">
-                    <li> <img src="{{ asset('/backend/assets/images/gif/danger.gif') }}" alt="error"></li>
+                    <li><i class="icon-hand-point-down text-muted txt-secondary" style="font-size: 3rem;"></i></li>
                     </ul>
                     <h4 class="text-center pb-2">Select Branch!</h4>
                     <form method="post" action="{{ route('user.branch.update') }}">

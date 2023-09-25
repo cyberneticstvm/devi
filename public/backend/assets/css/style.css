@@ -42935,6 +42935,32 @@ html[dir=rtl] body.dark-only .page-wrapper .page-body-wrapper .page-body .card:n
 .form-control{
   border-radius: 0.25rem !important;
   border-color: #efefef;
-  height: 47px !important;
   padding: 10px;
+}
+input.form-control{
+  height: 47px;
+}
+.bootstrap-tagsinput{
+  border: 2px solid #f4f5f9;
+  font-size: 13px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  padding: 10px;
+  color: #4f5d77;
+  width: 100%;
+  border-radius: 4px;
+  height: 47px;
+}
+.bootstrap-tagsinput .tag {
+  margin-right: 2px;
+  color: #fff;
+}
+.label-info {
+  background-color: #54ba4a;
+  font-size: 15px;
+  padding: 5px;
+}
+.form-control-sm{
+  border-radius: none !important;
+  height: 40px !important;
 }

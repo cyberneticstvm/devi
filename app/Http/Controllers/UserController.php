@@ -38,7 +38,7 @@ class UserController extends Controller
             return redirect()->route('dashboard')->withSuccess(Auth::user()->name." logged in successfully!");            
         endif;
         return redirect()->route('login')
-            ->withError('Invalid Credentials!');
+            ->withError('Invalid Credentials!')->withInput($request->all());
     }
 
     public function dashboard(){

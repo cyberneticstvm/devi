@@ -3,6 +3,7 @@
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\MedicalRecordController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\RoleController;
@@ -52,8 +53,10 @@ Route::middleware(['web', 'auth'])->group(function(){
 Route::middleware(['web', 'auth', 'branch'])->group(function(){
 
     Route::prefix('/backend/pdf')->controller(PdfController::class)->group(function(){          
+        Route::get('/opt/{id}', 'opt')->name('pdf.opt');
         Route::get('/prescription/{id}', 'prescription')->name('pdf.prescription');
         Route::get('/consultation/receipt/{id}', 'cReceipt')->name('pdf.consultation.receipt');
+        Route::get('/mrecord/{id}', 'medicalRecord')->name('pdf.mrecord');
     });
 
     Route::prefix('/backend/user')->controller(UserController::class)->group(function(){          
@@ -108,6 +111,15 @@ Route::middleware(['web', 'auth', 'branch'])->group(function(){
         Route::get('/edit/{id}', 'edit')->name('consultation.edit');
         Route::post('/edit/{id}', 'update')->name('consultation.update');
         Route::get('/delete/{id}', 'destroy')->name('consultation.delete');
+    });
+
+    Route::prefix('/backend/medical-record')->controller(MedicalRecordController::class)->group(function(){
+        Route::get('/', 'index')->name('mrecords');          
+        Route::get('/create/{id}', 'create')->name('mrecord.create');
+        Route::post('/save', 'store')->name('mrecord.save');
+        Route::get('/edit/{id}', 'edit')->name('mrecord.edit');
+        Route::post('/edit/{id}', 'update')->name('mrecord.update');
+        Route::get('/delete/{id}', 'destroy')->name('mrecord.delete');
     });
 
 });

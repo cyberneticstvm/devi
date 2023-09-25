@@ -25,6 +25,7 @@ class DumpData extends Seeder
             'doctor-list', 'doctor-create', 'doctor-edit', 'doctor-delete',
             'patient-list', 'patient-create', 'patient-edit', 'patient-delete',
             'consultation-list', 'consultation-create', 'consultation-edit', 'consultation-delete',
+            'medical-record-list', 'medical-record-create', 'medical-record-edit', 'medical-record-delete',
          ];
         
         foreach ($permissions as $permission) {

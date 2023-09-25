@@ -30,6 +30,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('/backend/assets/css/vendors/animate.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('/backend/assets/css/vendors/datatables.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.6.0/bootstrap-tagsinput.min.css" rel="stylesheet" type="text/css" />
     <!-- Plugins css Ends-->
     <!-- Bootstrap css-->
     <link rel="stylesheet" type="text/css" href="{{ asset('/backend/assets/css/vendors/bootstrap.css') }}">
@@ -138,6 +139,7 @@
                     <ul class="sidebar-submenu">
                       <li><a href="{{ route('patients') }}">Patient Register</a></li>
                       <li><a href="{{ route('consultations') }}">Consultation Register</a></li>
+                      <li><a href="{{ route('mrecords') }}">Medical Record Register</a></li>
                     </ul>
                     <a class="sidebar-link sidebar-title" href="#">
                       <svg class="stroke-icon">
@@ -281,6 +283,7 @@
     <script src="{{ asset('/backend/assets/js/slick/slick.js') }}"></script>
     <script src="{{ asset('/backend/assets/js/header-slick.js') }}"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.6.0/bootstrap-tagsinput.min.js" type="text/javascript"></script>
     <script src="{{ asset('/backend/assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('/backend/assets/js/datatable/datatables/datatable.custom1.js') }}"></script>
     <script src="{{ asset('/backend/assets/js/datatable/datatable_advance.js') }}"></script>

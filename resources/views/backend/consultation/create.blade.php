@@ -35,15 +35,15 @@
                                 <input type="hidden" name="patient_id" value="{{ $patient->id }}" />
                                 <div class="col-4">
                                     <label class="form-label">Patient Name</label>
-                                    {{ html()->text($name = 'name', $value = $patient->name, NULL)->class('form-control')->attribute('readonly') }}
+                                    {{ html()->text($name = 'name', $value = $patient->name, NULL)->class('form-control')->attribute('disabled') }}
                                 </div>
                                 <div class="col-4">
                                 <label class="form-label">Patient ID</label>
-                                    {{ html()->text($name = 'pid', $value = $patient->patient_id, NULL)->class('form-control')->attribute('readonly') }}
+                                    {{ html()->text($name = 'pid', $value = $patient->patient_id, NULL)->class('form-control')->attribute('disabled') }}
                                 </div>
                                 <div class="col-4">
                                 <label class="form-label">Patient Mobile</label>
-                                    {{ html()->text($name = 'mobile', $value = $patient->mobile, NULL)->class('form-control')->attribute('readonly') }}
+                                    {{ html()->text($name = 'mobile', $value = $patient->mobile, NULL)->class('form-control')->attribute('disabled') }}
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label req">Purpose of Visit</label>

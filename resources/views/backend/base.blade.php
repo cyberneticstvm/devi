@@ -138,6 +138,7 @@
                       </svg><span>Appointment</span></a>
                       <ul class="sidebar-submenu">
                         <li><a href="{{ route('appointments') }}">Appointment Register</a></li>
+                        <li><a href="{{ route('appointment.list') }}">Today's Appointment</a></li>
                       </ul>
                     <a class="sidebar-link sidebar-title" href="#">
                       <svg class="stroke-icon">

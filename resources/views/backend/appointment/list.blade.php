@@ -5,7 +5,7 @@
         <div class="page-title">
             <div class="row">
             <div class="col-6">
-                <h3>Appointment Register</h3>
+                <h3>Today's Appointment List</h3>
             </div>
             <div class="col-6">
                 <ol class="breadcrumb">
@@ -14,7 +14,7 @@
                         <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#stroke-home') }}"></use>
                     </svg></a></li>
                 <li class="breadcrumb-item">Appointments</li>
-                <li class="breadcrumb-item active">Appointment Register</li>
+                <li class="breadcrumb-item active">Appointment List</li>
                 </ol>
             </div>
             </div>
@@ -27,7 +27,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="row">
-                            <div class="col"><h5>Appointment Register</h5><span>Appointment Management</span></div>
+                            <div class="col"><h5>Appointment List</h5><span>Appointment Management</span></div>
                             <div class="col text-end"><a href="{{ route('appointment.create') }}" class="btn btn-primary" type="button">Add New</a></div>
                         </div>
                     </div>
@@ -53,7 +53,7 @@
                                     @forelse($appointments as $key => $appointment)
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
-                                            <td>{{ $appointment->name }}</td>
+                                            <td><a href="{{ route('patient.create', ['type' => 'Appointment', 'type_id' => $appointment->id]) }}">{{ $appointment->name }}</a></td>
                                             <td>{{ $appointment->place }}</td>
                                             <td>{{ $appointment->mobile }}</td>
                                             <td>{{ $appointment->branch->name }}</td>

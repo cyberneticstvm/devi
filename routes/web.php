@@ -131,6 +131,7 @@ Route::middleware(['web', 'auth', 'branch'])->group(function(){
 
     Route::prefix('/backend/appointment')->controller(AppointmentController::class)->group(function(){
         Route::get('/', 'index')->name('appointments');          
+        Route::get('/list', 'show')->name('appointment.list');          
         Route::get('/create', 'create')->name('appointment.create');
         Route::post('/save', 'store')->name('appointment.save');
         Route::get('/edit/{id}', 'edit')->name('appointment.edit');

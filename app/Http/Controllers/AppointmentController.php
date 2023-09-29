@@ -17,13 +17,14 @@ class AppointmentController extends Controller
     function __construct(){
         $this->middleware('permission:appointment-list|appointment-create|appointment-edit|appointment-delete', ['only' => ['index','store']]);
         $this->middleware('permission:appointment-create', ['only' => ['create','store']]);
+        $this->middleware('permission:appointment-todays-list', ['only' => ['show']]);
         $this->middleware('permission:appointment-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:appointment-delete', ['only' => ['destroy']]);
    }
 
     public function index()
     {
-        $appointments = Appointment::whereDate('created_at', Carbon::today())->where('branch_id', Session::get('branch'))->withTrashed()->latest()->get();
+        $appointments = Appointment::whereDate('created_at', Carbon::today())->withTrashed()->latest()->get();
         return view('backend.appointment.index', compact('appointments'));
     }
 
@@ -63,9 +64,10 @@ class AppointmentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show()
     {
-        //
+        $appointments = Appointment::whereDate('date', Carbon::today())->where('branch_id', Session::get('branch'))->withTrashed()->latest()->get();
+        return view('backend.appointment.list', compact('appointments'));
     }
 
     /**

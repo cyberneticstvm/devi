@@ -9,6 +9,10 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ImportExportController extends Controller
 {
+    function __construct(){
+        $this->middleware('permission:export-today-appointments-excel', ['only' => ['exportTodayAppointments']]);
+    }
+
     public function exportTodayAppointments(Request $request){
         return Excel::download(new AppointmentExport($request), 'appointments_'.Carbon::today()->format('d-M-Y').'.xlsx');
     }

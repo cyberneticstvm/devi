@@ -14,6 +14,10 @@ use QrCode;
 
 class PdfController extends Controller
 {
+    function __construct(){
+        $this->middleware('permission:export-today-appointments-pdf', ['only' => ['exportTodaysAppointment']]);
+    }
+
     public function opt($id){
         $consultation = Consultation::with('patient', 'doctor', 'branch')->findOrFail(decrypt($id));
         $qrcode = base64_encode(QrCode::format('svg')->size(50)->errorCorrection('H')->generate(qrCodeText()));

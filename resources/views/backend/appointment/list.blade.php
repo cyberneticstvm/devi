@@ -35,8 +35,8 @@
                                 <div class="btn-group">
                                     <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Export</button>
                                     <ul class="dropdown-menu dropdown-block">
-                                        <li><a class="dropdown-item txt-dark" href="{{ route('pdf.appointment') }}" target="_blank">Pdf</a></li>
-                                        <li><a class="dropdown-item" href="{{ route('export.today.appointments') }}" target="_blank">Excel</a></li>
+                                        <li><a class="dropdown-item txt-dark" href="{{ route('pdf.appointment') }}" target="_blank"><i class="icofont icofont-file-pdf txt-danger fw-bold"></i> Pdf</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('export.today.appointments') }}" target="_blank"><i class="icofont icofont-file-excel txt-success fw-bold"></i> Excel</a></li>
                                     </ul>
                                 </div>
                             </div>

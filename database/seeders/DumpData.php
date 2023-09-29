@@ -27,6 +27,7 @@ class DumpData extends Seeder
             'consultation-list', 'consultation-create', 'consultation-edit', 'consultation-delete',
             'medical-record-list', 'medical-record-create', 'medical-record-edit', 'medical-record-delete',
             'appointment-list', 'appointment-todays-list', 'appointment-create', 'appointment-edit', 'appointment-delete',
+            'export-today-appointments-excel', 'export-today-appointments-pdf'
          ];
         
         foreach ($permissions as $permission) {

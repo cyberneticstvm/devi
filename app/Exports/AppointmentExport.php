@@ -39,13 +39,14 @@ class AppointmentExport implements FromCollection, WithMapping, WithHeadings, Sh
                 'item_mobile' => $data->mobile,
                 'item_doctor' => $data->doctor->name,
                 'item_branch' => $data->branch->name,
-                'item_time' => $data->time->format('d, M Y'),
+                'item_date' => $data->date->format('d, M Y'),
+                'item_time' => $data->time->format('h:i a'),
             ];
         });
     }
 
     public function headings(): array {
-        return ['SL No', 'Patient Name', 'Age', 'Gender', 'Place', 'Mobile', 'Doctor', 'Branch', 'Time'];
+        return ['SL No', 'Patient Name', 'Age', 'Gender', 'Place', 'Mobile', 'Doctor', 'Branch', 'Appointment Date', 'Appointment Time'];
     }
 
     public function map($data): array {
@@ -53,6 +54,6 @@ class AppointmentExport implements FromCollection, WithMapping, WithHeadings, Sh
     }
 
     public function styles(Worksheet $sheet){
-        $sheet->getStyle('A1:I1')->getFont()->setBold(true);
+        $sheet->getStyle('A1:J1')->getFont()->setBold(true);
     }
 }

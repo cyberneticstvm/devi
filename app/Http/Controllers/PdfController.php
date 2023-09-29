@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appointment;
 use App\Models\Consultation;
 use App\Models\MedicalRecord;
 use App\Models\Patient;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use PDF;
 use QrCode;
 
@@ -36,5 +39,11 @@ class PdfController extends Controller
         $mrecord = MedicalRecord::with('consultation')->findOrFail(decrypt($id));
         $pdf = PDF::loadView('/backend/pdf/medical_record', compact('mrecord'));
 	    return $pdf->stream($mrecord->consultation->mrn.'.pdf');
+    }
+
+    public function exportTodaysAppointment(){
+        $appointments = Appointment::with('doctor', 'branch')->whereDate('date', Carbon::today())->where('branch_id', Session::get('branch'))->orderBy('time')->get();
+        $pdf = PDF::loadView('/backend/pdf/today-appointment', compact('appointments'));
+	    return $pdf->stream('appointment.pdf');
     }
 }

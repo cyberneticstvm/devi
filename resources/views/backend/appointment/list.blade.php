@@ -28,7 +28,18 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col"><h5>Appointment List</h5><span>Appointment Management</span></div>
-                            <div class="col text-end"><a href="{{ route('appointment.create') }}" class="btn btn-primary" type="button">Add New</a></div>
+                            <div class="col text-end">
+                                <div class="btn-group">
+                                    <a href="{{ route('appointment.create') }}" class="btn btn-primary" type="button">Add New</a>
+                                </div>
+                                <div class="btn-group">
+                                    <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Export</button>
+                                    <ul class="dropdown-menu dropdown-block">
+                                        <li><a class="dropdown-item txt-dark" href="{{ route('pdf.appointment') }}" target="_blank">Pdf</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('export.today.appointments') }}" target="_blank">Excel</a></li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="card-body">

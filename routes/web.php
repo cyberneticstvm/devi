@@ -6,6 +6,7 @@ use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CampController;
 use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\ImportExportController;
 use App\Http\Controllers\MedicalRecordController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\PdfController;
@@ -59,11 +60,16 @@ Route::middleware(['web', 'auth', 'branch'])->group(function(){
         Route::post('/appointment/time', 'getAppointmentTime')->name('ajax.appointment.time');
     });
 
+    Route::prefix('/export')->controller(ImportExportController::class)->group(function(){          
+        Route::get('/appointments/today', 'exportTodayAppointments')->name('export.today.appointments');
+        
+    });
     Route::prefix('/backend/pdf')->controller(PdfController::class)->group(function(){          
         Route::get('/opt/{id}', 'opt')->name('pdf.opt');
         Route::get('/prescription/{id}', 'prescription')->name('pdf.prescription');
         Route::get('/consultation/receipt/{id}', 'cReceipt')->name('pdf.consultation.receipt');
         Route::get('/mrecord/{id}', 'medicalRecord')->name('pdf.mrecord');
+        Route::get('/appointment', 'exportTodaysAppointment')->name('pdf.appointment');
     });
 
     Route::prefix('/backend/user')->controller(UserController::class)->group(function(){          

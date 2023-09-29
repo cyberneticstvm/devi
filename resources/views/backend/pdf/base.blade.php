@@ -8,6 +8,15 @@
       font-size: 13px;
       font-weight: normal;
     }
+    footer{
+        position: fixed; 
+        bottom: -60px; 
+        left: 0px; 
+        right: 0px;
+        height: 50px; 
+        color: #000;
+        text-align: center;
+    }
     .text-center{
         text-align: center;
     }
@@ -47,6 +56,9 @@
     }
     .fw-bold{
       font-weight: bold;
+    }
+    .text-danger{
+      color: red;
     }
   </style>
 </head>

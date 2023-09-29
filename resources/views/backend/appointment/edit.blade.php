@@ -90,7 +90,12 @@
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">Time</label>
-                                    {{ html()->select($name = 'time', $value = $times->pluck('name', 'id'), date_format($appointment->time, 'H:i:s'))->class('form-control select2 selAppTime')->placeholder('Select') }}
+                                    <!--{{ html()->select($name = 'time', $value = $times->pluck('name', 'id'), date_format($appointment->time, 'H:i:s'))->class('form-control select2 selAppTime')->placeholder('Select') }}-->
+                                    <select class="form-control select2 selAppTime">
+                                        @foreach($times as $key => $item)
+                                            <option value="{{ $item['id'] }}" {{ $item['disabled'] }} {{ ($item['id'] == date_format($appointment->time, 'H:i:s')) ? 'selected' : '' }}>{{ $item['name'] }}</option>
+                                        @endforeach
+                                    </select>
                                     @error('time')
                                         <small class="text-danger">{{ $errors->first('time') }}</small>
                                     @enderror

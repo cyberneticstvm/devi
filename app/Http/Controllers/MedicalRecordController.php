@@ -7,6 +7,7 @@ use App\Models\MedicalRecord;
 use App\Models\MedicalRecordDiagnosis;
 use App\Models\MedicalRecordSymptom;
 use App\Models\MedicalRecordVision;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use DB;
@@ -25,7 +26,7 @@ class MedicalRecordController extends Controller
 
     public function index()
     {
-        $mrecords = MedicalRecord::with('consultation')->withTrashed()->latest()->get();
+        $mrecords = MedicalRecord::with('consultation')->whereDate('created_at', Carbon::today())->withTrashed()->latest()->get();
         return view('backend.medical-record.index', compact('mrecords'));
     }
 
@@ -81,7 +82,7 @@ class MedicalRecordController extends Controller
                 endif;
                 MedicalRecordSymptom::insert($sdata);
                 MedicalRecordDiagnosis::insert($ddata);
-                MedicalRecordVision::create([
+                MedicalRecordVision::insert([
                     'medical_record_id' => $mrecord->id,
                     're_sph' => $request->re_sph,
                     're_cyl' => $request->re_cyl,

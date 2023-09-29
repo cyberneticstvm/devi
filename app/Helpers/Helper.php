@@ -1,11 +1,13 @@
 <?php
 
+use App\Models\Appointment;
 use Illuminate\Support\Facades\Session;
 use App\Models\Branch;
 use App\Models\Consultation;
 use App\Models\Doctor;
 use App\Models\Patient;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 
 function title(){
@@ -49,6 +51,27 @@ function getDocFee($doctor, $patient){
 function mrn(){
     $bcode = branch()->code;
     return DB::table('consultations')->selectRaw("CONCAT_WS('/', 'MRN', IFNULL(MAX(id)+1, 1), '$bcode') AS mrid")->first();
+}
+
+function getAppointmentTimeList($date, $doctor, $branch){
+    $arr = [];  $endtime = Carbon::parse('19:00:00')->toTimeString(); $starttime = Carbon::parse('9:00:00')->toTimeString(); $interval = 15;    
+    if($date && $doctor && $branch):
+        $starttime = ($starttime < Carbon::now()->toTimeString() && Carbon::parse($date)->toDate() == Carbon::today()) ? Carbon::now()->endOfHour()->addSecond()->toTimeString() : $starttime;
+
+        $start = strtotime($starttime);
+
+        $appointment = Appointment::select('time as atime')->whereDate('date', $date)->where('doctor_id', $doctor)->where('branch_id', $branch)->pluck('atime')->toArray();
+        while($start <= strtotime($endtime)):                
+            $disabled = in_array(Carbon::parse(date('h:i A', $start))->toTimeString(), $appointment) ? 'disabled' : NULL;
+            $arr [] = [
+                'name' => date('h:i A', $start),
+                'id' => Carbon::parse(date('h:i A', $start))->toTimeString(),
+                'disabled' => $disabled,
+            ];
+            $start = strtotime('+'.$interval.' minutes', $start);
+        endwhile;
+    endif;
+    return $arr;    
 }
 
 ?>

@@ -135,12 +135,22 @@
                       </svg>
                       <svg class="fill-icon">
                         <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#fill-project') }}"></use>
+                      </svg><span>Appointment</span></a>
+                      <ul class="sidebar-submenu">
+                        <li><a href="{{ route('appointments') }}">Appointment Register</a></li>
+                      </ul>
+                    <a class="sidebar-link sidebar-title" href="#">
+                      <svg class="stroke-icon">
+                        <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#stroke-project') }}"></use>
+                      </svg>
+                      <svg class="fill-icon">
+                        <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#fill-project') }}"></use>
                       </svg><span>Consultation</span></a>
-                    <ul class="sidebar-submenu">
-                      <li><a href="{{ route('patients') }}">Patient Register</a></li>
-                      <li><a href="{{ route('consultations') }}">Consultation Register</a></li>
-                      <li><a href="{{ route('mrecords') }}">Medical Record Register</a></li>
-                    </ul>
+                      <ul class="sidebar-submenu">
+                        <li><a href="{{ route('patients') }}">Patient Register</a></li>
+                        <li><a href="{{ route('consultations') }}">Consultation Register</a></li>
+                        <li><a href="{{ route('mrecords') }}">Medical Record Register</a></li>
+                      </ul>
                     <a class="sidebar-link sidebar-title" href="#">
                       <svg class="stroke-icon">
                         <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#stroke-project') }}"></use>
@@ -172,6 +182,16 @@
                     <ul class="sidebar-submenu">
                       <li><a href="{{ route('doctors') }}">Doctor Register</a></li>
                     </ul>
+                    <a class="sidebar-link sidebar-title" href="#">
+                      <svg class="stroke-icon">
+                        <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#stroke-project') }}"></use>
+                      </svg>
+                      <svg class="fill-icon">
+                        <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#fill-project') }}"></use>
+                      </svg><span>Camp</span></a>
+                      <ul class="sidebar-submenu">
+                        <li><a href="{{ route('camps') }}">Camp Register</a></li>
+                      </ul>
                   </li>
                   <li class="sidebar-main-title">
                     <div>

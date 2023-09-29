@@ -11,7 +11,7 @@
     .text-center{
         text-align: center;
     }
-    .text-right{
+    .text-right, .text-end{
       text-align: right;
     }
     .table, .no-border{
@@ -19,6 +19,9 @@
     }
     .bordered{
       border: 1px solid #262525;
+    }
+    .border-0{
+      border: 0;
     }
     th, td{
       border: 1px solid #262525;

@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appointment;
 use App\Models\Consultation;
 use App\Models\ConsultationType;
 use App\Models\Department;
 use App\Models\Doctor;
 use App\Models\Patient;
 use Carbon\Carbon;
+use Collator;
 use DB;
 use Exception;
 use Illuminate\Support\Facades\Session;
@@ -39,7 +41,13 @@ class PatientController extends Controller
         $ctypes = ConsultationType::pluck('name', 'id');
         $depts = Department::pluck('name', 'id');
         $doctors = Doctor::pluck('name', 'id');
-        return view('backend.patient.create', compact('ctypes', 'depts', 'doctors', 'type', 'type_id'));
+        $patient = collect();
+        if($type_id > 0):
+            if($type == 'Appointment'):
+                $patient = Appointment::findOrFail($type_id);
+            endif;
+        endif;
+        return view('backend.patient.create', compact('ctypes', 'depts', 'doctors', 'type', 'type_id', 'patient'));
     }
 
     /**

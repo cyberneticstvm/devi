@@ -57,11 +57,11 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label">Patient History</label>
-                                    {{ html()->textarea($name = 'patient_history', $value = '')->class('form-control')->attribute('rows', 5)->placeholder('Patient History if any') }}
+                                    {{ html()->textarea($name = 'patient_history', $value = $mrecord->patient_history)->class('form-control')->attribute('rows', 5)->placeholder('Patient History if any') }}
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label">Is allergic to any drugs?</label>
-                                    {{ html()->textarea($name = 'allergic_drugs', $value = '')->class('form-control')->attribute('rows', 5)->placeholder('Details') }}
+                                    {{ html()->textarea($name = 'allergic_drugs', $value = $mrecord->allergic_drugs)->class('form-control')->attribute('rows', 5)->placeholder('Details') }}
                                 </div>
                                 <div class="col-md-12">
                                     <label class="form-label req">Diagnoses</label><small>(Allowed Multiple)</small>

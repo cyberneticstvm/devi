@@ -33,4 +33,8 @@ class MedicalRecord extends Model
     public function vision(){
         return $this->hasOne(MedicalRecordVision::class, 'medical_record_id', 'id');
     }
+
+    public function isSuregry(){
+        return $this->surgery_advised == 1 ? 'YES' : 'NO';
+    }
 }

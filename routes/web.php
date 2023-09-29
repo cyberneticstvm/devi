@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\AjaxController;
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\CampController;
 use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\MedicalRecordController;
@@ -51,6 +54,10 @@ Route::middleware(['web', 'auth'])->group(function(){
 });
 
 Route::middleware(['web', 'auth', 'branch'])->group(function(){
+
+    Route::prefix('/ajax')->controller(AjaxController::class)->group(function(){          
+        Route::post('/appointment/time', 'getAppointmentTime')->name('ajax.appointment.time');
+    });
 
     Route::prefix('/backend/pdf')->controller(PdfController::class)->group(function(){          
         Route::get('/opt/{id}', 'opt')->name('pdf.opt');
@@ -120,6 +127,24 @@ Route::middleware(['web', 'auth', 'branch'])->group(function(){
         Route::get('/edit/{id}', 'edit')->name('mrecord.edit');
         Route::post('/edit/{id}', 'update')->name('mrecord.update');
         Route::get('/delete/{id}', 'destroy')->name('mrecord.delete');
+    });
+
+    Route::prefix('/backend/appointment')->controller(AppointmentController::class)->group(function(){
+        Route::get('/', 'index')->name('appointments');          
+        Route::get('/create', 'create')->name('appointment.create');
+        Route::post('/save', 'store')->name('appointment.save');
+        Route::get('/edit/{id}', 'edit')->name('appointment.edit');
+        Route::post('/edit/{id}', 'update')->name('appointment.update');
+        Route::get('/delete/{id}', 'destroy')->name('appointment.delete');
+    });
+
+    Route::prefix('/backend/camp')->controller(CampController::class)->group(function(){
+        Route::get('/', 'index')->name('camps');          
+        Route::get('/create', 'create')->name('camp.create');
+        Route::post('/save', 'store')->name('camp.save');
+        Route::get('/edit/{id}', 'edit')->name('camp.edit');
+        Route::post('/edit/{id}', 'update')->name('camp.update');
+        Route::get('/delete/{id}', 'destroy')->name('camp.delete');
     });
 
 });

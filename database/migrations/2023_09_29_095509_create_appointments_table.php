@@ -27,6 +27,7 @@ return new class extends Migration
             $table->unsignedBigInteger('updated_by');
             $table->foreign('branch_id')->references('id')->on('branches');
             $table->foreign('doctor_id')->references('id')->on('doctors');
+            $table->unique(['branch_id', 'doctor_id', 'date', 'time']);
             $table->timestamps();
             $table->softDeletes();
         });

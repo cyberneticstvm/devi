@@ -23,7 +23,7 @@ class CampPatientController extends Controller
 
     public function index($id)
     {
-        $patients = CampPatient::where('camp_id', decrypt($id))->withTrashed()->latest()->get();
+        $patients = CampPatient::where('camp_id', decrypt($id))->whereNull('patient_id')->withTrashed()->latest()->get();
         $camp = Camp::findOrFail(decrypt($id));
         return view('backend.camp.patient.index', compact('patients', 'camp'));
     }

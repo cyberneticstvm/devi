@@ -35,8 +35,8 @@
                                 <div class="btn-group">
                                     <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Export</button>
                                     <ul class="dropdown-menu dropdown-block">
-                                        <li><a class="dropdown-item txt-dark" href="{{ route('pdf.appointment') }}" target="_blank"><i class="icofont icofont-file-pdf txt-danger fw-bold"></i> Pdf</a></li>
-                                        <li><a class="dropdown-item" href="{{ route('export.today.appointments') }}" target="_blank"><i class="icofont icofont-file-excel txt-success fw-bold"></i> Excel</a></li>
+                                        <li><a class="dropdown-item txt-dark" href="{{ route('pdf.camp.patient', ['id' => encrypt($camp->id)]) }}" target="_blank"><i class="icofont icofont-file-pdf txt-danger fw-bold"></i> Pdf</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('export.camp.patient', ['id' => encrypt($camp->id)]) }}" target="_blank"><i class="icofont icofont-file-excel txt-success fw-bold"></i> Excel</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -53,7 +53,8 @@
                                         <th>Age</th>
                                         <th>Gender</th>
                                         <th>Mobile</th> 
-                                        <th>Place</th>                                                      
+                                        <th>Place</th>
+                                        <th>Record</th>                                                      
                                         <th>Status</th>                           
                                         <th>Edit</th>
                                         <th>Delete</th>
@@ -68,6 +69,7 @@
                                             <td>{{ $patient->gender }}</td>
                                             <td>{{ $patient->mobile }}</td>
                                             <td>{{ $patient->place }}</td>
+                                            <td class="text-center"><a href="{{ route('pdf.camp.patient.mrecord', encrypt($patient->id)) }}" target="_blank"><i class="fa fa-file-pdf-o text-success fa-lg"></i></td>
                                             <td>{!! $patient->status() !!}</td>
                                             <td class="text-center"><a href="{{ route('camp.patient.edit', encrypt($patient->id)) }}"><i class="fa fa-edit text-muted fa-lg"></i></a></td>
                                             <td class="text-center"><a href="{{ route('camp.patient.delete', encrypt($patient->id)) }}" class="dlt"><i class="fa fa-trash text-danger fa-lg"></i></a></td>

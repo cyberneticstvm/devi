@@ -33,4 +33,8 @@ class Camp extends Model
     public function ctype(){
         return $this->belongsTo(CampType::class, 'camp_type', 'id');
     }
+
+    public function patients(){
+        return $this->hasMany(CampPatient::class, 'camp_id', 'id');
+    }
 }

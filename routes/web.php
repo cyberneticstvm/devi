@@ -61,9 +61,9 @@ Route::middleware(['web', 'auth', 'branch'])->group(function(){
         Route::post('/appointment/time', 'getAppointmentTime')->name('ajax.appointment.time');
     });
 
-    Route::prefix('/export')->controller(ImportExportController::class)->group(function(){          
+    Route::prefix('/backend/export')->controller(ImportExportController::class)->group(function(){          
         Route::get('/appointments/today', 'exportTodayAppointments')->name('export.today.appointments');
-        
+        Route::get('/camp/patient/list/{id}', 'exportCampPatientList')->name('export.camp.patient');        
     });
     Route::prefix('/backend/pdf')->controller(PdfController::class)->group(function(){          
         Route::get('/opt/{id}', 'opt')->name('pdf.opt');
@@ -71,6 +71,8 @@ Route::middleware(['web', 'auth', 'branch'])->group(function(){
         Route::get('/consultation/receipt/{id}', 'cReceipt')->name('pdf.consultation.receipt');
         Route::get('/mrecord/{id}', 'medicalRecord')->name('pdf.mrecord');
         Route::get('/appointment', 'exportTodaysAppointment')->name('pdf.appointment');
+        Route::get('/camp/patient/list/{id}', 'exportCampPatientList')->name('pdf.camp.patient');
+        Route::get('/camp/patient/mrecord/{id}', 'exportCampPatientMedicalRecord')->name('pdf.camp.patient.mrecord');
     });
 
     Route::prefix('/backend/user')->controller(UserController::class)->group(function(){          

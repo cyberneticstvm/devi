@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Appointment;
+use App\Models\Camp;
+use App\Models\CampPatient;
 use App\Models\Consultation;
 use App\Models\MedicalRecord;
 use App\Models\Patient;
@@ -49,5 +51,17 @@ class PdfController extends Controller
         $appointments = Appointment::with('doctor', 'branch')->whereDate('date', Carbon::today())->where('branch_id', Session::get('branch'))->orderBy('time')->get();
         $pdf = PDF::loadView('/backend/pdf/today-appointment', compact('appointments'));
 	    return $pdf->stream('appointment.pdf');
+    }
+
+    public function exportCampPatientList($id){
+        $camp = Camp::findOrFail(decrypt($id));
+        $pdf = PDF::loadView('/backend/pdf/camp_patient_list', compact('camp'));
+	    return $pdf->stream('camp.pdf');
+    }
+
+    public function exportCampPatientMedicalRecord($id){
+        $patient = CampPatient::findOrFail(decrypt($id));
+        $pdf = PDF::loadView('/backend/pdf/camp_patient_medical_record', compact('patient'));
+	    return $pdf->stream($patient->id.'.pdf');
     }
 }

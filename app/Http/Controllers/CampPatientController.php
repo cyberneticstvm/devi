@@ -120,7 +120,7 @@ class CampPatientController extends Controller
             'place' => 'required',
             'mobile' => 'required|numeric|digits:10',
         ]);
-        //try{
+        try{
             DB::transaction(function() use ($request, $id) {
                 CampPatient::findOrFail($id)->update([
                     'name' => $request->name,
@@ -152,10 +152,10 @@ class CampPatientController extends Controller
                     'le_va' => $request->le_va,
                 ]);
             });
-        //}catch(Exception $e){
-            //return redirect()->back()->with('error', $e->getMessage())->withInput($request->all());
-        //};       
-        return redirect()->route('camp.patients', encrypt($request->camp_id))->with('success', 'Patient has been updated successfully!');
+        }catch(Exception $e){
+            return redirect()->back()->with('error', $e->getMessage())->withInput($request->all());
+        };
+        return redirect()->route('camp.patients', encrypt(CampPatient::findOrFail($id)->camp_id))->with('success', 'Patient has been updated successfully!');
     }
 
     /**

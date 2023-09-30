@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Appointment;
+use App\Models\CampPatient;
 use App\Models\Consultation;
 use App\Models\ConsultationType;
 use App\Models\Department;
@@ -45,6 +46,9 @@ class PatientController extends Controller
         if($type_id > 0):
             if($type == 'Appointment'):
                 $patient = Appointment::findOrFail($type_id);
+            endif;
+            if($type == 'Camp'):
+                $patient = CampPatient::findOrFail($type_id);
             endif;
         endif;
         return view('backend.patient.create', compact('ctypes', 'depts', 'doctors', 'type', 'type_id', 'patient'));
@@ -95,6 +99,14 @@ class PatientController extends Controller
                         'created_by' => $request->user()->id,
                         'updated_by' => $request->user()->id,
                     ]);
+                    if($request->type_id > 0):
+                        if($request->type == 'Appointment'):
+                            Appointment::findOrFail($request->type_id)->update(['patient_id' => $patient->id]);
+                        endif;
+                        if($request->type == 'Camp'):
+                            CampPatient::findOrFail($request->type_id)->update(['patient_id' => $patient->id]);
+                        endif;
+                    endif;
                 });
                 if(Session::has('exists')):
                     Session::forget('exists'); 

@@ -9,7 +9,7 @@
                 </div>
                 <div class="col-6">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">                                       
+                        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">                                       
                             <svg class="stroke-icon">
                                 <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#stroke-home') }}"></use>
                             </svg></a></li>
@@ -102,11 +102,7 @@
                                 </div>
                                 <div class="col-12 text-end">
                                     <button class="btn btn-secondary" onClick="window.history.back()" type="button">Cancel</button>
-                                    @if(Session::has('exists'))
-                                    <button class="btn btn-submit btn-success" type="submit">Continue</button>
-                                    @else
                                     <button class="btn btn-submit btn-success" type="submit">Update</button>
-                                    @endif
                                 </div>
                             </form>
                         </div>

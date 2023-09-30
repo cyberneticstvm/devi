@@ -29,6 +29,9 @@ function branch(){
 function patientId(){
     return DB::table('patients')->selectRaw("CONCAT_WS('-', 'P', LPAD(IFNULL(max(id)+1, 1), 7, '0')) AS pid")->first();
 }
+function camptId(){
+    return DB::table('camps')->selectRaw("CONCAT_WS('-', 'CMP', LPAD(IFNULL(max(id)+1, 1), 7, '0')) AS cid")->first();
+}
 
 /*function productcode($category){
     $cat = Category::find($category);

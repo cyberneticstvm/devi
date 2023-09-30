@@ -4,6 +4,7 @@ use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CampController;
+use App\Http\Controllers\CampPatientController;
 use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\ImportExportController;
@@ -145,13 +146,22 @@ Route::middleware(['web', 'auth', 'branch'])->group(function(){
         Route::get('/delete/{id}', 'destroy')->name('appointment.delete');
     });
 
-    Route::prefix('/backend/camp')->controller(CampController::class)->group(function(){
+    Route::prefix('/backend/camps')->controller(CampController::class)->group(function(){
         Route::get('/', 'index')->name('camps');          
         Route::get('/create', 'create')->name('camp.create');
         Route::post('/save', 'store')->name('camp.save');
         Route::get('/edit/{id}', 'edit')->name('camp.edit');
         Route::post('/edit/{id}', 'update')->name('camp.update');
         Route::get('/delete/{id}', 'destroy')->name('camp.delete');
+    });
+
+    Route::prefix('/backend/camp/patient')->controller(CampPatientController::class)->group(function(){
+        Route::get('/list/{id}', 'index')->name('camp.patients');          
+        Route::get('/create/{id}', 'create')->name('camp.patient.create');
+        Route::post('/save', 'store')->name('camp.patient.save');
+        Route::get('/edit/{id}', 'edit')->name('camp.patient.edit');
+        Route::post('/edit/{id}', 'update')->name('camp.patient.update');
+        Route::get('/delete/{id}', 'destroy')->name('camp.patient.delete');
     });
 
 });

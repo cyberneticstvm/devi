@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Appointment;
 use App\Models\Branch;
 use App\Models\Doctor;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Gate;
 
 class AppointmentController extends Controller
 {
@@ -20,7 +22,7 @@ class AppointmentController extends Controller
         $this->middleware('permission:appointment-todays-list', ['only' => ['show']]);
         $this->middleware('permission:appointment-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:appointment-delete', ['only' => ['destroy']]);
-   }
+    }
 
     public function index()
     {
@@ -73,11 +75,14 @@ class AppointmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $id, User $user)
     {
-        $doctors = Doctor::pluck('name', 'id');
-        $branches = Branch::pluck('name', 'id');
         $appointment = Appointment::findOrFail(decrypt($id));
+        if (! Gate::allows('edit-delete-appointment', [$branch = branch(), $appointment])) {
+            return redirect()->back()->with('error', 'Appointment created for another branch could not be updated!');
+        }
+        $doctors = Doctor::pluck('name', 'id');
+        $branches = Branch::pluck('name', 'id');        
         $times = collect(getAppointmentTimeList($appointment->date, $appointment->doctor_id, $appointment->branch_id));
         return view('backend.appointment.edit', compact('doctors', 'branches', 'appointment', 'times'));
     }
@@ -110,7 +115,11 @@ class AppointmentController extends Controller
      */
     public function destroy(string $id)
     {
-        Appointment::findOrFail(decrypt($id))->delete();
+        $appointment = Appointment::findOrFail(decrypt($id));
+        if (! Gate::allows('edit-delete-appointment', [$branch = branch(), $appointment])) {
+            return redirect()->back()->with('error', 'Appointment created for another branch could not be deleted!');
+        }
+        $appointment->delete();
         return redirect()->route('appointments')->with('success', 'Appointment has been deleted successfully!');
     }
 }

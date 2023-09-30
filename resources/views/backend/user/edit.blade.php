@@ -9,7 +9,7 @@
                 </div>
                 <div class="col-6">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">                                       
+                        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">                                       
                             <svg class="stroke-icon">
                                 <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#stroke-home') }}"></use>
                             </svg></a></li>
@@ -62,7 +62,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label req">Branch <small>(Multiple selection enabled)</small></label>
-                                    {{ html()->select($name = 'branches[]', $value = branches()->pluck('name', 'id'), $branches->pluck('id'))->class('form-control select2')->multiple() }}
+                                    {{ html()->select($name = 'branches[]', $value = branches()->pluck('name', 'id'), $user->branches->pluck('branch_id'))->class('form-control select2')->multiple() }}
                                     @error('branches')
                                         <small class="text-danger">{{ $errors->first('branches') }}</small>
                                     @enderror

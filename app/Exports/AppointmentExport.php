@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\Appointment;
+use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\Exportable;
@@ -27,7 +28,7 @@ class AppointmentExport implements FromCollection, WithMapping, WithHeadings, Sh
 
     public function collection()
     {
-        $appointments = Appointment::with('doctor', 'branch')->get();
+        $appointments = Appointment::with('doctor', 'branch')->where('date', Carbon::today())->where('branch_id', branch()->id)->orderBy('time')->get();
 
         return $appointments->map(function($data, $key){
             return [

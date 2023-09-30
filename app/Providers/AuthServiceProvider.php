@@ -3,7 +3,10 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+
+use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -21,6 +24,14 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->registerPolicies();
+
+        Gate::define('edit-delete-appointment', function ($user, $branch, $appointment){
+            return $branch->id === $appointment->branch_id;
+        });
+
+        Gate::define('edit-delete-camp', function ($user, $branch, $camp){
+            return $branch->id === $camp->branch_id;
+        });
     }
 }

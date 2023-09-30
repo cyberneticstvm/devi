@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Branch;
+use App\Models\CampType;
 use App\Models\ConsultationType;
 use App\Models\Department;
 use App\Models\User;
@@ -27,7 +28,9 @@ class DumpData extends Seeder
             'consultation-list', 'consultation-create', 'consultation-edit', 'consultation-delete',
             'medical-record-list', 'medical-record-create', 'medical-record-edit', 'medical-record-delete',
             'appointment-list', 'appointment-todays-list', 'appointment-create', 'appointment-edit', 'appointment-delete',
-            'export-today-appointments-excel', 'export-today-appointments-pdf'
+            'export-today-appointments-excel', 'export-today-appointments-pdf',
+            'camp-list', 'camp-create', 'camp-edit', 'camp-delete',
+            'camp-patient-list', 'camp-patient-create', 'camp-patient-edit', 'camp-patient-delete',
          ];
         
         foreach ($permissions as $permission) {
@@ -65,6 +68,15 @@ class DumpData extends Seeder
         Department::insert([
             'name' => 'Ophthalmology',
         ]);
+
+        $ctypes = [
+            'Club', 'School', 'Residence Association', 'Other',
+        ];
+        foreach($ctypes as $ctype):
+            CampType::insert([
+                'name' => $ctype,
+            ]);
+        endforeach;
 
     }
 }

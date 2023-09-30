@@ -5,7 +5,7 @@
         <div class="page-title">
             <div class="row">
             <div class="col-6">
-                <h3>Today's Appointment List</h3>
+                <h3>Camp Patient Register</h3>
             </div>
             <div class="col-6">
                 <ol class="breadcrumb">
@@ -13,8 +13,8 @@
                     <svg class="stroke-icon">
                         <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#stroke-home') }}"></use>
                     </svg></a></li>
-                <li class="breadcrumb-item">Appointments</li>
-                <li class="breadcrumb-item active">Appointment List</li>
+                <li class="breadcrumb-item">Camp Patients</li>
+                <li class="breadcrumb-item active">Camp Patient Register</li>
                 </ol>
             </div>
             </div>
@@ -27,10 +27,10 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="row">
-                            <div class="col"><h5>Appointment List</h5><span>Appointment Management</span></div>
+                            <div class="col"><h5>Camp Patient Register</h5><span>Camp Patient Management</span></div>
                             <div class="col text-end">
                                 <div class="btn-group">
-                                    <a href="{{ route('appointment.create') }}" class="btn btn-primary" type="button">Add New</a>
+                                    <a href="{{ route('camp.patient.create', ['id' => encrypt($camp->id)]) }}" class="btn btn-primary" type="button">Add New</a>
                                 </div>
                                 <div class="btn-group">
                                     <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Export</button>
@@ -43,37 +43,34 @@
                         </div>
                     </div>
                     <div class="card-body">
+                        <div class="text-center"><h5 class="txt-primary">{{ $camp->name }} - {{ $camp->camp_id }}</h5></div>
                         <div class="table-responsive theme-scrollbar">
                             <table class="display" id="dataTable" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>SL No</th>
                                         <th>Patient Name</th>
-                                        <th>Place</th>
-                                        <th>Mobile</th>
-                                        <th>Branch</th>
-                                        <th>Doctor</th>
-                                        <th>Date</th>
-                                        <th>Time</th>                                                         
+                                        <th>Age</th>
+                                        <th>Gender</th>
+                                        <th>Mobile</th> 
+                                        <th>Place</th>                                                      
                                         <th>Status</th>                           
                                         <th>Edit</th>
                                         <th>Delete</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse($appointments as $key => $appointment)
+                                    @forelse($patients as $key => $patient)
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
-                                            <td><a href="{{ route('patient.create', ['type' => 'Appointment', 'type_id' => $appointment->id]) }}">{{ $appointment->name }}</a></td>
-                                            <td>{{ $appointment->place }}</td>
-                                            <td>{{ $appointment->mobile }}</td>
-                                            <td>{{ $appointment->branch->name }}</td>
-                                            <td>{{ $appointment->doctor->name }}</td>
-                                            <td>{{ $appointment->date->format('d, M Y') }}</td>
-                                            <td>{{ $appointment->time->format('h:i A') }}</td>
-                                            <td>{!! $appointment->status() !!}</td>
-                                            <td class="text-center"><a href="{{ route('appointment.edit', encrypt($appointment->id)) }}"><i class="fa fa-edit text-muted fa-lg"></i></a></td>
-                                            <td class="text-center"><a href="{{ route('appointment.delete', encrypt($appointment->id)) }}" class="dlt"><i class="fa fa-trash text-danger fa-lg"></i></a></td>
+                                            <td><a href="{{ route('patient.create', ['type' => 'Camp', 'type_id' => $patient->id]) }}">{{ $patient->name }}</a></td>
+                                            <td>{{ $patient->age }}</td>
+                                            <td>{{ $patient->gender }}</td>
+                                            <td>{{ $patient->mobile }}</td>
+                                            <td>{{ $patient->place }}</td>
+                                            <td>{!! $patient->status() !!}</td>
+                                            <td class="text-center"><a href="{{ route('camp.patient.edit', encrypt($patient->id)) }}"><i class="fa fa-edit text-muted fa-lg"></i></a></td>
+                                            <td class="text-center"><a href="{{ route('camp.patient.delete', encrypt($patient->id)) }}" class="dlt"><i class="fa fa-trash text-danger fa-lg"></i></a></td>
                                         </tr>
                                     @empty
                                     @endforelse

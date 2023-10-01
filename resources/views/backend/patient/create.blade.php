@@ -36,7 +36,7 @@
                                 <input type="hidden" name="type_id" value="{{ $type_id }}" />
                                 <div class="col-md-4">
                                     <label class="form-label req">Patient Name</label>
-                                    {{ html()->text($name = 'name', $value = ($patient->name) ?? old('name'))->class('form-control')->placeholder('Patient Name') }}
+                                    {{ html()->text($name = 'name', $value = ($patient?->name) ?? old('name'))->class('form-control')->placeholder('Patient Name') }}
                                     @error('name')
                                         <small class="text-danger">{{ $errors->first('name') }}</small>
                                     @enderror

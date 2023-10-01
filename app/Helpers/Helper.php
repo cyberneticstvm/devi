@@ -8,6 +8,7 @@ use App\Models\Doctor;
 use App\Models\Patient;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 
 function title(){
@@ -75,6 +76,18 @@ function getAppointmentTimeList($date, $doctor, $branch){
         endwhile;
     endif;
     return $arr;    
+}
+
+function uploadDocument($item, $path){
+    $doc = Storage::disk('s3')->put($path, $item);
+    $url = Storage::disk('s3')->url($doc);   
+    return $url;
+}
+
+function deleteDocument($path, $url){
+    if(Storage::disk('s3')->exists($path.substr($url, strrpos($url, '/')+1))):
+        Storage::disk('s3')->delete($path.substr($url, strrpos($url, '/')+1));
+    endif;
 }
 
 ?>

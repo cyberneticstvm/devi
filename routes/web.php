@@ -7,6 +7,7 @@ use App\Http\Controllers\CampController;
 use App\Http\Controllers\CampPatientController;
 use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\ImportExportController;
 use App\Http\Controllers\MedicalRecordController;
 use App\Http\Controllers\PatientController;
@@ -164,6 +165,15 @@ Route::middleware(['web', 'auth', 'branch'])->group(function(){
         Route::get('/edit/{id}', 'edit')->name('camp.patient.edit');
         Route::post('/edit/{id}', 'update')->name('camp.patient.update');
         Route::get('/delete/{id}', 'destroy')->name('camp.patient.delete');
+    });
+
+    Route::prefix('/backend/document')->controller(DocumentController::class)->group(function(){
+        Route::get('/', 'index')->name('documents');          
+        Route::post('/', 'fetch')->name('document.fetch');
+        Route::get('/proceed', '')->name('document.proceed');
+        Route::get('/create/{id}', 'show')->name('document.create');
+        Route::post('/create', 'store')->name('document.save');
+        Route::get('/delete/{id}', 'destroy')->name('document.delete');
     });
 
 });

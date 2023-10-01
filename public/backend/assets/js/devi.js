@@ -29,6 +29,8 @@ $(function(){
 
     $("#branchSelector").modal('show');
 
+    $('[data-bs-toggle="tooltip"]').tooltip();
+
     $(document).on("change", ".appTime", function(e){
         e.preventDefault();
         var form = document.getElementById('frmAppointment');

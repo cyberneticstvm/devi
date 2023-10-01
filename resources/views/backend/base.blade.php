@@ -69,8 +69,8 @@
             <ul class="nav-menus">
               <li class="profile-nav onhover-dropdown pe-0 py-0">
                 <div class="media profile-media"><img class="b-r-10" src="{{ asset('/backend/assets/images/dashboard/profile.png') }}" alt="">
-                  <div class="media-body"><span>{{ Auth::user()->name }}</span>
-                    <p class="mb-0">{{ Auth::user()->roles->pluck('name')->implode(',') }}<i class="middle fa fa-angle-down"></i></p>
+                  <div class="media-body"><span></span>
+                    <p class="mb-0"><i class="middle fa fa-angle-down"></i></p>
                   </div>
                 </div>
                 <ul class="profile-dropdown onhover-show-div">
@@ -192,6 +192,16 @@
                       </svg><span>Camp</span></a>
                       <ul class="sidebar-submenu">
                         <li><a href="{{ route('camps') }}">Camp Register</a></li>
+                      </ul>
+                      <a class="sidebar-link sidebar-title" href="#">
+                      <svg class="stroke-icon">
+                        <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#stroke-project') }}"></use>
+                      </svg>
+                      <svg class="fill-icon">
+                        <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#fill-project') }}"></use>
+                      </svg><span>Documents</span></a>
+                      <ul class="sidebar-submenu">
+                        <li><a href="{{ route('documents') }}">Document Register</a></li>
                       </ul>
                   </li>
                   <li class="sidebar-main-title">

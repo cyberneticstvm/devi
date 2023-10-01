@@ -26,7 +26,7 @@ class PatientController extends Controller
         $this->middleware('permission:patient-create', ['only' => ['create','store']]);
         $this->middleware('permission:patient-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:patient-delete', ['only' => ['destroy']]);
-   }
+    }
 
     public function index()
     {

@@ -42964,3 +42964,6 @@ input.form-control{
   border-radius: none !important;
   height: 40px !important;
 }
+.select2{
+  margin-bottom: -20px !important;
+}

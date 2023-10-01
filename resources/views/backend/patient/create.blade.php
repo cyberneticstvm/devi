@@ -36,35 +36,35 @@
                                 <input type="hidden" name="type_id" value="{{ $type_id }}" />
                                 <div class="col-md-4">
                                     <label class="form-label req">Patient Name</label>
-                                    {{ html()->text($name = 'name', $value = $patient->name ?? old('name'))->class('form-control')->placeholder('Patient Name') }}
+                                    {{ html()->text($name = 'name', $value = $patient?->name ?? old('name'))->class('form-control')->placeholder('Patient Name') }}
                                     @error('name')
                                         <small class="text-danger">{{ $errors->first('name') }}</small>
                                     @enderror
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label req">Age</label>
-                                    {{ html()->number($name = 'age', $value = $patient->age ?? old('age'), $min="1", $max="100", $step="any")->class('form-control')->placeholder('Age') }}
+                                    {{ html()->number($name = 'age', $value = $patient?->age ?? old('age'), $min="1", $max="100", $step="any")->class('form-control')->placeholder('Age') }}
                                     @error('age')
                                         <small class="text-danger">{{ $errors->first('age') }}</small>
                                     @enderror
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label req">Gender</label>
-                                    {{ html()->select($name = 'gender', $value = array('Male' => 'Male', 'Female' => 'Female', 'Other' => 'Other'), $patient->gender ?? old('gender'))->class('form-control select2')->placeholder('Select') }}
+                                    {{ html()->select($name = 'gender', $value = array('Male' => 'Male', 'Female' => 'Female', 'Other' => 'Other'), $patient?->gender ?? old('gender'))->class('form-control select2')->placeholder('Select') }}
                                     @error('gender')
                                         <small class="text-danger">{{ $errors->first('gender') }}</small>
                                     @enderror
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label req">Place</label>
-                                    {{ html()->text($name = 'place', $value = $patient->place ?? old('place'))->class('form-control')->placeholder('Place') }}
+                                    {{ html()->text($name = 'place', $value = $patient?->place ?? old('place'))->class('form-control')->placeholder('Place') }}
                                     @error('place')
                                         <small class="text-danger">{{ $errors->first('place') }}</small>
                                     @enderror
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label req">Mobile Number</label>
-                                    {{ html()->text($name = 'mobile', $value = $patient->mobile ?? old('mobile'))->class('form-control')->maxlength(10)->placeholder('Mobile Number') }}
+                                    {{ html()->text($name = 'mobile', $value = $patient?->mobile ?? old('mobile'))->class('form-control')->maxlength(10)->placeholder('Mobile Number') }}
                                     @error('mobile')
                                         <small class="text-danger">{{ $errors->first('mobile') }}</small>
                                     @enderror

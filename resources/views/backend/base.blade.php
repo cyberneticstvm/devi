@@ -69,8 +69,8 @@
             <ul class="nav-menus">
               <li class="profile-nav onhover-dropdown pe-0 py-0">
                 <div class="media profile-media"><img class="b-r-10" src="{{ asset('/backend/assets/images/dashboard/profile.png') }}" alt="">
-                  <div class="media-body"><span></span>
-                    <p class="mb-0"><i class="middle fa fa-angle-down"></i></p>
+                  <div class="media-body"><span>{{ Auth::user()->name }}</span>
+                    <p class="mb-0">{{ Auth::user()->roles->pluck('name')->implode(',') }}<i class="middle fa fa-angle-down"></i></p>
                   </div>
                 </div>
                 <ul class="profile-dropdown onhover-show-div">

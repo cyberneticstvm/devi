@@ -75,9 +75,10 @@
                                 <div class="file-top">  
                                     <i class="fa fa-file-text-o txt-primary"></i>                                    
                                 </div>
-                                <div class="file-bottom text-center">
-                                    <h6>{{ $item->original_file_name }}</h6>
-                                    <p class="mb-1">{{ $item->consultation->mrn }}</p>
+                                <div class="file-bottom text-left">
+                                    <p class="mb-1"><b>File Name:</b> {{ $item->original_file_name }}</p>
+                                    <p class="mb-1"><b>MRN:</b> {{ $item->consultation->mrn }}</p>
+                                    <p class="mb-1"><b>Description:</b> {{ $item->description }}</p>
                                     <p> <b>Created At : </b>{{ $item->created_at->format('d, M Y h:i a') }}</p>
                                 </div>
                             </li>

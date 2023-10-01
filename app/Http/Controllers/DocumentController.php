@@ -57,7 +57,7 @@ class DocumentController extends Controller
 
     public function destroy($id){
         $document = Document::findOrFail(decrypt($id));
-        deleteDocument($path = 'patient/'.$document->patient_id.'/', $document->document_url);
+        //deleteDocument($path = 'patient/'.$document->patient_id.'/', $document->document_url);
         $document->delete();
         return redirect()->back()
                         ->with('success','Document deleted successfully!');

@@ -4,19 +4,25 @@ use App\Models\Appointment;
 use Illuminate\Support\Facades\Session;
 use App\Models\Branch;
 use App\Models\Consultation;
+use App\Models\ConsultationType;
 use App\Models\Doctor;
 use App\Models\Patient;
+use App\Models\Setting;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 
 
+function settings(){
+    return Setting::findOrFail(1);
+}
+
 function title(){
-    return 'DEVI EYE HOSPITALS & OPTICIANS';
+    return settings()->company_name;
 }
 
 function qrCodeText(){
-    return 'https://devieyecare.com';
+    return settings()->qr_code_text;
 }
 
 function branches(){
@@ -40,8 +46,8 @@ function camptId(){
     return substr(strtoupper($cat->name), 0, 1).'-'.substr(str_shuffle($key), 0, 6);
 }*/
 
-function getDocFee($doctor, $patient){
-    $days = 7; $fee = 0;
+function getDocFee($doctor, $patient, $ctype){
+    $days = settings()->consultation_fee_waived_days; $fee = 0;
     $date_diff = DB::table('consultations')->where('patient_id', $patient)->select(DB::raw("IFNULL(DATEDIFF(now(), created_at), 0) as days, CASE WHEN deleted_at IS NULL THEN 1 ELSE 0 END AS status"))->latest()->first();
     $diff = ($date_diff && $date_diff->days > 0) ? $date_diff->days : 0;
     $cstatus = ($date_diff && $date_diff->status > 0) ? $date_diff->status : 0;
@@ -49,6 +55,8 @@ function getDocFee($doctor, $patient){
         $doc = Doctor::findOrFail($doctor);
         $fee = $doc->fee;
     endif;
+    $ctype = ConsultationType::findOrFail($ctype);
+    $fee = ($ctype->fee == 1) ? $fee : 0;
     return $fee;
 }
 
@@ -58,7 +66,7 @@ function mrn(){
 }
 
 function getAppointmentTimeList($date, $doctor, $branch){
-    $arr = [];  $endtime = Carbon::parse('19:00:00')->toTimeString(); $starttime = Carbon::parse('9:00:00')->toTimeString(); $interval = 15;    
+    $arr = [];  $endtime = Carbon::parse(settings()->appointment_ends_at)->toTimeString(); $starttime = Carbon::parse(settings()->	appointment_starts_at)->toTimeString(); $interval = settings()->per_appointment_minutes;    
     if($date && $doctor && $branch):
         $starttime = ($starttime < Carbon::now()->toTimeString() && Carbon::parse($date)->toDate() == Carbon::today()) ? Carbon::now()->endOfHour()->addSecond()->toTimeString() : $starttime;
 

@@ -8,11 +8,11 @@ use Illuminate\Http\Request;
 
 class DocumentController extends Controller
 {
-    /*function __construct(){
+    function __construct(){
         $this->middleware('permission:document-list|document-create|document-delete', ['only' => ['index','store']]);
-        $this->middleware('permission:document-create', ['only' => ['create','store']]);
+        $this->middleware('permission:document-create', ['only' => ['fetch', 'show', 'store']]);
         $this->middleware('permission:document-delete', ['only' => ['destroy']]);
-    }*/
+    }
 
     public function index(){
        return view('backend.document.index');

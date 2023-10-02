@@ -28,7 +28,10 @@ class BranchController extends Controller
      */
     public function create()
     {
-        return view('backend.branch.create');
+        if(Branch::count() < settings()->branch_limit || settings()->branch_limit == 0)
+            return view('backend.branch.create');
+        return redirect()->route('branches')
+            ->with('error','Allowed branch limit reached!');
     }
 
     /**

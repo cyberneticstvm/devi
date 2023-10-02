@@ -56,7 +56,7 @@ class ConsultationController extends Controller
             'mrn' => mrn()->mrid,
             'patient_id' => $request->patient_id,
             'doctor_id' => $request->doctor_id,
-            'doctor_fee' => getDocFee($request->doctor_id, $request->patient_id),
+            'doctor_fee' => getDocFee($request->doctor_id, $request->patient_id, $request->consultation_type),
             'department_id' => $request->department_id,
             'consultation_type' => $request->consultation_type,
             'review' => 1,
@@ -100,7 +100,7 @@ class ConsultationController extends Controller
         $pid = Consultation::findOrFail($id)->patient_id;
         Consultation::findOrFail($id)->update([
             'doctor_id' => $request->doctor_id,
-            'doctor_fee' => getDocFee($request->doctor_id, $pid),
+            'doctor_fee' => getDocFee($request->doctor_id, $pid, $request->consultation_type),
             'department_id' => $request->department_id,
             'consultation_type' => $request->consultation_type,
         ]);

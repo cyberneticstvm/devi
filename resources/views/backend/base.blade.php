@@ -4,13 +4,13 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Devi Eye Hospitals.">
-    <meta name="keywords" content="Devi Eye Hospitals.">
+    <meta name="description" content="{{ settings()?->company_name }}">
+    <meta name="keywords" content="{{ settings()?->company_name }}">
     <meta name="author" content="Cybernetics">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <link rel="icon" href="{{ asset('/backend/assets/images/logo/devi-logo.png') }}" type="image/x-icon">
     <link rel="shortcut icon" href="{{ asset('/backend/assets/images/logo/devi-logo.png') }}" type="image/x-icon">
-    <title>Devi Eye Hospitals - Admin</title>
+    <title>{{ settings()?->company_name }} - Admin</title>
     <!-- Google font-->
     <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,700i&amp;display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900&amp;display=swap" rel="stylesheet">
@@ -206,6 +206,91 @@
                   </li>
                   <li class="sidebar-main-title">
                     <div>
+                      <h6>Inventory</h6>
+                    </div>
+                  </li>
+                  <li class="mega-menu sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="#">
+                      <svg class="stroke-icon">
+                        <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#stroke-others') }}"></use>
+                      </svg>
+                      <svg class="fill-icon">
+                        <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#fill-others') }}"></use>
+                      </svg><span>Product</span></a>
+                      <div class="mega-menu-container menu-content">
+                        <div class="container-fluid">
+                          <div class="row">
+                            <div class="col mega-box">
+                              <div class="link-section">
+                                <div class="submenu-title">
+                                  <h5>Pharmacy</h5>
+                                </div>
+                                <ul class="submenu-content opensubmegamenu">
+                                  <li><a href="">Product List</a></li>
+                                  <li><a href="">Product Purchase</a></li>
+                                  <li><a href="">Product Transfer</a></li>
+                                </ul>
+                              </div>
+                            </div>
+                            <div class="col mega-box">
+                              <div class="link-section">
+                                <div class="submenu-title">
+                                  <h5> Frame</h5>
+                                </div>
+                                <ul class="submenu-content opensubmegamenu">
+                                  <li><a href="">Product List</a></li>
+                                  <li><a href="">Product Purchase</a></li>
+                                  <li><a href="">Product Transfer</a></li>
+                                </ul>
+                              </div>
+                            </div>
+                            <div class="col mega-box">
+                              <div class="link-section">
+                                <div class="submenu-title">
+                                  <h5>Lens</h5>
+                                </div>
+                                <ul class="submenu-content opensubmegamenu">
+                                  <li><a href="">Product List</a></li>
+                                  <li><a href="">Product Purchase</a></li>
+                                  <li><a href="">Product Transfer</a></li>
+                                </ul>
+                              </div>
+                            </div>
+                            <div class="col mega-box">
+                              <div class="link-section">
+                                <div class="submenu-title">
+                                  <h5>Service</h5>
+                                </div>
+                                <ul class="submenu-content opensubmegamenu">
+                                  <li><a href="">Service List</a></li>
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <a class="sidebar-link sidebar-title" href="#">
+                      <svg class="stroke-icon">
+                        <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#stroke-project') }}"></use>
+                      </svg>
+                      <svg class="fill-icon">
+                        <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#fill-project') }}"></use>
+                      </svg><span>Supplier</span></a>
+                      <ul class="sidebar-submenu">
+                        <li><a href="{{ route('suppliers') }}">Supplier Register</a></li>
+                      </ul>
+                      <a class="sidebar-link sidebar-title" href="#">
+                      <svg class="stroke-icon">
+                        <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#stroke-project') }}"></use>
+                      </svg>
+                      <svg class="fill-icon">
+                        <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#fill-project') }}"></use>
+                      </svg><span>Manufacturer</span></a>
+                      <ul class="sidebar-submenu">
+                        <li><a href="{{ route('manufacturers') }}">Manufacturer Register</a></li>
+                      </ul>
+                  </li>
+                  <li class="sidebar-main-title">
+                    <div>
                       <h6>Reports</h6>
                     </div>
                   </li>
@@ -288,7 +373,7 @@
           <div class="container-fluid">
             <div class="row">
               <div class="col-md-12 footer-copyright text-center">
-                <p class="mb-0">Copyright {{ date('Y') }} © Devi Eye Hospitals</p>
+                <p class="mb-0">Copyright {{ date('Y') }} © {{ ucwords(settings()->company_name) }}</p>
               </div>
             </div>
           </div>

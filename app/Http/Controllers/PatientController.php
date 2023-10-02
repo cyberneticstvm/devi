@@ -91,7 +91,7 @@ class PatientController extends Controller
                         'mrn' => mrn()->mrid,
                         'patient_id' => $patient->id,
                         'doctor_id' => $request->doctor_id,
-                        'doctor_fee' => getDocFee($request->doctor_id, $patient->id),
+                        'doctor_fee' => getDocFee($request->doctor_id, $patient->id, $request->consultation_type),
                         'department_id' => $request->department_id,
                         'consultation_type' => $request->consultation_type,
                         'review' => 0,

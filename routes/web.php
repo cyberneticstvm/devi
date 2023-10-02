@@ -9,10 +9,12 @@ use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\ImportExportController;
+use App\Http\Controllers\ManufacturerController;
 use App\Http\Controllers\MedicalRecordController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -174,6 +176,24 @@ Route::middleware(['web', 'auth', 'branch'])->group(function(){
         Route::get('/create/{id}', 'show')->name('document.create');
         Route::post('/create', 'store')->name('document.save');
         Route::get('/delete/{id}', 'destroy')->name('document.delete');
+    });
+
+    Route::prefix('/backend/supplier')->controller(SupplierController::class)->group(function(){          
+        Route::get('/', 'index')->name('suppliers');
+        Route::get('/create', 'create')->name('supplier.create');
+        Route::post('/create', 'store')->name('supplier.save');
+        Route::get('/edit/{id}', 'edit')->name('supplier.edit');
+        Route::post('/edit/{id}', 'update')->name('supplier.update');
+        Route::get('/delete/{id}', 'destroy')->name('supplier.delete');
+    });
+
+    Route::prefix('/backend/manufacturer')->controller(ManufacturerController::class)->group(function(){          
+        Route::get('/', 'index')->name('manufacturers');
+        Route::get('/create', 'create')->name('manufacturer.create');
+        Route::post('/create', 'store')->name('manufacturer.save');
+        Route::get('/edit/{id}', 'edit')->name('manufacturer.edit');
+        Route::post('/edit/{id}', 'update')->name('manufacturer.update');
+        Route::get('/delete/{id}', 'destroy')->name('manufacturer.delete');
     });
 
 });

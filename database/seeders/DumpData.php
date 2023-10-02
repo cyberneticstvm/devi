@@ -6,6 +6,7 @@ use App\Models\Branch;
 use App\Models\CampType;
 use App\Models\ConsultationType;
 use App\Models\Department;
+use App\Models\Setting;
 use App\Models\User;
 use App\Models\UserBranch;
 use Illuminate\Database\Seeder;
@@ -31,6 +32,9 @@ class DumpData extends Seeder
             'export-today-appointments-excel', 'export-today-appointments-pdf',
             'camp-list', 'camp-create', 'camp-edit', 'camp-delete',
             'camp-patient-list', 'camp-patient-create', 'camp-patient-edit', 'camp-patient-delete',
+            'document-list', 'document-create', 'document-delete',
+            'supplier-list', 'supplier-create', 'supplier-edit', 'supplier-delete',
+            'manufacturer-list', 'manufacturer-create', 'manufacturer-edit', 'manufacturer-delete',
          ];
         
         foreach ($permissions as $permission) {
@@ -38,9 +42,9 @@ class DumpData extends Seeder
         }
 
         $user = User::create([
-            'name' => 'Vijoy Sasidharan',
+            'name' => 'eHMS',
             'username' => 'admin', 
-            'email' => 'mail@cybernetics.me',
+            'email' => 'mail@ehms.care',
             'mobile' => '9188848860',
             'password' => bcrypt('admin')
         ]);
@@ -61,8 +65,23 @@ class DumpData extends Seeder
             'branch_id' => $branch->id
         ]);
 
+        Setting::insert([
+            'company_name' => 'EYE HOSPITAL MANAGEMENT SYSTEM',
+            'qr_code_text' => 'https://ehms.care',
+            'consultaton_fee_waived_days' => 0,
+            'appointment_starts_at' => '9:00:00',
+            'appointment_ends_at' => '19:00:00',
+            'per_appointment_minutes' => 15,
+            'drug_license_number' => NULL,
+            'branch_limit' => 0,
+            'allow_sales_at_zero_qty' => 0,
+            'tax_type' => 'GST',
+            'currency' => '₹',
+        ]);
+
         ConsultationType::insert([
             'name' => 'Consultation',
+            'fee' => 1,
         ]);
 
         Department::insert([

@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('consultation_types', function (Blueprint $table) {
+        Schema::create('manufaturers', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->boolean('fee')->comment('1-yes, 0-no')->default(1);
+            $table->string('name');
+            $table->unsignedBigInteger('created_by');
+            $table->unsignedBigInteger('updated_by');
+            $table->timestamps();
             $table->softDeletes();
         });
     }
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('consultation_types');
+        Schema::dropIfExists('manufaturers');
     }
 };

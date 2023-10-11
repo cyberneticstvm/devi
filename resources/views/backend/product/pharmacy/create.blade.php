@@ -84,7 +84,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label">Product Description</label>
-                                    {{ html()->text($name = 'description', $value = NULL )->class('form-control')->placeholder('Product Description if any') }}
+                                    {{ html()->text($name = 'description', $value = old('description') )->class('form-control')->placeholder('Product Description if any') }}
                                 </div>
                                 <div class="col-12 text-end">
                                     <button class="btn btn-secondary" onClick="window.history.back()" type="button">Cancel</button>

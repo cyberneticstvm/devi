@@ -8,7 +8,7 @@
 </div>
 <div class="row">
     <div class="col">
-        <h4 class="text-center">Pharmacy Product List</h4>
+        <h4 class="text-center">Frame Product List</h4>
     </div>
     <div class="col">
         <table width="100%" class="mt-10" cellspacing="0" cellpadding="0">
@@ -18,6 +18,7 @@
                     <th>Product Name</th>
                     <th>Code</th>
                     <th>Type</th>
+                    <th>Shape</th>
                     <th>Manufacturer</th>
                     <th>Price</th>
                 </tr>
@@ -29,12 +30,13 @@
                     <td>{{ $item->name }}</td>
                     <td>{{ $item->code }}</td>
                     <td>{{ $item->type->name }}</td>
+                    <td>{{ $item->shape->name }}</td>
                     <td>{{ $item->manufacturer->name }}</td>
                     <td class="text-end">{{ $item->selling_price }}</td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="6" class="text-center">
+                    <td colspan="7" class="text-center">
                         <h3 class="text-danger">No records found!</h3>
                     </td>
                     @endforelse

@@ -72,6 +72,8 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::get('/appointments/today', 'exportTodayAppointments')->name('export.today.appointments');
         Route::get('/camp/patient/list/{id}', 'exportCampPatientList')->name('export.camp.patient');
         Route::get('/product/pharmacy', 'exportProductPharmacy')->name('export.product.pharmacy');
+        Route::get('/product/lens', 'exportProductLens')->name('export.product.lens');
+        Route::get('/product/frame', 'exportProductFrame')->name('export.product.frame');
     });
     Route::prefix('/backend/pdf')->controller(PdfController::class)->group(function () {
         Route::get('/opt/{id}', 'opt')->name('pdf.opt');
@@ -82,6 +84,8 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::get('/camp/patient/list/{id}', 'exportCampPatientList')->name('pdf.camp.patient');
         Route::get('/camp/patient/mrecord/{id}', 'exportCampPatientMedicalRecord')->name('pdf.camp.patient.mrecord');
         Route::get('/product/pharmacy', 'exportProductPharmacy')->name('pdf.product.pharmacy');
+        Route::get('/product/lens', 'exportProductLens')->name('pdf.product.lens');
+        Route::get('/product/frame', 'exportProductFrame')->name('pdf.product.frame');
     });
 
     Route::prefix('/backend/user')->controller(UserController::class)->group(function () {
@@ -231,10 +235,10 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
 
     Route::prefix('/backend/product/service')->controller(ProductServiceController::class)->group(function () {
         Route::get('/', 'index')->name('product.service');
-        Route::get('/create', 'create')->name('service.frame.create');
-        Route::post('/create', 'store')->name('service.frame.save');
-        Route::get('/edit/{id}', 'edit')->name('service.frame.edit');
-        Route::post('/edit/{id}', 'update')->name('service.frame.update');
-        Route::get('/delete/{id}', 'destroy')->name('service.frame.delete');
+        Route::get('/create', 'create')->name('product.service.create');
+        Route::post('/create', 'store')->name('product.service.save');
+        Route::get('/edit/{id}', 'edit')->name('product.service.edit');
+        Route::post('/edit/{id}', 'update')->name('product.service.update');
+        Route::get('/delete/{id}', 'destroy')->name('product.service.delete');
     });
 });

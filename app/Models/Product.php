@@ -17,9 +17,19 @@ class Product extends Model
         return $this->belongsTo(Manufaturer::class, 'manufacturer_id', 'id');
     }
 
-    public function tsc()
+    public function type()
     {
         return $this->belongsTo(ProductSubcategory::class, 'type_id', 'id');
+    }
+
+    public function shape()
+    {
+        return $this->belongsTo(ProductSubcategory::class, 'shape_id', 'id');
+    }
+
+    public function coating()
+    {
+        return $this->belongsTo(ProductSubcategory::class, 'coating_id', 'id');
     }
 
     public function status()

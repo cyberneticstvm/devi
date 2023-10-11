@@ -18,6 +18,7 @@
                     <th>Product Name</th>
                     <th>Code</th>
                     <th>Type</th>
+                    <th>Coating</th>
                     <th>Manufacturer</th>
                     <th>Price</th>
                 </tr>
@@ -29,12 +30,13 @@
                     <td>{{ $item->name }}</td>
                     <td>{{ $item->code }}</td>
                     <td>{{ $item->type->name }}</td>
+                    <td>{{ $item->coating->name }}</td>
                     <td>{{ $item->manufacturer->name }}</td>
                     <td class="text-end">{{ $item->selling_price }}</td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="6" class="text-center">
+                    <td colspan="7" class="text-center">
                         <h3 class="text-danger">No records found!</h3>
                     </td>
                     @endforelse

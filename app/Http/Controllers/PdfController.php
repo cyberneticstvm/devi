@@ -76,8 +76,22 @@ class PdfController extends Controller
 
     public function exportProductPharmacy()
     {
-        $products = Product::with('tsc', 'manufacturer')->where('category', 'pharmacy')->orderBy('name')->get();
+        $products = Product::with('manufacturer')->where('category', 'pharmacy')->orderBy('name')->get();
         $pdf = PDF::loadView('/backend/pdf/product-pharmacy', compact('products'));
         return $pdf->stream('pharmacy-products.pdf');
+    }
+
+    public function exportProductLens()
+    {
+        $products = Product::with('manufacturer')->where('category', 'lens')->orderBy('name')->get();
+        $pdf = PDF::loadView('/backend/pdf/product-lens', compact('products'));
+        return $pdf->stream('lens-products.pdf');
+    }
+
+    public function exportProductFrame()
+    {
+        $products = Product::with('manufacturer')->where('category', 'frame')->orderBy('name')->get();
+        $pdf = PDF::loadView('/backend/pdf/product-frame', compact('products'));
+        return $pdf->stream('frame-products.pdf');
     }
 }

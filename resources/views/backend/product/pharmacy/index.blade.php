@@ -68,7 +68,7 @@
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->code }}</td>
                                         <td>{{ $item->manufacturer?->name }}</td>
-                                        <td>{{ $item->tsc?->name }}</td>
+                                        <td>{{ $item->type?->name }}</td>
                                         <td>{{ $item->reorder_level }}</td>
                                         <td class="text-end">{{ number_format($item->selling_price, 2) }}</td>
                                         <td>{!! $item->status() !!}</td>

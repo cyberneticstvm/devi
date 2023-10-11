@@ -40,11 +40,10 @@ function camptId(){
     return DB::table('camps')->selectRaw("CONCAT_WS('-', 'CMP', LPAD(IFNULL(max(id)+1, 1), 7, '0')) AS cid")->first();
 }
 
-/*function productcode($category){
-    $cat = Category::find($category);
+function productcode($category){
     $key = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    return substr(strtoupper($cat->name), 0, 1).'-'.substr(str_shuffle($key), 0, 6);
-}*/
+    return substr(strtoupper($category), 0, 2).'-'.substr(str_shuffle($key), 0, 6);
+}
 
 function getDocFee($doctor, $patient, $ctype){
     $days = settings()->consultation_fee_waived_days; $fee = 0;
@@ -97,5 +96,3 @@ function deleteDocument($path, $url){
         Storage::disk('s3')->delete($path.substr($url, strrpos($url, '/')+1));
     endif;
 }
-
-?>

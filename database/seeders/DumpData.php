@@ -35,15 +35,19 @@ class DumpData extends Seeder
             'document-list', 'document-create', 'document-delete',
             'supplier-list', 'supplier-create', 'supplier-edit', 'supplier-delete',
             'manufacturer-list', 'manufacturer-create', 'manufacturer-edit', 'manufacturer-delete',
-         ];
-        
+            'product-pharmacy-list', 'product-pharmacy-create', 'product-pharmacy-edit', 'product-pharmacy-delete',
+            'product-frame-list', 'product-frame-create', 'product-frame-edit', 'product-frame-delete',
+            'product-lens-list', 'product-lens-create', 'product-lens-edit', 'product-lens-delete',
+            'product-service-list', 'product-service-create', 'product-service-edit', 'product-service-delete',
+        ];
+
         foreach ($permissions as $permission) {
             Permission::create(['name' => $permission, 'guard_name' => 'web']);
         }
 
         $user = User::create([
             'name' => 'eHMS',
-            'username' => 'admin', 
+            'username' => 'admin',
             'email' => 'mail@ehms.care',
             'mobile' => '9188848860',
             'password' => bcrypt('admin')
@@ -56,9 +60,9 @@ class DumpData extends Seeder
             'updated_by' => $user->id,
         ]);
 
-        $role = Role::create(['name' => 'Administrator']);         
-        $permissions = Permission::pluck('id','id')->all();       
-        $role->syncPermissions($permissions);         
+        $role = Role::create(['name' => 'Administrator']);
+        $permissions = Permission::pluck('id', 'id')->all();
+        $role->syncPermissions($permissions);
         $user->assignRole([$role->id]);
         UserBranch::create([
             'user_id' => $user->id,
@@ -91,11 +95,10 @@ class DumpData extends Seeder
         $ctypes = [
             'Club', 'School', 'Residence Association', 'Other',
         ];
-        foreach($ctypes as $ctype):
+        foreach ($ctypes as $ctype) :
             CampType::insert([
                 'name' => $ctype,
             ]);
         endforeach;
-
     }
 }

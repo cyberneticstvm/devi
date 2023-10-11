@@ -13,6 +13,10 @@ use App\Http\Controllers\ManufacturerController;
 use App\Http\Controllers\MedicalRecordController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\PdfController;
+use App\Http\Controllers\ProductFrameController;
+use App\Http\Controllers\ProductLensController;
+use App\Http\Controllers\ProductPharmacyController;
+use App\Http\Controllers\ProductServiceController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
@@ -41,34 +45,35 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';*/
 
-Route::middleware(['web'])->group(function(){
-    Route::get('/', function(){
+Route::middleware(['web'])->group(function () {
+    Route::get('/', function () {
         return view('welcome');
     });
 
-    Route::controller(UserController::class)->group(function(){
+    Route::controller(UserController::class)->group(function () {
         Route::get('/login', 'login')->name('login');
         Route::post('/login', 'signin')->name('user.login');
         Route::get('/logout', 'logout')->name('logout')->middleware('auth');
     });
 });
 
-Route::middleware(['web', 'auth'])->group(function(){
+Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/backend/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
     Route::post('/user/branch/update', [UserController::class, 'updateBranch'])->name('user.branch.update');
 });
 
-Route::middleware(['web', 'auth', 'branch'])->group(function(){
+Route::middleware(['web', 'auth', 'branch'])->group(function () {
 
-    Route::prefix('/ajax')->controller(AjaxController::class)->group(function(){          
+    Route::prefix('/ajax')->controller(AjaxController::class)->group(function () {
         Route::post('/appointment/time', 'getAppointmentTime')->name('ajax.appointment.time');
     });
 
-    Route::prefix('/backend/export')->controller(ImportExportController::class)->group(function(){          
+    Route::prefix('/backend/export')->controller(ImportExportController::class)->group(function () {
         Route::get('/appointments/today', 'exportTodayAppointments')->name('export.today.appointments');
-        Route::get('/camp/patient/list/{id}', 'exportCampPatientList')->name('export.camp.patient');        
+        Route::get('/camp/patient/list/{id}', 'exportCampPatientList')->name('export.camp.patient');
+        Route::get('/product/pharmacy', 'exportProductPharmacy')->name('export.product.pharmacy');
     });
-    Route::prefix('/backend/pdf')->controller(PdfController::class)->group(function(){          
+    Route::prefix('/backend/pdf')->controller(PdfController::class)->group(function () {
         Route::get('/opt/{id}', 'opt')->name('pdf.opt');
         Route::get('/prescription/{id}', 'prescription')->name('pdf.prescription');
         Route::get('/consultation/receipt/{id}', 'cReceipt')->name('pdf.consultation.receipt');
@@ -76,9 +81,10 @@ Route::middleware(['web', 'auth', 'branch'])->group(function(){
         Route::get('/appointment', 'exportTodaysAppointment')->name('pdf.appointment');
         Route::get('/camp/patient/list/{id}', 'exportCampPatientList')->name('pdf.camp.patient');
         Route::get('/camp/patient/mrecord/{id}', 'exportCampPatientMedicalRecord')->name('pdf.camp.patient.mrecord');
+        Route::get('/product/pharmacy', 'exportProductPharmacy')->name('pdf.product.pharmacy');
     });
 
-    Route::prefix('/backend/user')->controller(UserController::class)->group(function(){          
+    Route::prefix('/backend/user')->controller(UserController::class)->group(function () {
         Route::get('/', 'index')->name('users');
         Route::get('/create', 'create')->name('user.create');
         Route::post('/save', 'store')->name('user.save');
@@ -87,7 +93,7 @@ Route::middleware(['web', 'auth', 'branch'])->group(function(){
         Route::get('/delete/{id}', 'destroy')->name('user.delete');
     });
 
-    Route::prefix('/backend/role')->controller(RoleController::class)->group(function(){          
+    Route::prefix('/backend/role')->controller(RoleController::class)->group(function () {
         Route::get('/', 'index')->name('roles');
         Route::get('/create', 'create')->name('role.create');
         Route::post('/save', 'store')->name('role.save');
@@ -96,7 +102,7 @@ Route::middleware(['web', 'auth', 'branch'])->group(function(){
         Route::get('/delete/{id}', 'destroy')->name('role.delete');
     });
 
-    Route::prefix('/backend/branch')->controller(BranchController::class)->group(function(){          
+    Route::prefix('/backend/branch')->controller(BranchController::class)->group(function () {
         Route::get('/', 'index')->name('branches');
         Route::get('/create', 'create')->name('branch.create');
         Route::post('/save', 'store')->name('branch.save');
@@ -105,7 +111,7 @@ Route::middleware(['web', 'auth', 'branch'])->group(function(){
         Route::get('/delete/{id}', 'destroy')->name('branch.delete');
     });
 
-    Route::prefix('/backend/doctor')->controller(DoctorController::class)->group(function(){          
+    Route::prefix('/backend/doctor')->controller(DoctorController::class)->group(function () {
         Route::get('/', 'index')->name('doctors');
         Route::get('/create', 'create')->name('doctor.create');
         Route::post('/save', 'store')->name('doctor.save');
@@ -114,7 +120,7 @@ Route::middleware(['web', 'auth', 'branch'])->group(function(){
         Route::get('/delete/{id}', 'destroy')->name('doctor.delete');
     });
 
-    Route::prefix('/backend/patient')->controller(PatientController::class)->group(function(){          
+    Route::prefix('/backend/patient')->controller(PatientController::class)->group(function () {
         Route::get('/', 'index')->name('patients');
         Route::get('/create/{type}/{type_id}', 'create')->name('patient.create');
         Route::post('/save', 'store')->name('patient.save');
@@ -123,7 +129,7 @@ Route::middleware(['web', 'auth', 'branch'])->group(function(){
         Route::get('/delete/{id}', 'destroy')->name('patient.delete');
     });
 
-    Route::prefix('/backend/consultation')->controller(ConsultationController::class)->group(function(){          
+    Route::prefix('/backend/consultation')->controller(ConsultationController::class)->group(function () {
         Route::get('/', 'index')->name('consultations');
         Route::get('/create/{pid}', 'create')->name('consultation.create');
         Route::post('/save', 'store')->name('consultation.save');
@@ -132,8 +138,8 @@ Route::middleware(['web', 'auth', 'branch'])->group(function(){
         Route::get('/delete/{id}', 'destroy')->name('consultation.delete');
     });
 
-    Route::prefix('/backend/medical-record')->controller(MedicalRecordController::class)->group(function(){
-        Route::get('/', 'index')->name('mrecords');          
+    Route::prefix('/backend/medical-record')->controller(MedicalRecordController::class)->group(function () {
+        Route::get('/', 'index')->name('mrecords');
         Route::get('/create/{id}', 'create')->name('mrecord.create');
         Route::post('/save', 'store')->name('mrecord.save');
         Route::get('/edit/{id}', 'edit')->name('mrecord.edit');
@@ -141,9 +147,9 @@ Route::middleware(['web', 'auth', 'branch'])->group(function(){
         Route::get('/delete/{id}', 'destroy')->name('mrecord.delete');
     });
 
-    Route::prefix('/backend/appointment')->controller(AppointmentController::class)->group(function(){
-        Route::get('/', 'index')->name('appointments');          
-        Route::get('/list', 'show')->name('appointment.list');          
+    Route::prefix('/backend/appointment')->controller(AppointmentController::class)->group(function () {
+        Route::get('/', 'index')->name('appointments');
+        Route::get('/list', 'show')->name('appointment.list');
         Route::get('/create', 'create')->name('appointment.create');
         Route::post('/save', 'store')->name('appointment.save');
         Route::get('/edit/{id}', 'edit')->name('appointment.edit');
@@ -151,8 +157,8 @@ Route::middleware(['web', 'auth', 'branch'])->group(function(){
         Route::get('/delete/{id}', 'destroy')->name('appointment.delete');
     });
 
-    Route::prefix('/backend/camps')->controller(CampController::class)->group(function(){
-        Route::get('/', 'index')->name('camps');          
+    Route::prefix('/backend/camps')->controller(CampController::class)->group(function () {
+        Route::get('/', 'index')->name('camps');
         Route::get('/create', 'create')->name('camp.create');
         Route::post('/save', 'store')->name('camp.save');
         Route::get('/edit/{id}', 'edit')->name('camp.edit');
@@ -160,8 +166,8 @@ Route::middleware(['web', 'auth', 'branch'])->group(function(){
         Route::get('/delete/{id}', 'destroy')->name('camp.delete');
     });
 
-    Route::prefix('/backend/camp/patient')->controller(CampPatientController::class)->group(function(){
-        Route::get('/list/{id}', 'index')->name('camp.patients');          
+    Route::prefix('/backend/camp/patient')->controller(CampPatientController::class)->group(function () {
+        Route::get('/list/{id}', 'index')->name('camp.patients');
         Route::get('/create/{id}', 'create')->name('camp.patient.create');
         Route::post('/save', 'store')->name('camp.patient.save');
         Route::get('/edit/{id}', 'edit')->name('camp.patient.edit');
@@ -169,8 +175,8 @@ Route::middleware(['web', 'auth', 'branch'])->group(function(){
         Route::get('/delete/{id}', 'destroy')->name('camp.patient.delete');
     });
 
-    Route::prefix('/backend/document')->controller(DocumentController::class)->group(function(){
-        Route::get('/', 'index')->name('documents');          
+    Route::prefix('/backend/document')->controller(DocumentController::class)->group(function () {
+        Route::get('/', 'index')->name('documents');
         Route::post('/', 'fetch')->name('document.fetch');
         Route::get('/proceed', '')->name('document.proceed');
         Route::get('/create/{id}', 'show')->name('document.create');
@@ -178,7 +184,7 @@ Route::middleware(['web', 'auth', 'branch'])->group(function(){
         Route::get('/delete/{id}', 'destroy')->name('document.delete');
     });
 
-    Route::prefix('/backend/supplier')->controller(SupplierController::class)->group(function(){          
+    Route::prefix('/backend/supplier')->controller(SupplierController::class)->group(function () {
         Route::get('/', 'index')->name('suppliers');
         Route::get('/create', 'create')->name('supplier.create');
         Route::post('/create', 'store')->name('supplier.save');
@@ -187,7 +193,7 @@ Route::middleware(['web', 'auth', 'branch'])->group(function(){
         Route::get('/delete/{id}', 'destroy')->name('supplier.delete');
     });
 
-    Route::prefix('/backend/manufacturer')->controller(ManufacturerController::class)->group(function(){          
+    Route::prefix('/backend/manufacturer')->controller(ManufacturerController::class)->group(function () {
         Route::get('/', 'index')->name('manufacturers');
         Route::get('/create', 'create')->name('manufacturer.create');
         Route::post('/create', 'store')->name('manufacturer.save');
@@ -196,4 +202,39 @@ Route::middleware(['web', 'auth', 'branch'])->group(function(){
         Route::get('/delete/{id}', 'destroy')->name('manufacturer.delete');
     });
 
+    Route::prefix('/backend/product/pharmacy')->controller(ProductPharmacyController::class)->group(function () {
+        Route::get('/', 'index')->name('product.pharmacy');
+        Route::get('/create', 'create')->name('product.pharmacy.create');
+        Route::post('/create', 'store')->name('product.pharmacy.save');
+        Route::get('/edit/{id}', 'edit')->name('product.pharmacy.edit');
+        Route::post('/edit/{id}', 'update')->name('product.pharmacy.update');
+        Route::get('/delete/{id}', 'destroy')->name('product.pharmacy.delete');
+    });
+
+    Route::prefix('/backend/product/lens')->controller(ProductLensController::class)->group(function () {
+        Route::get('/', 'index')->name('product.lens');
+        Route::get('/create', 'create')->name('product.lens.create');
+        Route::post('/create', 'store')->name('product.lens.save');
+        Route::get('/edit/{id}', 'edit')->name('product.lens.edit');
+        Route::post('/edit/{id}', 'update')->name('product.lens.update');
+        Route::get('/delete/{id}', 'destroy')->name('product.lens.delete');
+    });
+
+    Route::prefix('/backend/product/frame')->controller(ProductFrameController::class)->group(function () {
+        Route::get('/', 'index')->name('product.frame');
+        Route::get('/create', 'create')->name('product.frame.create');
+        Route::post('/create', 'store')->name('product.frame.save');
+        Route::get('/edit/{id}', 'edit')->name('product.frame.edit');
+        Route::post('/edit/{id}', 'update')->name('product.frame.update');
+        Route::get('/delete/{id}', 'destroy')->name('product.frame.delete');
+    });
+
+    Route::prefix('/backend/product/service')->controller(ProductServiceController::class)->group(function () {
+        Route::get('/', 'index')->name('product.service');
+        Route::get('/create', 'create')->name('service.frame.create');
+        Route::post('/create', 'store')->name('service.frame.save');
+        Route::get('/edit/{id}', 'edit')->name('service.frame.edit');
+        Route::post('/edit/{id}', 'update')->name('service.frame.update');
+        Route::get('/delete/{id}', 'destroy')->name('service.frame.delete');
+    });
 });

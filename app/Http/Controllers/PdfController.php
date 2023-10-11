@@ -8,6 +8,7 @@ use App\Models\CampPatient;
 use App\Models\Consultation;
 use App\Models\MedicalRecord;
 use App\Models\Patient;
+use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -16,52 +17,67 @@ use QrCode;
 
 class PdfController extends Controller
 {
-    function __construct(){
+    function __construct()
+    {
         $this->middleware('permission:export-today-appointments-pdf', ['only' => ['exportTodaysAppointment']]);
     }
 
-    public function opt($id){
+    public function opt($id)
+    {
         $consultation = Consultation::with('patient', 'doctor', 'branch')->findOrFail(decrypt($id));
         $qrcode = base64_encode(QrCode::format('svg')->size(50)->errorCorrection('H')->generate(qrCodeText()));
         $pdf = PDF::loadView('/backend/pdf/opt', compact('consultation', 'qrcode'));
-	    return $pdf->stream($consultation->mrn.'.pdf');
+        return $pdf->stream($consultation->mrn . '.pdf');
     }
 
-    public function prescription($id){
+    public function prescription($id)
+    {
         $consultation = Consultation::with('patient', 'doctor', 'branch')->findOrFail(decrypt($id));
         $qrcode = base64_encode(QrCode::format('svg')->size(50)->errorCorrection('H')->generate(qrCodeText()));
         $pdf = PDF::loadView('/backend/pdf/prescription', compact('consultation', 'qrcode'));
-	    return $pdf->stream($consultation->mrn.'.pdf');
+        return $pdf->stream($consultation->mrn . '.pdf');
     }
 
-    public function cReceipt($id){
+    public function cReceipt($id)
+    {
         $consultation = Consultation::with('patient', 'doctor', 'branch')->findOrFail(decrypt($id));
         $qrcode = base64_encode(QrCode::format('svg')->size(50)->errorCorrection('H')->generate(qrCodeText()));
         $pdf = PDF::loadView('/backend/pdf/consultation_receipt', compact('consultation', 'qrcode'));
-	    return $pdf->stream($consultation->mrn.'.pdf');
+        return $pdf->stream($consultation->mrn . '.pdf');
     }
 
-    public function medicalRecord($id){
+    public function medicalRecord($id)
+    {
         $mrecord = MedicalRecord::with('consultation')->findOrFail(decrypt($id));
         $pdf = PDF::loadView('/backend/pdf/medical_record', compact('mrecord'));
-	    return $pdf->stream($mrecord->consultation->mrn.'.pdf');
+        return $pdf->stream($mrecord->consultation->mrn . '.pdf');
     }
 
-    public function exportTodaysAppointment(){
+    public function exportTodaysAppointment()
+    {
         $appointments = Appointment::with('doctor', 'branch')->whereDate('date', Carbon::today())->where('branch_id', Session::get('branch'))->orderBy('time')->get();
         $pdf = PDF::loadView('/backend/pdf/today-appointment', compact('appointments'));
-	    return $pdf->stream('appointment.pdf');
+        return $pdf->stream('appointment.pdf');
     }
 
-    public function exportCampPatientList($id){
+    public function exportCampPatientList($id)
+    {
         $camp = Camp::findOrFail(decrypt($id));
         $pdf = PDF::loadView('/backend/pdf/camp_patient_list', compact('camp'));
-	    return $pdf->stream('camp.pdf');
+        return $pdf->stream('camp.pdf');
     }
 
-    public function exportCampPatientMedicalRecord($id){
+    public function exportCampPatientMedicalRecord($id)
+    {
         $patient = CampPatient::findOrFail(decrypt($id));
         $pdf = PDF::loadView('/backend/pdf/camp_patient_medical_record', compact('patient'));
-	    return $pdf->stream($patient->id.'.pdf');
+        return $pdf->stream($patient->id . '.pdf');
+    }
+
+    public function exportProductPharmacy()
+    {
+        $products = Product::with('tsc', 'manufacturer')->where('category', 'pharmacy')->orderBy('name')->get();
+        $pdf = PDF::loadView('/backend/pdf/product-pharmacy', compact('products'));
+        return $pdf->stream('pharmacy-products.pdf');
     }
 }

@@ -28,7 +28,7 @@ return new class extends Migration
             $table->decimal('tax_percentage', 5, 2)->nullable();
             $table->decimal('mrp', 7, 2)->nullable();
             $table->decimal('selling_price', 7, 2)->nullable();
-            $table->text('decription')->nullable();
+            $table->text('description')->nullable();
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by');
             $table->timestamps();

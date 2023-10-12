@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('batch_number')->nullable();
             $table->foreign('product_id')->references('id')->on('products');
             $table->foreign('transfer_id')->references('id')->on('transfers')->onDelete('cascade');
-            $table->foreign('batch_number')->references('batch_number')->on('purchase_details');
             $table->timestamps();
             $table->softDeletes();
         });

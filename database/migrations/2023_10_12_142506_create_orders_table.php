@@ -29,7 +29,6 @@ return new class extends Migration
             $table->unsignedBigInteger('updated_by');
             $table->foreign('consultation_id')->references('id')->on('consultations');
             $table->foreign('branch_id')->references('id')->on('branches');
-            $table->foreign('branch_id')->references('to_branch_id')->on('transfers');
             $table->timestamps();
             $table->softDeletes();
         });

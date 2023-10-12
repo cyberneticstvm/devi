@@ -35,8 +35,6 @@ return new class extends Migration
             $table->decimal('total_after_tax', 9, 2)->default(0);
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
-            $table->foreign('batch_number')->references('batch_number')->on('transfer_details');
-            $table->foreign('product_id')->references('product_id')->on('transfer_details');
             $table->timestamps();
             $table->softDeletes();
         });

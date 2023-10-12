@@ -12,12 +12,15 @@ use App\Http\Controllers\ImportExportController;
 use App\Http\Controllers\ManufacturerController;
 use App\Http\Controllers\MedicalRecordController;
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PdfController;
+use App\Http\Controllers\PharmacyOrderController;
 use App\Http\Controllers\ProductFrameController;
 use App\Http\Controllers\ProductLensController;
 use App\Http\Controllers\ProductPharmacyController;
 use App\Http\Controllers\ProductServiceController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\StoreOrderController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -47,7 +50,7 @@ require __DIR__.'/auth.php';*/
 
 Route::middleware(['web'])->group(function () {
     Route::get('/', function () {
-        return view('welcome');
+        return view('backend.login');
     });
 
     Route::controller(UserController::class)->group(function () {
@@ -240,5 +243,32 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::get('/edit/{id}', 'edit')->name('product.service.edit');
         Route::post('/edit/{id}', 'update')->name('product.service.update');
         Route::get('/delete/{id}', 'destroy')->name('product.service.delete');
+    });
+
+    Route::prefix('/backend/store/order')->controller(StoreOrderController::class)->group(function () {
+        Route::get('/', 'index')->name('store.order');
+        Route::get('/create', 'create')->name('store.order.create');
+        Route::post('/create', 'store')->name('store.order.save');
+        Route::get('/edit/{id}', 'edit')->name('store.order.edit');
+        Route::post('/edit/{id}', 'update')->name('store.order.update');
+        Route::get('/delete/{id}', 'destroy')->name('store.order.delete');
+    });
+
+    Route::prefix('/backend/pharmacy/order')->controller(PharmacyOrderController::class)->group(function () {
+        Route::get('/', 'index')->name('pharmacy.order');
+        Route::get('/create', 'create')->name('pharmacy.order.create');
+        Route::post('/create', 'store')->name('pharmacy.order.save');
+        Route::get('/edit/{id}', 'edit')->name('pharmacy.order.edit');
+        Route::post('/edit/{id}', 'update')->name('pharmacy.order.update');
+        Route::get('/delete/{id}', 'destroy')->name('pharmacy.order.delete');
+    });
+
+    Route::prefix('/backend/payment')->controller(PaymentController::class)->group(function () {
+        Route::get('/', 'index')->name('payments');
+        Route::get('/create', 'create')->name('payment.create');
+        Route::post('/create', 'store')->name('payment.save');
+        Route::get('/edit/{id}', 'edit')->name('payment.edit');
+        Route::post('/edit/{id}', 'update')->name('payment.update');
+        Route::get('/delete/{id}', 'destroy')->name('payment.delete');
     });
 });

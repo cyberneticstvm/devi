@@ -208,6 +208,49 @@
                 </li>
                 <li class="sidebar-main-title">
                   <div>
+                    <h6>Order</h6>
+                  </div>
+                </li>
+                <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="#">
+                    <svg class="stroke-icon">
+                      <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#stroke-form') }}"></use>
+                    </svg>
+                    <svg class="fill-icon">
+                      <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#fill-form') }}"> </use>
+                    </svg><span>Store</span></a>
+                  <ul class="sidebar-submenu">
+                    <li><a href="{{ route('store.order') }}">Order Register</a></li>
+                  </ul>
+                </li>
+                <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="#">
+                    <svg class="stroke-icon">
+                      <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#stroke-form') }}"></use>
+                    </svg>
+                    <svg class="fill-icon">
+                      <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#fill-form') }}"> </use>
+                    </svg><span>Pharmacy</span></a>
+                  <ul class="sidebar-submenu">
+                    <li><a href="{{ route('pharmacy.order') }}">Pharmacy Order Register</a></li>
+                  </ul>
+                </li>
+                <li class="sidebar-main-title">
+                  <div>
+                    <h6>Payments</h6>
+                  </div>
+                </li>
+                <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="#">
+                    <svg class="stroke-icon">
+                      <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#stroke-form') }}"></use>
+                    </svg>
+                    <svg class="fill-icon">
+                      <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#fill-form') }}"> </use>
+                    </svg><span>Payments</span></a>
+                  <ul class="sidebar-submenu">
+                    <li><a href="{{ route('payments') }}">Payment Register</a></li>
+                  </ul>
+                </li>
+                <li class="sidebar-main-title">
+                  <div>
                     <h6>Inventory</h6>
                   </div>
                 </li>

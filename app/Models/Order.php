@@ -16,4 +16,14 @@ class Order extends Model
     {
         return ($this->deleted_at) ? "<span class='badge badge-danger'>Deleted</span>" : "<span class='badge badge-success'>Active</span>";
     }
+
+    public function consultation()
+    {
+        return $this->belongsTo(Consultation::class, 'consultation_id', 'id')->withTrashed();
+    }
+
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class, 'branch_id', 'id')->withTrashed();
+    }
 }

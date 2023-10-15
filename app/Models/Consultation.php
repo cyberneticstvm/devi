@@ -12,20 +12,28 @@ class Consultation extends Model
 
     protected $guarded = [];
 
-    public function status(){
+    public function status()
+    {
         return ($this->deleted_at) ? "<span class='badge badge-danger'>Deleted</span>" : "<span class='badge badge-success'>Active</span>";
     }
 
-    public function patient(){
+    public function patient()
+    {
         return $this->belongsTo(Patient::class, 'patient_id', 'id')->withTrashed();
     }
 
-    public function doctor(){
+    public function doctor()
+    {
         return $this->belongsTo(Doctor::class, 'doctor_id', 'id')->withTrashed();
     }
 
-    public function branch(){
+    public function branch()
+    {
         return $this->belongsTo(Branch::class, 'branch_id', 'id')->withTrashed();
     }
-    
+
+    public function medicalrecord()
+    {
+        return $this->hasOne(MedicalRecord::class, 'id', 'consultation_id');
+    }
 }

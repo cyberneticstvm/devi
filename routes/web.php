@@ -69,6 +69,8 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
 
     Route::prefix('/ajax')->controller(AjaxController::class)->group(function () {
         Route::post('/appointment/time', 'getAppointmentTime')->name('ajax.appointment.time');
+        Route::get('/product/{category}', 'getProductsByCategory')->name('ajax.product.get');
+        Route::get('/productprice/{product}', 'getProductPrice')->name('ajax.productprice.get');
     });
 
     Route::prefix('/backend/export')->controller(ImportExportController::class)->group(function () {
@@ -247,7 +249,9 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
 
     Route::prefix('/backend/store/order')->controller(StoreOrderController::class)->group(function () {
         Route::get('/', 'index')->name('store.order');
-        Route::get('/create', 'create')->name('store.order.create');
+        Route::post('/', 'fetch')->name('store.order.fetch');
+        Route::get('/proceed', '')->name('store.order.proceed');
+        Route::get('/create/{id}', 'create')->name('store.order.create');
         Route::post('/create', 'store')->name('store.order.save');
         Route::get('/edit/{id}', 'edit')->name('store.order.edit');
         Route::post('/edit/{id}', 'update')->name('store.order.update');

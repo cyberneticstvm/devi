@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('product_id');
             $table->integer('qty')->default(0);
             $table->string('batch_number')->nullable();
-            $table->enum('eye', ['re', 'le', 'both'])->nullable();
+            $table->enum('eye', ['re', 'le', 'both', 'frame', 'service'])->nullable();
             $table->string('sph', 7)->nullable();
             $table->string('cyl', 7)->nullable();
             $table->string('axis', 7)->nullable();

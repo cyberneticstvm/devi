@@ -51,7 +51,7 @@
                                     {{ html()->text($name = 'material', $value = old('material'))->class('form-control')->placeholder('Product Material') }}
                                 </div>
                                 <div class="col-md-2">
-                                    <label class="form-label">coating</label>
+                                    <label class="form-label">Coating</label>
                                     {{ html()->select($name = 'coating_id', $value = $ptypes->where('attribute', 'coating')->pluck('name', 'id'), old('coating_id'))->class('form-control select2')->placeholder('Select') }}
                                 </div>
                                 <div class="col-md-2">

@@ -14,6 +14,10 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('consultation_id')->comment('0 if outside order')->nullable();
+            $table->string('name', 55)->comment('Customer Name only applicable if outside order')->nullable();
+            $table->integer('age')->nullable();
+            $table->string('place', 100)->nullable();
+            $table->string('mobile', 10)->nullable();
             $table->string('invoice_number')->unique();
             $table->enum('category', ['store', 'pharmacy', 'service', 'other']);
             $table->unsignedBigInteger('branch_id');
@@ -23,7 +27,7 @@ return new class extends Migration
             $table->enum('order_status', ['booked', 'under-process', 'pending', 'ready-for-delivery', 'delivered'])->default('booked');
             $table->enum('case_type', ['box', 'rexine', 'other'])->nullable();
             $table->unsignedBigInteger('product_adviser')->nullable();
-            $table->date('estimated_delivery_date')->nullable();
+            $table->date('expected_delivery_date')->nullable();
             $table->text('order_note')->nullable();
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by');

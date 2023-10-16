@@ -27,12 +27,8 @@ return new class extends Migration
             $table->enum('thickness', ['thin', 'maximum-thin', 'normal-thick', 'not-applicable'])->nullable();
             $table->decimal('unit_price', 8, 2)->default(0);
             $table->decimal('total', 9, 2)->default(0);
-            $table->decimal('discount_percentage', 5, 2)->nullable();
-            $table->decimal('discount_amount', 8, 2)->nullable();
             $table->decimal('tax_percentage', 5, 2)->nullable();
             $table->decimal('tax_amount', 8, 2)->nullable();
-            $table->decimal('total_after_discount', 9, 2)->default(0);
-            $table->decimal('total_after_tax', 9, 2)->default(0);
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->timestamps();

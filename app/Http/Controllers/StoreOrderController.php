@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Consultation;
 use App\Models\MedicalRecord;
 use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\PaymentMode;
 use App\Models\Product;
 use App\Models\User;
 use Carbon\Carbon;
-use Faker\Provider\Medical;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class StoreOrderController extends Controller
@@ -54,7 +56,7 @@ class StoreOrderController extends Controller
         $pmodes = $this->pmodes;
         $padvisers = $this->padvisers;
         $consultation = Consultation::with('patient')->find(decrypt($id));
-        $mrecord = MedicalRecord::with('vision')->where('consultation_id', $consultation->id)->first();
+        $mrecord = MedicalRecord::with('vision')->where('consultation_id', $consultation?->id)->first();
         return view('backend.order.store.create', compact('products', 'consultation', 'pmodes', 'padvisers', 'mrecord'));
     }
 
@@ -72,7 +74,76 @@ class StoreOrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'order_date' => 'required',
+            'name' => 'required',
+            'age' => 'required',
+            'place' => 'required',
+            'mobile' => 'required|numeric|digits:10',
+            'product_adviser' => 'required',
+            'expected_delivery_date' => 'required',
+            'order_status' => 'required',
+            'order_total' => 'required|numeric|min:0|not_in:0',
+            'invoice_total' => 'required|numeric|min:0|not_in:0',
+            'product_id' => 'present|array'
+        ]);
+        /*if (!settings()->allow_sales_at_zero_qty) :
+            $status = checkOrderedProductsAvailability($request);
+        endif;*/
+        try {
+            DB::transaction(function () use ($request) {
+                $order = Order::create([
+                    'order_date' => $request->order_date,
+                    'consultation_id' => $request->consultation_id,
+                    'name' => $request->name,
+                    'age' => $request->age,
+                    'place' => $request->place,
+                    'mobile' => $request->mobile,
+                    'invoice_number' => invoicenumber('store')->ino,
+                    'category' => 'store',
+                    'branch_id' => branch()->id,
+                    'order_total' => $request->order_total,
+                    'invoice_total' => $request->invoice_total,
+                    'discount' => $request->discount,
+                    'advance' => $request->advance,
+                    'balance' => $request->balance,
+                    'order_status' => $request->order_status,
+                    'case_type' => $request->case_type,
+                    'product_adviser' => $request->product_adviser,
+                    'expected_delivery_date' => $request->expected_delivery_date,
+                    'order_note' => $request->order_note,
+                    'created_by' => $request->user()->id,
+                    'updated_by' => $request->user()->id,
+                ]);
+                $data = [];
+                foreach ($request->product_id as $key => $item) :
+                    $product = Product::findOrFail($item);
+                    $data[] = [
+                        'order_id' => $order->id,
+                        'product_id' => $product->id,
+                        'qty' => $request->qty[$key],
+                        'unit_price' => $request->unit_price[$key],
+                        'total' => $request->total[$key],
+                        'tax_percentage' => $product->tax_percentage,
+                        'tax_amount' => $product->taxamount($request->total[$key]),
+                        'eye' => $request->eye[$key],
+                        'sph' => $request->sph[$key],
+                        'cyl' => $request->cyl[$key],
+                        'axis' => $request->axis[$key],
+                        'add' => $request->add[$key],
+                        'dia' => $request->dia[$key],
+                        'ipd' => $request->ipd[$key],
+                        'thickness' => $request->thickness[$key],
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now(),
+                    ];
+                endforeach;
+                OrderDetail::insert($data);
+            });
+        } catch (Exception $e) {
+            return redirect()->back()->with("error", $e->getMessage())->withInput($request->all());
+        }
+        return redirect()->route('store.order')->with("success", "Order placed successfully!");
     }
 
     /**
@@ -104,6 +175,7 @@ class StoreOrderController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Order::findOrFail(decrypt($id))->delete();
+        return redirect()->back()->with('success', 'Order has been deleted successfully!');
     }
 }

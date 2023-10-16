@@ -26,4 +26,9 @@ class Order extends Model
     {
         return $this->belongsTo(Branch::class, 'branch_id', 'id')->withTrashed();
     }
+
+    public function details()
+    {
+        return $this->hasMany(OrderDetail::class, 'id', 'order_id');
+    }
 }

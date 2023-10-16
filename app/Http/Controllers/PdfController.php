@@ -7,6 +7,7 @@ use App\Models\Camp;
 use App\Models\CampPatient;
 use App\Models\Consultation;
 use App\Models\MedicalRecord;
+use App\Models\Order;
 use App\Models\Patient;
 use App\Models\Product;
 use Carbon\Carbon;
@@ -93,5 +94,12 @@ class PdfController extends Controller
         $products = Product::with('manufacturer')->where('category', 'frame')->orderBy('name')->get();
         $pdf = PDF::loadView('/backend/pdf/product-frame', compact('products'));
         return $pdf->stream('frame-products.pdf');
+    }
+
+    public function exportOrderReceipt($id)
+    {
+        $order = Order::with('details', 'branch', 'consultation')->findOrFail(decrypt($id));
+        $pdf = PDF::loadView('/backend/pdf/order-receipt', compact('order'));
+        return $pdf->stream($order->id . '.pdf');
     }
 }

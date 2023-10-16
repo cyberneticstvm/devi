@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('transfer_id');
             $table->unsignedBigInteger('product_id');
+            $table->integer('qty')->default(0);
             $table->string('batch_number')->nullable();
             $table->foreign('product_id')->references('id')->on('products');
             $table->foreign('transfer_id')->references('id')->on('transfers')->onDelete('cascade');

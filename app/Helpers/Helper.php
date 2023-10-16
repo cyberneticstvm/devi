@@ -8,6 +8,7 @@ use App\Models\ConsultationType;
 use App\Models\Doctor;
 use App\Models\Patient;
 use App\Models\Setting;
+use App\Models\Transfer;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
@@ -51,6 +52,13 @@ function productcode($category)
 {
     $key = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     return substr(strtoupper($category), 0, 2) . '-' . substr(str_shuffle($key), 0, 6);
+}
+
+function invoicenumber($category)
+{
+    $bcode = branch()->code;
+    $cat = substr(strtoupper($category), 0, 2);
+    return DB::table('orders')->selectRaw("CONCAT_WS('-', 'INV', '$cat', IFNULL(MAX(CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(invoice_number, '-', -2), '-', 1) AS INTEGER))+1, 1), '$bcode') AS ino")->where('branch_id', branch()->id)->first();
 }
 
 function getDocFee($doctor, $patient, $ctype)
@@ -117,4 +125,17 @@ function deleteDocument($path, $url)
 function orderStatuses()
 {
     return array('booked' => 'Booked', 'under-process' => 'Under Process', 'pending' => 'Pending', 'ready-for-delivery' => 'Ready For Delivery', 'delivered' => 'Delivered');
+}
+
+function casetypes()
+{
+    return array('box' => 'Box', 'rexine' => 'Rexine', 'other' => 'Other');
+}
+
+function checkOrderedProductsAvailability($request)
+{
+    foreach ($request->product_id as $key => $item) :
+        $stockin = Transfer::with('details')->where('to_branch_id', branch()->id)->get();
+        $stockincount = $stockin->details()->where('product_id', $item)->sum('qty');
+    endforeach;
 }

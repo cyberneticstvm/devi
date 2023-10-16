@@ -32,7 +32,7 @@
                         <div class="card-wrapper">
                             <form class="row g-3" method="post" action="{{ route('store.order.save') }}">
                                 @csrf
-                                <input type="hidden" name="medical_record_id" value="{{ $consultation?->id ?? 0 }}" />
+                                <input type="hidden" name="consultation_id" value="{{ $consultation?->id ?? 0 }}" />
                                 <div class="col-md-2">
                                     <label class="form-label req">Order Date</label>
                                     {{ html()->date($name = 'order_date', $value = date('Y-m-d'))->class('form-control')->placeholder('Order Date') }}
@@ -42,9 +42,9 @@
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label req">Customer Name</label>
-                                    {{ html()->text($name = 'name', $value = $consultation?->patient?->name ?? old('name'))->class('form-control')->placeholder('Customer Name') }}
+                                    {{ html()->text($name = 'name', $value = $consultation?->patient?->name ?? old('name'))->class('form-control')->placeholder('Customer Name')->required() }}
                                     @error('name')
-                                    <small class="text-danger">{{ $errors->first('name')->required() }}</small>
+                                    <small class="text-danger">{{ $errors->first('name') }}</small>
                                     @enderror
                                 </div>
                                 <div class="col-md-2">
@@ -56,14 +56,14 @@
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label req">Place</label>
-                                    {{ html()->text($name = 'name', $value = $consultation?->patient?->place ?? old('place'))->class('form-control')->placeholder('Place')->required() }}
+                                    {{ html()->text($name = 'place', $value = $consultation?->patient?->place ?? old('place'))->class('form-control')->placeholder('Place')->required() }}
                                     @error('place')
                                     <small class="text-danger">{{ $errors->first('place') }}</small>
                                     @enderror
                                 </div>
                                 <div class="col-md-2">
-                                    <label class="form-label req">Contact Number</label>
-                                    {{ html()->text($name = 'name', $value = $consultation?->patient?->mobile ?? old('mobile'))->class('form-control')->maxlength('10')->placeholder('Contact Number')->required() }}
+                                    <label class="form-label req">Mobile</label>
+                                    {{ html()->text($name = 'mobile', $value = $consultation?->patient?->mobile ?? old('mobile'))->class('form-control')->maxlength('10')->placeholder('Mobile')->required() }}
                                     @error('mobile')
                                     <small class="text-danger">{{ $errors->first('mobile') }}</small>
                                     @enderror
@@ -85,6 +85,13 @@
                                 <div class="col-md-5">
                                     <label class="form-label">Order Note</label>
                                     {{ html()->text($name = 'order_note', $value = old('order_note'))->class('form-control')->placeholder('Order Note') }}
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label req">Case Type</label>
+                                    {{ html()->select('case_type', casetypes(), NULL)->class('form-control select2')->placeholder('Select')->required() }}
+                                    @error('case_type')
+                                    <small class="text-danger">{{ $errors->first('case_type') }}</small>
+                                    @enderror
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label req">Order Status</label>
@@ -193,6 +200,15 @@
                                                         <select class="border-0" name="eye[]">
                                                             <option value="frame">Frame</option>
                                                         </select>
+                                                        <div class="d-none">
+                                                            <input type="hidden" name="sph[]" />
+                                                            <input type="hidden" name="cyl[]" />
+                                                            <input type="hidden" name="axis[]" />
+                                                            <input type="hidden" name="add[]" />
+                                                            <input type="hidden" name="dia[]" />
+                                                            <input type="hidden" name="ipd[]" />
+                                                            <input type="hidden" name="thickness[]" />
+                                                        </div>
                                                     </td>
                                                     <td>
                                                         {{ html()->select('product_id[]', $products->where('category', 'frame')->pluck('name', 'id'), old('product_id'))->class('border-0 select2 selPdct')->attribute('id', 'frame')->placeholder('Select')->required() }}
@@ -204,27 +220,37 @@
                                             </tbody>
                                             <tfoot>
                                                 <tr>
-                                                    <td colspan="12" class="text-end fw-bold border-0">Subtotal</td>
-                                                    <td class="border-0"><input type="text" class="text-end border-0 fw-bold w-100 subtotal" placeholder="0.00" readonly /></td>
+                                                    <td colspan="12" class="text-end fw-bold border-0">
+                                                        Order Total
+                                                        @error('order_total')
+                                                        <br /><small class="text-danger">{{ $errors->first('order_total') }}</small>
+                                                        @enderror
+                                                    </td>
+                                                    <td class="border-0"><input type="text" name="order_total" class="text-end border-0 fw-bold w-100 subtotal readOnly" placeholder="0.00" /></td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="12" class="text-end fw-bold border-0">Discount</td>
                                                     <td class="text-end fw-bold border-0"><input type="number" name='discount' class="w-100 border-0 text-end discount" placeholder="0.00" step="any" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="12" class="text-end fw-bold border-0">Total After Discount</td>
-                                                    <td class="border-0"><input type="number" class="text-end border-0 fw-bold w-100 nettotal" min="1" step="any" placeholder="0.00" readonly required /></td>
+                                                    <td colspan="12" class="text-end fw-bold border-0">
+                                                        Total After Discount
+                                                        @error('invoice_total')
+                                                        <br /><small class="text-danger">{{ $errors->first('invoice_total') }}</small>
+                                                        @enderror
+                                                    </td>
+                                                    <td class="border-0"><input type="number" name="invoice_total" class="text-end border-0 fw-bold w-100 nettotal readOnly" min="1" step="any" placeholder="0.00" /></td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="11" class="text-end fw-bold border-0">Advance</td>
                                                     <td>
-                                                        {{ html()->select('product_id[]', $pmodes->pluck('name', 'id'), NULL)->class('border-0')->attribute('id', 'pmode')->placeholder('Payment Mode') }}
+                                                        {{ html()->select('payment_mode[]', $pmodes->pluck('name', 'id'), NULL)->class('border-0')->attribute('id', 'pmode')->placeholder('Payment Mode') }}
                                                     </td>
                                                     <td class="text-end fw-bold border-0"><input type="number" name='advance' class="w-100 border-0 text-end advance" placeholder="0.00" step="any" /></td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="12" class="text-end fw-bold border-0">Balance</td>
-                                                    <td class="border-0"><input type="text" class="text-end border-0 fw-bold w-100 balance" placeholder="0.00" readonly /></td>
+                                                    <td class="border-0"><input type="text" name="balance" class="text-end border-0 fw-bold w-100 balance readOnly" placeholder="0.00" /></td>
                                                 </tr>
                                             </tfoot>
                                         </table>

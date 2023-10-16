@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->date('order_date')->nullable();
             $table->unsignedBigInteger('consultation_id')->comment('0 if outside order')->nullable();
             $table->string('name', 55)->comment('Customer Name only applicable if outside order')->nullable();
             $table->integer('age')->nullable();
@@ -21,7 +22,9 @@ return new class extends Migration
             $table->string('invoice_number')->unique();
             $table->enum('category', ['store', 'pharmacy', 'service', 'other']);
             $table->unsignedBigInteger('branch_id');
-            $table->decimal('invoice_total', 9, 2)->default(0);
+            $table->decimal('order_total', 9, 2)->default(0);
+            $table->decimal('discount', 7, 2)->nullable();
+            $table->decimal('invoice_total', 9, 2)->comment('total-discount')->default(0);
             $table->decimal('advance', 9, 2)->nullable();
             $table->decimal('balance', 9, 2)->nullable();
             $table->enum('order_status', ['booked', 'under-process', 'pending', 'ready-for-delivery', 'delivered'])->default('booked');
@@ -31,7 +34,6 @@ return new class extends Migration
             $table->text('order_note')->nullable();
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by');
-            $table->foreign('consultation_id')->references('id')->on('consultations');
             $table->foreign('branch_id')->references('id')->on('branches');
             $table->timestamps();
             $table->softDeletes();

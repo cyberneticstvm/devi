@@ -36,4 +36,9 @@ class Product extends Model
     {
         return ($this->deleted_at) ? "<span class='badge badge-danger'>Deleted</span>" : "<span class='badge badge-success'>Active</span>";
     }
+
+    public function taxamount($total)
+    {
+        return $total - ($total - (($total * $this->tax_percentage) / 100));
+    }
 }

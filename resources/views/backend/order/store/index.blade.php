@@ -81,6 +81,7 @@
                                         <th>MRN</th>
                                         <th>Invoice Total</th>
                                         <th>Receipt</th>
+                                        <th>Invoice</th>
                                         <th>Status</th>
                                         <th>Edit</th>
                                         <th>Delete</th>
@@ -96,6 +97,7 @@
                                         <td>{{ $item->consultation?->mrn }}</td>
                                         <td class="text-end">{{ number_format($item->invoice_total, 2) }}</td>
                                         <td class="text-center"><a href="{{ route('pdf.order.receipt', encrypt($item->id)) }}" target="_blank"><i class="fa fa-file-pdf-o text-success fa-lg"></i></td>
+                                        <td class="text-center"><a href="#" target="_blank"><i class="fa fa-file-pdf-o text-success fa-lg"></i></td>
                                         <td>{!! $item->status() !!}</td>
                                         <td class="text-center"><a href="{{ route('store.order.edit', encrypt($item->id)) }}"><i class="fa fa-edit text-muted fa-lg"></i></a></td>
                                         <td class="text-center"><a href="{{ route('store.order.delete', encrypt($item->id)) }}" class="dlt"><i class="fa fa-trash text-danger fa-lg"></i></a></td>

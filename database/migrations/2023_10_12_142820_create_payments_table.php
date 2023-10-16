@@ -14,11 +14,13 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('consultation_id')->comment('0 if outside payment')->nullable();
+            $table->unsignedBigInteger('patient_id')->comment('0 if outside customer')->nullable();
+            $table->unsignedBigInteger('order_id')->comment('applicable only for advance payment type')->nullable();
             $table->decimal('amount', 8, 2)->default(0);
             $table->unsignedBigInteger('payment_mode');
             $table->text('notes')->nullable();
-            $table->unsignedBigInteger('due_branch_id');
-            $table->unsignedBigInteger('collected_branch_id');
+            $table->unsignedBigInteger('branch_id');
+            $table->enum('payment_type', ['advance', 'partial', 'balance', 'other'])->nullable();
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by');
             $table->foreign('created_by')->references('id')->on('users');

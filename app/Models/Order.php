@@ -12,6 +12,8 @@ class Order extends Model
 
     protected $guarded = [];
 
+    protected $casts = ['order_date' => 'datetime', 'expected_delivery_date' => 'datetime'];
+
     public function status()
     {
         return ($this->deleted_at) ? "<span class='badge badge-danger'>Deleted</span>" : "<span class='badge badge-success'>Active</span>";
@@ -29,6 +31,11 @@ class Order extends Model
 
     public function details()
     {
-        return $this->hasMany(OrderDetail::class, 'id', 'order_id');
+        return $this->hasMany(OrderDetail::class, 'order_id', 'id');
+    }
+
+    public function payment()
+    {
+        return $this->hasOne(Payment::class, 'order_id', 'id');
     }
 }

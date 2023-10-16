@@ -30,7 +30,7 @@
                     </div>
                     <div class="card-body">
                         <div class="card-wrapper">
-                            <form class="row g-3" method="post" action="{{ route('store.order.save') }}">
+                            <form class="row g-3" method="post" action="{{ route('store.order.save') }}" name="orderForm">
                                 @csrf
                                 <input type="hidden" name="consultation_id" value="{{ $consultation?->id ?? 0 }}" />
                                 <div class="col-md-2">
@@ -70,7 +70,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label req">Product Adviser</label>
-                                    {{ html()->select('product_adviser', $padvisers->pluck('name', 'id'), NULL)->class('form-control select2')->placeholder('Select')->required() }}
+                                    {{ html()->select('product_adviser', $padvisers->pluck('name', 'id'), old('product_adviser'))->class('form-control select2')->placeholder('Select')->required() }}
                                     @error('product_adviser')
                                     <small class="text-danger">{{ $errors->first('product_adviser') }}</small>
                                     @enderror
@@ -88,14 +88,14 @@
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label req">Case Type</label>
-                                    {{ html()->select('case_type', casetypes(), NULL)->class('form-control select2')->placeholder('Select')->required() }}
+                                    {{ html()->select('case_type', casetypes(), old('case_type'))->class('form-control select2')->placeholder('Select')->required() }}
                                     @error('case_type')
                                     <small class="text-danger">{{ $errors->first('case_type') }}</small>
                                     @enderror
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label req">Order Status</label>
-                                    {{ html()->select('order_status', orderStatuses(), NULL)->class('form-control select2')->placeholder('Select')->required() }}
+                                    {{ html()->select('order_status', orderStatuses(), old('order_status'))->class('form-control select2')->placeholder('Select')->required() }}
                                     @error('order_status')
                                     <small class="text-danger">{{ $errors->first('order_status') }}</small>
                                     @enderror
@@ -244,7 +244,7 @@
                                                 <tr>
                                                     <td colspan="11" class="text-end fw-bold border-0">Advance</td>
                                                     <td>
-                                                        {{ html()->select('payment_mode[]', $pmodes->pluck('name', 'id'), NULL)->class('border-0')->attribute('id', 'pmode')->placeholder('Payment Mode') }}
+                                                        {{ html()->select('payment_mode', $pmodes->pluck('name', 'id'), old('payment_mode'))->class('border-0')->attribute('id', 'pmode')->placeholder('Payment Mode') }}
                                                     </td>
                                                     <td class="text-end fw-bold border-0"><input type="number" name='advance' class="w-100 border-0 text-end advance" placeholder="0.00" step="any" /></td>
                                                 </tr>
@@ -257,7 +257,7 @@
                                     </div>
                                     <div class="col-12 text-end">
                                         <button class="btn btn-secondary" onClick="window.history.back()" type="button">Cancel</button>
-                                        <button class="btn btn-submit btn-success" type="submit">Save</button>
+                                        <button class="btn btn-submit btn-success" onclick="return validateOrderForm()" type="submit">Save</button>
                                     </div>
                                 </div>
                             </form>

@@ -26,10 +26,10 @@ class StoreOrderController extends Controller
 
     public function __construct()
     {
-        /*$this->middleware('permission:store-order-list|store-order-create|store-order-edit|store-order-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:store-order-list|store-order-create|store-order-edit|store-order-delete', ['only' => ['index', 'store']]);
         $this->middleware('permission:store-order-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:store-order-edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:store-order-delete', ['only' => ['destroy']]);*/
+        $this->middleware('permission:store-order-delete', ['only' => ['destroy']]);
 
         $this->middleware(function ($request, $next) {
             $this->orders = Order::where('category', 'store')->when(Auth::user()->roles->first()->id != 1, function ($q) {

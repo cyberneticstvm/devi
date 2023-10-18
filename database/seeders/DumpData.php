@@ -6,6 +6,8 @@ use App\Models\Branch;
 use App\Models\CampType;
 use App\Models\ConsultationType;
 use App\Models\Department;
+use App\Models\PaymentMode;
+use App\Models\ProductSubcategory;
 use App\Models\Setting;
 use App\Models\User;
 use App\Models\UserBranch;
@@ -39,6 +41,11 @@ class DumpData extends Seeder
             'product-frame-list', 'product-frame-create', 'product-frame-edit', 'product-frame-delete',
             'product-lens-list', 'product-lens-create', 'product-lens-edit', 'product-lens-delete',
             'product-service-list', 'product-service-create', 'product-service-edit', 'product-service-delete',
+            'store-order-list', 'store-order-create', 'store-order-edit', 'store-order-delete',
+            'pharmacy-order-list', 'pharmacy-order-create', 'pharmacy-order-edit', 'pharmacy-order-delete',
+            'purchase-pharmacy-list', 'purchase-pharmacy-create', 'purchase-pharmacy-edit', 'purchase-pharmacy-delete',
+            'purchase-lens-list', 'purchase-lens-create', 'purchase-lens-edit', 'purchase-lens-delete',
+            'purchase-frame-list', 'purchase-frame-create', 'purchase-frame-edit', 'purchase-frame-delete',
         ];
 
         foreach ($permissions as $permission) {
@@ -54,8 +61,8 @@ class DumpData extends Seeder
         ]);
 
         $branch = Branch::create([
-            'name' => 'Attingal',
-            'code' => 'ATL',
+            'name' => 'Trivandrum',
+            'code' => 'TVM',
             'created_by' => $user->id,
             'updated_by' => $user->id,
         ]);
@@ -77,7 +84,7 @@ class DumpData extends Seeder
             'appointment_ends_at' => '19:00:00',
             'per_appointment_minutes' => 15,
             'drug_license_number' => NULL,
-            'branch_limit' => 0,
+            'branch_limit' => 1,
             'allow_sales_at_zero_qty' => 0,
             'tax_type' => 'GST',
             'currency' => '₹',
@@ -98,6 +105,15 @@ class DumpData extends Seeder
         foreach ($ctypes as $ctype) :
             CampType::insert([
                 'name' => $ctype,
+            ]);
+        endforeach;
+
+        $pmodes = [
+            'Cash', 'Card', 'UPI', 'Bank Transfer', 'Cheque', 'Pay Later', 'Other',
+        ];
+        foreach ($pmodes as $pmode) :
+            PaymentMode::insert([
+                'name' => $pmode,
             ]);
         endforeach;
     }

@@ -61,6 +61,12 @@ function invoicenumber($category)
     return DB::table('orders')->selectRaw("CONCAT_WS('-', 'INV', '$cat', IFNULL(MAX(CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(invoice_number, '-', -2), '-', 1) AS INTEGER))+1, 1), '$bcode') AS ino")->where('branch_id', branch()->id)->first();
 }
 
+function purchaseId($category)
+{
+    $cat = substr(strtoupper($category), 0, 2);
+    return DB::table('camps')->selectRaw("CONCAT_WS('-', 'PUR', '$cat', LPAD(IFNULL(max(id)+1, 1), 7, '0')) AS pid")->first();
+}
+
 function getDocFee($doctor, $patient, $ctype)
 {
     $days = settings()->consultation_fee_waived_days;

@@ -35,9 +35,9 @@
                                 <input type="hidden" name="consultation_id" value="{{ $consultation?->id ?? 0 }}" />
                                 <div class="col-md-2">
                                     <label class="form-label req">Order Date</label>
-                                    {{ html()->date($name = 'order_date', $value = date('Y-m-d'))->class('form-control')->placeholder('Order Date') }}
+                                    {{ html()->date($name = 'order_date', $value = date('Y-m-d'))->class('form-control')->placeholder('Order Date')->required() }}
                                     @error('order_date')
-                                    <small class="text-danger">{{ $errors->first('order_date')->required() }}</small>
+                                    <small class="text-danger">{{ $errors->first('order_date') }}</small>
                                     @enderror
                                 </div>
                                 <div class="col-md-3">

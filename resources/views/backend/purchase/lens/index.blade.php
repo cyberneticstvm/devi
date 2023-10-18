@@ -5,7 +5,7 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-6">
-                    <h3>Service Product Register</h3>
+                    <h3>Purchase Register (Lens)</h3>
                 </div>
                 <div class="col-6">
                     <ol class="breadcrumb">
@@ -13,8 +13,8 @@
                                 <svg class="stroke-icon">
                                     <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#stroke-home') }}"></use>
                                 </svg></a></li>
-                        <li class="breadcrumb-item">Products</li>
-                        <li class="breadcrumb-item active">Service Product Register</li>
+                        <li class="breadcrumb-item">Lens</li>
+                        <li class="breadcrumb-item active">Purchase Register</li>
                     </ol>
                 </div>
             </div>
@@ -28,11 +28,11 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col">
-                                <h5>Service Product Register</h5><span>Service Product Management</span>
+                                <h5>Purchase Register</h5><span>Lens Purchase Management</span>
                             </div>
                             <div class="col text-end">
                                 <div class="btn-group">
-                                    <a href="{{ route('product.service.create') }}" class="btn btn-primary" type="button">Add New</a>
+                                    <a href="{{ route('lens.purchase.create') }}" class="btn btn-primary" type="button">Add New</a>
                                 </div>
                             </div>
                         </div>
@@ -43,26 +43,32 @@
                                 <thead>
                                     <tr>
                                         <th>SL No</th>
-                                        <th>Service Name</th>
-                                        <th>Service Code</th>
-                                        <th>Tax %</th>
-                                        <th>Selling Price</th>
+                                        <th>Purchase ID</th>
+                                        <th>Invoice Number</th>
+                                        <th>Supplier</th>
+                                        <th>Order Date</th>
+                                        <th>Delivery Date</th>
+                                        <th>Purchase Note</th>
+                                        <th>Purchase Total</th>
                                         <th>Status</th>
                                         <th>Edit</th>
                                         <th>Delete</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse($products as $key => $item)
+                                    @forelse($purchases as $key => $item)
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
-                                        <td>{{ $item->name }}</td>
-                                        <td>{{ $item->code }}</td>
-                                        <td>{{ $item->tax_percentage }}</td>
-                                        <td class="text-end">{{ number_format($item->selling_price, 2) }}</td>
+                                        <td>{{ $item->purchase_number }}</td>
+                                        <td>{{ $item->purchase_invoice_number }}</td>
+                                        <td>{{ $item->supplier?->name }}</td>
+                                        <td>{{ $item->order_date?->format('d/M/Y') }}</td>
+                                        <td>{{ $item->delivery_date?->format('d/m/Y') }}</td>
+                                        <td>{{ $item->purchase_note }}</td>
+                                        <td class="text-end">{{ number_format($item->detail->sum('total'), 2) }}</td>
                                         <td>{!! $item->status() !!}</td>
-                                        <td class="text-center"><a href="{{ route('product.service.edit', encrypt($item->id)) }}"><i class="fa fa-edit text-muted fa-lg"></i></a></td>
-                                        <td class="text-center"><a href="{{ route('product.service.delete', encrypt($item->id)) }}" class="dlt"><i class="fa fa-trash text-danger fa-lg"></i></a></td>
+                                        <td class="text-center"><a href="{{ route('lens.purchase.edit', encrypt($item->id)) }}"><i class="fa fa-edit text-muted fa-lg"></i></a></td>
+                                        <td class="text-center"><a href="{{ route('lens.purchase.delete', encrypt($item->id)) }}" class="dlt"><i class="fa fa-trash text-danger fa-lg"></i></a></td>
                                     </tr>
                                     @empty
                                     @endforelse

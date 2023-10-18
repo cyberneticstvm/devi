@@ -15,12 +15,13 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('purchase_id');
             $table->unsignedBigInteger('product_id');
-            $table->integer('qty')->default(0);
-            $table->decimal('unit_price_purchase', 7, 2)->nullable();
-            $table->decimal('unit_price_sales', 7, 2)->nullable();
-            $table->decimal('total', 7, 2)->nullable();
             $table->string('batch_number')->nullable();
             $table->date('expiry_date')->nullable();
+            $table->integer('qty')->default(0);
+            $table->decimal('unit_price_mrp', 7, 2)->nullable();
+            $table->decimal('unit_price_purchase', 7, 2)->nullable();
+            $table->decimal('unit_price_sales', 7, 2)->nullable();
+            $table->decimal('total', 7, 2)->comment('unit_price_purchase*qty')->nullable();
             $table->foreign('product_id')->references('id')->on('products');
             $table->foreign('purchase_id')->references('id')->on('purchases')->onDelete('cascade');
             $table->timestamps();

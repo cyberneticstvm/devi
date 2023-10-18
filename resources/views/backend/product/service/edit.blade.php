@@ -47,6 +47,10 @@
                                     @enderror
                                 </div>
                                 <div class="col-md-2">
+                                    <label class="form-label">Tax %</label>
+                                    {{ html()->number($name = 'tax_percentage', $value = $product->tax_percentage, $min="", $max="100", $step="any")->class('form-control')->placeholder('0%') }}
+                                </div>
+                                <div class="col-md-2">
                                     <label class="form-label req">Selling Price</label>
                                     {{ html()->number($name = 'selling_price', $value = $product->selling_price, $min="1", $max="", $step="any")->class('form-control')->placeholder('0.00') }}
                                     @error('selling_price')

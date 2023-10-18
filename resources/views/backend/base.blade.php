@@ -270,9 +270,9 @@
                               <h5>Pharmacy</h5>
                             </div>
                             <ul class="submenu-content opensubmegamenu">
-                              <li><a href="{{ route('product.pharmacy') }}">Product List</a></li>
-                              <li><a href="">Product Purchase</a></li>
-                              <li><a href="">Product Transfer</a></li>
+                              <li><a href="{{ route('product.pharmacy') }}">Pharmacy List</a></li>
+                              <li><a href="{{ route('pharmacy.purchase') }}">Pharmacy Purchase</a></li>
+                              <li><a href="">Pharmacy Transfer</a></li>
                             </ul>
                           </div>
                         </div>
@@ -282,9 +282,9 @@
                               <h5> Frame</h5>
                             </div>
                             <ul class="submenu-content opensubmegamenu">
-                              <li><a href="{{ route('product.frame') }}">Product List</a></li>
-                              <li><a href="">Product Purchase</a></li>
-                              <li><a href="">Product Transfer</a></li>
+                              <li><a href="{{ route('product.frame') }}">Frame List</a></li>
+                              <li><a href="{{ route('frame.purchase') }}">Frame Purchase</a></li>
+                              <li><a href="">Frame Transfer</a></li>
                             </ul>
                           </div>
                         </div>
@@ -294,9 +294,9 @@
                               <h5>Lens</h5>
                             </div>
                             <ul class="submenu-content opensubmegamenu">
-                              <li><a href="{{ route('product.lens') }}">Product List</a></li>
-                              <li><a href="">Product Purchase</a></li>
-                              <li><a href="">Product Transfer</a></li>
+                              <li><a href="{{ route('product.lens') }}">Lens List</a></li>
+                              <li><a href="{{ route('lens.purchase') }}">Lens Purchase</a></li>
+                              <li><a href="">Lens Transfer</a></li>
                             </ul>
                           </div>
                         </div>

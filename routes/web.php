@@ -19,6 +19,9 @@ use App\Http\Controllers\ProductFrameController;
 use App\Http\Controllers\ProductLensController;
 use App\Http\Controllers\ProductPharmacyController;
 use App\Http\Controllers\ProductServiceController;
+use App\Http\Controllers\PurchaseFrameController;
+use App\Http\Controllers\PurchaseLensController;
+use App\Http\Controllers\PurchasePharmacyController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StoreOrderController;
 use App\Http\Controllers\SupplierController;
@@ -266,6 +269,33 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::get('/edit/{id}', 'edit')->name('pharmacy.order.edit');
         Route::post('/edit/{id}', 'update')->name('pharmacy.order.update');
         Route::get('/delete/{id}', 'destroy')->name('pharmacy.order.delete');
+    });
+
+    Route::prefix('/backend/purchase/pharmacy')->controller(PurchasePharmacyController::class)->group(function () {
+        Route::get('/', 'index')->name('pharmacy.purchase');
+        Route::get('/create', 'create')->name('pharmacy.purchase.create');
+        Route::post('/create', 'store')->name('pharmacy.purchase.save');
+        Route::get('/edit/{id}', 'edit')->name('pharmacy.purchase.edit');
+        Route::post('/edit/{id}', 'update')->name('pharmacy.purchase.update');
+        Route::get('/delete/{id}', 'destroy')->name('pharmacy.purchase.delete');
+    });
+
+    Route::prefix('/backend/purchase/lens')->controller(PurchaseLensController::class)->group(function () {
+        Route::get('/', 'index')->name('lens.purchase');
+        Route::get('/create', 'create')->name('lens.purchase.create');
+        Route::post('/create', 'store')->name('lens.purchase.save');
+        Route::get('/edit/{id}', 'edit')->name('lens.purchase.edit');
+        Route::post('/edit/{id}', 'update')->name('lens.purchase.update');
+        Route::get('/delete/{id}', 'destroy')->name('lens.purchase.delete');
+    });
+
+    Route::prefix('/backend/purchase/frame')->controller(PurchaseFrameController::class)->group(function () {
+        Route::get('/', 'index')->name('frame.purchase');
+        Route::get('/create', 'create')->name('frame.purchase.create');
+        Route::post('/create', 'store')->name('frame.purchase.save');
+        Route::get('/edit/{id}', 'edit')->name('frame.purchase.edit');
+        Route::post('/edit/{id}', 'update')->name('frame.purchase.update');
+        Route::get('/delete/{id}', 'destroy')->name('frame.purchase.delete');
     });
 
     Route::prefix('/backend/payment')->controller(PaymentController::class)->group(function () {

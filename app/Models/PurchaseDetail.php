@@ -9,5 +9,7 @@ class PurchaseDetail extends Model
 {
     use HasFactory;
 
+    protected $casts = ['expiry_date' => 'datetime'];
+
     protected $guarded = [];
 }

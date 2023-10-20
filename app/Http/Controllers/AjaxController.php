@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Appointment;
+
 use App\Models\Product;
-use Carbon\Carbon;
+use App\Models\ProductSubcategory;
 use Illuminate\Http\Request;
 
 class AjaxController extends Controller
@@ -27,9 +27,27 @@ class AjaxController extends Controller
         return response()->json($products);
     }
 
+    public function getProductsByType($type)
+    {
+        $products = Product::where('type_id', $type)->orderBy('name')->get();
+        return response()->json($products);
+    }
+
     public function getProductPrice($pid)
     {
         $product = Product::findOrFail($pid);
         return response()->json($product);
+    }
+
+    public function getProductBatch($branch, $product, $category)
+    {
+        $stock = getInventory($branch, $product, $category);
+        return response()->json($stock);
+    }
+
+    public function getProductTypes($category, $attribute)
+    {
+        $types = ProductSubcategory::where('category', $category)->where('attribute', $attribute)->orderBy('name')->get();
+        return response()->json($types);
     }
 }

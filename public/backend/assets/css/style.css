@@ -42963,6 +42963,6 @@ input.form-control{
 .select2{
   margin-bottom: -20px !important;
 }
-.tblPharmacyPurchaseBody .select2-container .select2-selection--single, .powerbox .select2-container .select2-selection--single{
+.tblPharmacyPurchaseBody .select2-container .select2-selection--single, .powerbox .select2-container .select2-selection--single, .tblPharmacyTransferBody .select2-container .select2-selection--single, .medicineRow .select2-container .select2-selection--single{
   border-color: transparent !important;
 }

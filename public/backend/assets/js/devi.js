@@ -89,7 +89,82 @@ $(function(){
         calculatePurchaseTotal();
     });
 
+    $(document).on("change", ".from_branch_id", function(){
+        $('.tblPharmacyTransferBody').find(".select2").trigger("change");
+    });
+
+    $(document).on("change", ".selPdctForTransfer", function(){
+        var dis = $(this); var product = dis.val(); var category = dis.data('category');
+        var branch = $("#from_branch_id").val();
+        $.ajax({
+            type: 'GET',
+            url: '/ajax/product/batch/'+branch+'/'+product+'/'+category,
+            dataType: 'json',
+            success: function(res){
+                if(category == 'pharmacy'){
+                    let data;
+                    data += `<option value=''>Select</option>`;
+                    var xdata = $.map(res, function(obj){
+                        data += `<option value="${obj.batch_number}">${obj.batch_number} (${obj.balanceQty} Qty Available)</option>`
+                    });                     
+                    dis.parent().parent().find('.selBatch').html(data);
+                    dis.parent().parent().find('.selBatch').select2({
+                        placeholder: 'Select'
+                    });
+                }else{
+                    dis.parent().parent().find(".qtyAvailable").text(res[0].balanceQty);
+                    dis.parent().parent().find(".qtyMax").attr("max", res[0].balanceQty);
+
+                }
+            }
+        });
+    });
+
+    $(document).on("change", ".selPdctType", function(){
+        var dis = $(this); var type = $(this).val();
+        $.ajax({
+            type: 'GET',
+            url: '/ajax/product/by/type/'+type,
+            dataType: 'json',
+            success: function(res){console.log(res)                
+                var xdata = $.map(res, function(obj){
+                    obj.text = obj.name || obj.id;
+                    return obj;
+                });                     
+                dis.parent().parent().find('.selPdct').select2({
+                    placeholder: 'Select',
+                    data: xdata,
+                });
+            }
+        });
+    });
+
 });
+
+function addMedicineRow(category, attribute){
+    $.ajax({
+        type: 'GET',
+        url: '/ajax/product/type/'+category+'/'+attribute,
+        dataType: 'json',
+        success: function(res){
+            $(".medicineRow").append(`<tr><td class="text-center"><a href="javascript:void(0)" class="dltRow"><i class="fa fa-trash text-danger"></i></a></td><td><select class="select2 selPdctType" name="product_type[]" required><option></option></select></td><td><select class="select2 selPdct" name="product_id[]" required><option></option></select></td><td><input type='text' name='dosage[]' class='border-0 w-100' placeholder='Dosage' /></td><td><input type='text' name='duration[]' class='border-0 w-100' placeholder='Duration' /></td><td><input type='number' name='qty[]' class='border-0 w-100 text-end' step='any' placeholder='0' /></td><td><select class='select2 selEye' name='eye[]'><option></option><option value='left'>Left</option><option value='right'>Right</option><option value='both'>Both</option></select></td><td><input type='text' name='notes[]' class='border-0 w-100' placeholder='Notes' /></td></tr>`);
+            var xdata = $.map(res, function(obj){
+                obj.text = obj.name || obj.id;
+                return obj;
+            });                     
+            $('.selPdctType').last().select2({
+                placeholder: 'Select',
+                data: xdata
+            });
+            $('.selPdct').last().select2({
+                placeholder: 'Select',
+            });
+            $('.selEye').last().select2({
+                placeholder: 'Select',
+            });
+        }
+    });
+}
 
 function addPurchaseRowPharmacy(category){
     $.ajax({
@@ -108,6 +183,30 @@ function addPurchaseRowPharmacy(category){
                 placeholder: 'Select',
                 data: xdata
             });
+        }
+    });
+}
+
+function addTransferRow(category){
+    $.ajax({
+        type: 'GET',
+        url: '/ajax/product/'+category,
+        dataType: 'json',
+        success: function(res){
+            if(category == 'pharmacy'){
+                $(".tblPharmacyTransferBody").append(`<tr><td class="text-center"><a href="javascript:void(0)" class="dltRow"><i class="fa fa-trash text-danger"></i></a></td><td><select class="form-control select2 selPdctForTransfer" name="product_id[]" data-category="pharmacy" required><option></option></select></td><td><select class="form-control select2 selBatch" name="batch_number[]" id=''><option value="0">Select</option></select></td><td><input type="number" name='qty[]' class="w-100 border-0 text-end pQty" placeholder="0" min='1' step="1" required /></td></tr>`);                
+            }else{
+                $(".tblPharmacyTransferBody").append(`<tr><td class="text-center"><a href="javascript:void(0)" class="dltRow"><i class="fa fa-trash text-danger"></i></a></td><td><select class="form-control select2 selPdctForTransfer" name="product_id[]" data-category="frame" required><option></option></select></td><td class='qtyAvailable text-end'>0</td><td><input type="number" name='qty[]' class="w-100 border-0 qtyMax text-end pQty" placeholder="0" min='1' step="1" required /></td></tr>`);
+            }
+            var xdata = $.map(res, function(obj){
+                obj.text = obj.name || obj.id;
+                return obj;
+            });                      
+            $('.selPdctForTransfer').last().select2({
+                placeholder: 'Select',
+                data: xdata
+            });
+            $(".selBatch").last().select2();
         }
     });
 }

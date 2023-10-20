@@ -84,4 +84,15 @@
         }
         return true;
     }
+
+    function validateTransferForm() {
+        let frm = document.forms["transferForm"];
+        if (frm['from_branch_id'].value == frm['to_branch_id'].value) {
+            failed({
+                'error': 'From branch and To branch should not be same!'
+            })
+            return false;
+        }
+        return true;
+    }
 </script>

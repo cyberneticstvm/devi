@@ -10,6 +10,7 @@ use App\Models\MedicalRecord;
 use App\Models\Order;
 use App\Models\Patient;
 use App\Models\Product;
+use App\Models\Transfer;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -101,5 +102,12 @@ class PdfController extends Controller
         $order = Order::with('details', 'branch', 'consultation')->findOrFail(decrypt($id));
         $pdf = PDF::loadView('/backend/pdf/order-receipt', compact('order'));
         return $pdf->stream($order->id . '.pdf');
+    }
+
+    public function exportProductTransfer($id)
+    {
+        $transfer = Transfer::findOrFail(decrypt($id));
+        $pdf = PDF::loadView('/backend/pdf/product-transfer', compact('transfer'));
+        return $pdf->stream($transfer->transfer_number . '.pdf');
     }
 }

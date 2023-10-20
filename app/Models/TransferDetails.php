@@ -10,4 +10,14 @@ class TransferDetails extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id', 'id');
+    }
+
+    public function transfer()
+    {
+        return $this->belongsTo(Transfer::class, 'transfer_id', 'id');
+    }
 }

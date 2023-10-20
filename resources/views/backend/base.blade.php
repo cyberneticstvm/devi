@@ -233,6 +233,17 @@
                     <li><a href="{{ route('pharmacy.order') }}">Pharmacy Order Register</a></li>
                   </ul>
                 </li>
+                <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="#">
+                    <svg class="stroke-icon">
+                      <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#stroke-form') }}"></use>
+                    </svg>
+                    <svg class="fill-icon">
+                      <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#fill-form') }}"> </use>
+                    </svg><span>Transfer</span></a>
+                  <ul class="sidebar-submenu">
+                    <li><a href="{{ route('pending.transfer') }}">Pending Transfer Register</a></li>
+                  </ul>
+                </li>
                 <li class="sidebar-main-title">
                   <div>
                     <h6>Payments</h6>
@@ -254,7 +265,7 @@
                     <h6>Inventory</h6>
                   </div>
                 </li>
-                <li class="mega-menu sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="#">
+                <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="#">
                     <svg class="stroke-icon">
                       <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#stroke-others') }}"></use>
                     </svg>
@@ -272,7 +283,7 @@
                             <ul class="submenu-content opensubmegamenu">
                               <li><a href="{{ route('product.pharmacy') }}">Pharmacy List</a></li>
                               <li><a href="{{ route('pharmacy.purchase') }}">Pharmacy Purchase</a></li>
-                              <li><a href="">Pharmacy Transfer</a></li>
+                              <li><a href="{{ route('pharmacy.transfer') }}">Pharmacy Transfer</a></li>
                             </ul>
                           </div>
                         </div>
@@ -284,7 +295,7 @@
                             <ul class="submenu-content opensubmegamenu">
                               <li><a href="{{ route('product.frame') }}">Frame List</a></li>
                               <li><a href="{{ route('frame.purchase') }}">Frame Purchase</a></li>
-                              <li><a href="">Frame Transfer</a></li>
+                              <li><a href="{{ route('frame.transfer') }}">Frame Transfer</a></li>
                             </ul>
                           </div>
                         </div>
@@ -296,7 +307,7 @@
                             <ul class="submenu-content opensubmegamenu">
                               <li><a href="{{ route('product.lens') }}">Lens List</a></li>
                               <li><a href="{{ route('lens.purchase') }}">Lens Purchase</a></li>
-                              <li><a href="">Lens Transfer</a></li>
+                              <li><a href="{{ route('lens.transfer') }}">Lens Transfer</a></li>
                             </ul>
                           </div>
                         </div>

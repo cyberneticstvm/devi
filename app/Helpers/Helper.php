@@ -64,7 +64,13 @@ function invoicenumber($category)
 function purchaseId($category)
 {
     $cat = substr(strtoupper($category), 0, 2);
-    return DB::table('camps')->selectRaw("CONCAT_WS('-', 'PUR', '$cat', LPAD(IFNULL(max(id)+1, 1), 7, '0')) AS pid")->first();
+    return DB::table('purchases')->selectRaw("CONCAT_WS('-', 'PUR', '$cat', LPAD(IFNULL(max(id)+1, 1), 7, '0')) AS pid")->first();
+}
+
+function transferId($category)
+{
+    $cat = substr(strtoupper($category), 0, 2);
+    return DB::table('transfers')->selectRaw("CONCAT_WS('-', 'TRN', '$cat', LPAD(IFNULL(max(id)+1, 1), 7, '0')) AS tid")->first();
 }
 
 function getDocFee($doctor, $patient, $ctype)
@@ -144,4 +150,27 @@ function checkOrderedProductsAvailability($request)
         $stockin = Transfer::with('details')->where('to_branch_id', branch()->id)->get();
         $stockincount = $stockin->details()->where('product_id', $item)->sum('qty');
     endforeach;
+}
+
+function getInventory($branch, $product, $category)
+{
+    $stock = [];
+    if ($category == 'pharmacy') :
+        if ($branch == 0) :
+            $stock = DB::select("SELECT 'Main Stock' AS branch, tblPurchase.product_id, tblPurchase.name AS product_name, tblPurchase.batch_number, tblPurchase.purchasedQty, SUM(CASE WHEN t.from_branch_id = 0 AND t.transfer_status = 1 THEN td.qty ELSE 0 END) AS transferredQty, tblPurchase.purchasedQty-SUM(CASE WHEN t.from_branch_id = 0 AND t.transfer_status = 1 THEN td.qty ELSE 0 END) AS balanceQty FROM (SELECT pd.product_id, p.name, pd.batch_number, SUM(pd.qty) AS purchasedQty FROM purchase_details pd LEFT JOIN products p ON p.id = pd.product_id WHERE IF(? > 0, pd.product_id=?, 1) GROUP BY pd.batch_number, p.name, pd.product_id) AS tblPurchase LEFT JOIN transfer_details td ON td.product_id = tblPurchase.product_id AND td.batch_number = tblPurchase.batch_number LEFT JOIN transfers t ON t.id = td.transfer_id AND t.deleted_at IS NULL GROUP BY branch, product_id, product_name, batch_number, purchasedQty HAVING balanceQty > 0", [$product, $product]);
+        else :
+            $branch = Branch::findOrFail($branch);
+            $bname = $branch->name;
+            $stock = DB::select("SELECT '$bname' AS branch, tbl1.product_id, tbl1.name AS product_name, tbl1.batch_number, SUM(tbl1.purchasedQty) AS purchasedQty, SUM(tbl1.transferredQty+tbl1.soldQty) AS transferredQty, SUM(tbl1.purchasedQty) - SUM(tbl1.transferredQty + tbl1.soldQty) AS balanceQty FROM (SELECT td.product_id, p.name, td.batch_number, SUM(CASE WHEN t.to_branch_id = ? AND t.transfer_status = 1 THEN td.qty ELSE 0 END) AS purchasedQty, SUM(CASE WHEN t.from_branch_id = ? AND t.transfer_status = 1 THEN td.qty ELSE 0 END) AS transferredQty, SUM(CASE WHEN o.branch_id = ? THEN od.qty ELSE 0 END) AS soldQty FROM transfer_details td LEFT JOIN products p ON p.id = td.product_id LEFT JOIN transfers t ON t.id = td.transfer_id LEFT JOIN order_details od ON od.product_id = td.product_id LEFT JOIN orders o ON o.id = od.order_id WHERE IF(? > 0, td.product_id = ?, 1) AND t.deleted_at IS NULL AND o.deleted_at IS NULL GROUP BY td.batch_number, p.name, td.product_id) AS tbl1 GROUP BY product_id, product_name, batch_number HAVING balanceQty > 0", [$branch->id, $branch->id, $branch->id, $product, $product]);
+        endif;
+    else :
+        if ($branch == 0) :
+            $stock = DB::select("SELECT 'Main Stock' AS branch, pdct.name AS product_name, SUM(pd.qty) AS purchasedQty, SUM(CASE WHEN t.from_branch_id = 0 THEN td.qty ELSE 0 END) AS transferredQty, SUM(pd.qty)-SUM(CASE WHEN t.from_branch_id = 0 AND t.transfer_status = 1 THEN td.qty ELSE 0 END) AS balanceQty FROM purchase_details pd LEFT JOIN products pdct ON pd.product_id = pdct.id LEFT JOIN transfer_details td ON pd.product_id = td.product_id LEFT JOIN transfers t ON t.id = td.transfer_id WHERE IF(? > 0, pd.product_id = ?, 1) AND t.deleted_at IS NULL GROUP BY branch, product_name", [$product, $product]);
+        else :
+            $branch = Branch::findOrFail($branch);
+            $bname = $branch->name;
+            $stock = DB::select("SELECT '$bname' AS branch, p.name AS product_name, SUM(CASE WHEN t.to_branch_id = ? AND t.transfer_status = 1 THEN td.qty ELSE 0 END) AS purchasedQty, SUM(CASE WHEN t.from_branch_id = ? AND t.transfer_status = 1 THEN td.qty ELSE 0 END) AS transferredQty, SUM(CASE WHEN o.branch_id = ? THEN od.qty ELSE 0 END) AS soldQty, SUM(CASE WHEN t.to_branch_id = ? AND t.transfer_status = 1 THEN td.qty ELSE 0 END) - (SUM(CASE WHEN t.from_branch_id = ? AND t.transfer_status = 1 THEN td.qty ELSE 0 END) + SUM(CASE WHEN o.branch_id = ? THEN od.qty ELSE 0 END)) AS balanceQty FROM transfer_details td LEFT JOIN products p ON p.id = td.product_id LEFT JOIN transfers t ON t.id = td.transfer_id LEFT JOIN order_details od ON od.product_id = td.product_id LEFT JOIN orders o ON o.id = od.order_id WHERE IF(? > 0, td.product_id = ?, 1) AND t.deleted_at IS NULL AND o.deleted_at IS NULL GROUP BY p.name, td.product_id", [$branch->id, $branch->id, $branch->id, $branch->id, $branch->id, $branch->id, $product, $product]);
+        endif;
+    endif;
+    return $stock;
 }

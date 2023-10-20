@@ -46,6 +46,9 @@ class DumpData extends Seeder
             'purchase-pharmacy-list', 'purchase-pharmacy-create', 'purchase-pharmacy-edit', 'purchase-pharmacy-delete',
             'purchase-lens-list', 'purchase-lens-create', 'purchase-lens-edit', 'purchase-lens-delete',
             'purchase-frame-list', 'purchase-frame-create', 'purchase-frame-edit', 'purchase-frame-delete',
+            'pharmacy-transfer-list', 'pharmacy-transfer-create', 'pharmacy-transfer-edit', 'pharmacy-transfer-delete',
+            'lens-transfer-list', 'lens-transfer-create', 'lens-transfer-edit', 'lens-transfer-delete',
+            'frame-transfer-list', 'frame-transfer-create', 'frame-transfer-edit', 'frame-transfer-delete',
         ];
 
         foreach ($permissions as $permission) {

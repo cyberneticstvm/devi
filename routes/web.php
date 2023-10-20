@@ -8,6 +8,7 @@ use App\Http\Controllers\CampPatientController;
 use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\HelperController;
 use App\Http\Controllers\ImportExportController;
 use App\Http\Controllers\ManufacturerController;
 use App\Http\Controllers\MedicalRecordController;
@@ -25,6 +26,9 @@ use App\Http\Controllers\PurchasePharmacyController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StoreOrderController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\TransferFrameController;
+use App\Http\Controllers\TransferLensController;
+use App\Http\Controllers\TransferPharmacyController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -74,6 +78,15 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::post('/appointment/time', 'getAppointmentTime')->name('ajax.appointment.time');
         Route::get('/product/{category}', 'getProductsByCategory')->name('ajax.product.get');
         Route::get('/productprice/{product}', 'getProductPrice')->name('ajax.productprice.get');
+        Route::get('/product/batch/{branch}/{product}/{category}', 'getProductBatch')->name('ajax.productbatch.get');
+        Route::get('/product/type/{category}/{attribute}', 'getProductTypes')->name('ajax.product.type');
+        Route::get('/product/by/type/{type}', 'getProductsByType')->name('ajax.product.type.get');
+    });
+
+    Route::prefix('/backend')->controller(HelperController::class)->group(function () {
+        Route::get('/pending/transfer', 'pendingTransfer')->name('pending.transfer');
+        Route::get('/pending/transfer/edit/{id}', 'pendingTransferEdit')->name('pending.transfer.edit');
+        Route::post('/pending/transfer/edit/{id}', 'pendingTransferUpdate')->name('pending.transfer.update');
     });
 
     Route::prefix('/backend/export')->controller(ImportExportController::class)->group(function () {
@@ -95,6 +108,7 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::get('/product/lens', 'exportProductLens')->name('pdf.product.lens');
         Route::get('/product/frame', 'exportProductFrame')->name('pdf.product.frame');
         Route::get('/order/receipt/{id}', 'exportOrderReceipt')->name('pdf.order.receipt');
+        Route::get('/product/transfer/{id}', 'exportProductTransfer')->name('pdf.product.transfer');
     });
 
     Route::prefix('/backend/user')->controller(UserController::class)->group(function () {
@@ -296,6 +310,33 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::get('/edit/{id}', 'edit')->name('frame.purchase.edit');
         Route::post('/edit/{id}', 'update')->name('frame.purchase.update');
         Route::get('/delete/{id}', 'destroy')->name('frame.purchase.delete');
+    });
+
+    Route::prefix('/backend/transfer/pharmacy')->controller(TransferPharmacyController::class)->group(function () {
+        Route::get('/', 'index')->name('pharmacy.transfer');
+        Route::get('/create', 'create')->name('pharmacy.transfer.create');
+        Route::post('/create', 'store')->name('pharmacy.transfer.save');
+        Route::get('/edit/{id}', 'edit')->name('pharmacy.transfer.edit');
+        Route::post('/edit/{id}', 'update')->name('pharmacy.transfer.update');
+        Route::get('/delete/{id}', 'destroy')->name('pharmacy.transfer.delete');
+    });
+
+    Route::prefix('/backend/transfer/lens')->controller(TransferLensController::class)->group(function () {
+        Route::get('/', 'index')->name('lens.transfer');
+        Route::get('/create', 'create')->name('lens.transfer.create');
+        Route::post('/create', 'store')->name('lens.transfer.save');
+        Route::get('/edit/{id}', 'edit')->name('lens.transfer.edit');
+        Route::post('/edit/{id}', 'update')->name('lens.transfer.update');
+        Route::get('/delete/{id}', 'destroy')->name('lens.transfer.delete');
+    });
+
+    Route::prefix('/backend/transfer/frame')->controller(TransferFrameController::class)->group(function () {
+        Route::get('/', 'index')->name('frame.transfer');
+        Route::get('/create', 'create')->name('frame.transfer.create');
+        Route::post('/create', 'store')->name('frame.transfer.save');
+        Route::get('/edit/{id}', 'edit')->name('frame.transfer.edit');
+        Route::post('/edit/{id}', 'update')->name('frame.transfer.update');
+        Route::get('/delete/{id}', 'destroy')->name('frame.transfer.delete');
     });
 
     Route::prefix('/backend/payment')->controller(PaymentController::class)->group(function () {

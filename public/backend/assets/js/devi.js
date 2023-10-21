@@ -63,16 +63,40 @@ $(function(){
     });
 
     $(document).on("change", ".selPdct", function(){
-        var dis = $(this);
+        var dis = $(this); var category = dis.data('category'); var batch = dis.data('batch');
         var pid = dis.val();
         $.ajax({
             type: 'GET',
-            url: '/ajax/productprice/'+pid,
+            url: '/ajax/productprice/'+pid+'/'+category+'/'+batch,
             dataType: 'json',
             success: function(res){
                 dis.parent().parent().find(".qty").val('1');
                 dis.parent().parent().find(".price, .total").val(parseFloat(res.selling_price).toFixed(2));
                 calculateTotal()
+            }
+        });
+    });
+
+    $(document).on("change", ".selBatch", function(){
+        var dis = $(this); var category = dis.data('category');
+        var batch = dis.val(); var pid = dis.parent().parent().find(".selPdct").val();
+        var qty = dis.parent().parent().find(".qty").val();
+        $.ajax({
+            type: 'GET',
+            url: '/ajax/productprice/'+pid+'/'+category+'/'+batch,
+            dataType: 'json',
+            success: function(res){
+                if(!qty || qty == 0){
+                    dis.parent().parent().find(".qty").val('1');
+                    dis.parent().parent().find(".price, .total").val(parseFloat(res.selling_price).toFixed(2));
+                }else{
+                    dis.parent().parent().find(".price").val(parseFloat(res.selling_price).toFixed(2));
+                    dis.parent().parent().find(".total").val(parseFloat(res.selling_price*qty).toFixed(2));
+                }
+                calculateTotal()
+            },
+            error(err){
+                console.log(err)
             }
         });
     });
@@ -93,7 +117,15 @@ $(function(){
         $('.tblPharmacyTransferBody').find(".select2").trigger("change");
     });
 
-    $(document).on("change", ".selPdctForTransfer", function(){
+    $(document).on("change", ".pdctForMed", function(){
+        $(this).parent().parent().find(".qty, .price, .total").val("0");
+        $(this).parent().parent().find(".dosage, .duration").val("");
+        $(this).parent().parent().find('.selEye').val("");
+        $(this).parent().parent().find('.selEye').select2();
+        calculateTotal()
+    });
+
+    $(document).on("change", ".selPdctForTransfer, .selPdct", function(){
         var dis = $(this); var product = dis.val(); var category = dis.data('category');
         var branch = $("#from_branch_id").val();
         $.ajax({
@@ -114,7 +146,6 @@ $(function(){
                 }else{
                     dis.parent().parent().find(".qtyAvailable").text(res[0].balanceQty);
                     dis.parent().parent().find(".qtyMax").attr("max", res[0].balanceQty);
-
                 }
             }
         });
@@ -126,11 +157,13 @@ $(function(){
             type: 'GET',
             url: '/ajax/product/by/type/'+type,
             dataType: 'json',
-            success: function(res){console.log(res)                
+            success: function(res){                
                 var xdata = $.map(res, function(obj){
                     obj.text = obj.name || obj.id;
                     return obj;
-                });                     
+                });
+                dis.parent().parent().find('.selPdct, .selBatch').select2().empty();                     
+                dis.parent().parent().find('.selPdct, .selBatch').select2().append('<option></option>');                     
                 dis.parent().parent().find('.selPdct').select2({
                     placeholder: 'Select',
                     data: xdata,
@@ -140,6 +173,34 @@ $(function(){
     });
 
 });
+
+function addMedicineRowForOrder(category, attribute){
+    $.ajax({
+        type: 'GET',
+        url: '/ajax/product/type/'+category+'/'+attribute,
+        dataType: 'json',
+        success: function(res){
+            $(".medicineBox").append(`<tr><td class="text-center"><a href="javascript:void(0)" class="dltRow"><i class="fa fa-trash text-danger"></i></a></td><td><select class="select2 selPdctType" id="" name="product_type[]" required><option></option></select></td><td><select class="select2 selPdct pdctForMed" id="" name="product_id[]" data-category="pharmacy" data-batch="NA" required><option value="">Select</option></select></td><td><select class="select2 selBatch" name="batch_number[]" data-category="pharmacy" id="" required><option value="">Select</option></select></td><td><input type='number' name='qty[]' class='border-0 w-100 text-end qty' step='any' placeholder='0' /></td><td><input type='text' name='dosage[]' class='border-0 w-100' placeholder='Dosage' /></td><td><input type='text' name='duration[]' class='border-0 w-100' placeholder='Duration' /></td><td><select class='select2 selEye' name='eye[]'><option value="">Select</option><option value='left'>Left</option><option value='right'>Right</option><option value='both'>Both</option></select></td><td><input type="number" name='unit_price[]' class="w-100 border-0 text-end price" placeholder="0.00" min='1' step="any" required readonly /></td><td><input type="number" name='total[]' class="w-100 border-0 text-end total" placeholder="0.00" min='1' step="any" required readonly /></td></tr>`);
+            var xdata = $.map(res, function(obj){
+                obj.text = obj.name || obj.id;
+                return obj;
+            });                     
+            $('.selPdctType').last().select2({
+                placeholder: 'Select',
+                data: xdata
+            });
+            $('.selPdct').last().select2({
+                placeholder: 'Select',
+            });
+            $('.selBatch').last().select2({
+                placeholder: 'Select',
+            });
+            $('.selEye').last().select2({
+                placeholder: 'Select',
+            });
+        }
+    });
+}
 
 function addMedicineRow(category, attribute){
     $.ajax({
@@ -238,15 +299,14 @@ function addStoreOrderRow(category){
         dataType: 'json',
         success: function(res){
             if(category === 'lens'){
-                $(".powerbox").append(`<tr><td class="text-center"><a href="javascript:void(0)" class="dltRow"><i class="fa fa-trash text-danger"></i></a></td><td><select class="border-0" name="eye[]"><option value="re">RE</option><option value="le">LE</option><option value="both">Both</option></select></td><td><input type="text" name='sph[]' class="w-100 border-0 text-center" placeholder="SPH" maxlength="6" /></td><td><input type="text" name='cyl[]' class="w-100 border-0 text-center" placeholder="CYL" maxlength="6" /></td><td><input type="number" name='axis[]' class="w-100 border-0 text-center" placeholder="AXIS" step="any" max="360" /></td><td><input type="text" name='add[]' class="w-100 border-0 text-center" placeholder="ADD" maxlength="6" /></td><td><input type="text" name='dia[]' class="w-100 border-0 text-center" placeholder="DIA" maxlength="6" /></td><td><select class="border-0" name="thickness[]"><option value="not-applicable">Not applicable</option><option value="thin">Thin</option><option value="maximum-thin">Maximum Thin</option><option value="normal-thick">Normal Thick</option></select></td><td><input type="text" name='ipd[]' class="w-100 border-0 text-center" placeholder="IPD" maxlength="6" /></td><td><select class="form-control select2 selPdct" name="product_id[]" required><option></option></select></td><td><input type="number" name='qty[]' class="w-100 border-0 text-end qty" placeholder="0" min='1' step="1" required /></td><td><input type="number" name='unit_price[]' class="w-100 border-0 text-end price" placeholder="0.00" min='1' step="any" required readonly /></td><td><input type="number" name='total[]' class="w-100 border-0 text-end total" placeholder="0.00" min='1' step="any" required readonly /></td></tr>`);
+                $(".powerbox").append(`<tr><td class="text-center"><a href="javascript:void(0)" class="dltRow"><i class="fa fa-trash text-danger"></i></a></td><td><select class="border-0" name="eye[]"><option value="re">RE</option><option value="le">LE</option><option value="both">Both</option></select></td><td><input type="text" name='sph[]' class="w-100 border-0 text-center" placeholder="SPH" maxlength="6" /></td><td><input type="text" name='cyl[]' class="w-100 border-0 text-center" placeholder="CYL" maxlength="6" /></td><td><input type="number" name='axis[]' class="w-100 border-0 text-center" placeholder="AXIS" step="any" max="360" /></td><td><input type="text" name='add[]' class="w-100 border-0 text-center" placeholder="ADD" maxlength="6" /></td><td><input type="text" name='dia[]' class="w-100 border-0 text-center" placeholder="DIA" maxlength="6" /></td><td><select class="border-0" name="thickness[]"><option value="not-applicable">Not applicable</option><option value="thin">Thin</option><option value="maximum-thin">Maximum Thin</option><option value="normal-thick">Normal Thick</option></select></td><td><input type="text" name='ipd[]' class="w-100 border-0 text-center" placeholder="IPD" maxlength="6" /></td><td><select class="form-control select2 selPdct" data-batch="NA" data-category="lens" name="product_id[]" required><option></option></select></td><td><input type="number" name='qty[]' class="w-100 border-0 text-end qty" placeholder="0" min='1' step="1" required /></td><td><input type="number" name='unit_price[]' class="w-100 border-0 text-end price" placeholder="0.00" min='1' step="any" required readonly /></td><td><input type="number" name='total[]' class="w-100 border-0 text-end total" placeholder="0.00" min='1' step="any" required readonly /></td></tr>`);
             }
             if(category === 'frame'){
-                $(".powerbox").append(`<tr><td class="text-center"><a href="javascript:void(0)" class="dltRow"><i class="fa fa-trash text-danger"></i></a></td><td colspan="8"><select class="border-0" name="eye[]"><option value="frame">Frame</option></select><div class="d-none"><input type="hidden" name="sph[]" /><input type="hidden" name="cyl[]" /><input type="hidden" name="axis[]" /><input type="hidden" name="add[]" /><input type="hidden" name="dia[]" /><input type="hidden" name="ipd[]" /><input type="hidden" name="thickness[]" /></div></td><td><select class="form-control select2 selPdct" name="product_id[]" required><option></option></select></td><td><input type="number" name='qty[]' class="w-100 border-0 text-end qty" placeholder="0" min='1' step="1" required /></td><td><input type="number" name='unit_price[]' class="w-100 border-0 text-end price" placeholder="0.00" min='1' step="any" required readonly /></td><td><input type="number" name='total[]' class="w-100 border-0 text-end total" placeholder="0.00" min='1' step="any" required readonly /></td></tr>`);
+                $(".powerbox").append(`<tr><td class="text-center"><a href="javascript:void(0)" class="dltRow"><i class="fa fa-trash text-danger"></i></a></td><td colspan="8"><select class="border-0" name="eye[]"><option value="frame">Frame</option></select><div class="d-none"><input type="hidden" name="sph[]" /><input type="hidden" name="cyl[]" /><input type="hidden" name="axis[]" /><input type="hidden" name="add[]" /><input type="hidden" name="dia[]" /><input type="hidden" name="ipd[]" /><input type="hidden" name="thickness[]" /></div></td><td><select class="form-control select2 selPdct" data-batch="NA" data-category="frame" name="product_id[]" required><option></option></select></td><td><input type="number" name='qty[]' class="w-100 border-0 text-end qty" placeholder="0" min='1' step="1" required /></td><td><input type="number" name='unit_price[]' class="w-100 border-0 text-end price" placeholder="0.00" min='1' step="any" required readonly /></td><td><input type="number" name='total[]' class="w-100 border-0 text-end total" placeholder="0.00" min='1' step="any" required readonly /></td></tr>`);
             }
             if(category === 'service'){
                 $(".powerbox").append(`<tr><td class="text-center"><a href="javascript:void(0)" class="dltRow"><i class="fa fa-trash text-danger"></i></a></td><td colspan="8"><select class="border-0" name="eye[]"><option value="service">Service</option></select><div class="d-none"><input type="hidden" name="sph[]" /><input type="hidden" name="cyl[]" /><input type="hidden" name="axis[]" /><input type="hidden" name="add[]" />
-                <input type="hidden" name="dia[]" /><input type="hidden" name="ipd[]" /><input type="hidden" name="thickness[]" />
-                </div></td><td><select class="form-control select2 selPdct" name="product_id[]" required><option></option></select></td><td><input type="number" name='qty[]' class="w-100 border-0 text-end qty" placeholder="0" min='1' step="1" required /></td><td><input type="number" name='unit_price[]' class="w-100 border-0 text-end price" placeholder="0.00" min='1' step="any" required readonly /></td><td><input type="number" name='total[]' class="w-100 border-0 text-end total" placeholder="0.00" min='1' step="any" required readonly /></td></tr>`);
+                <input type="hidden" name="dia[]" /><input type="hidden" name="ipd[]" /><input type="hidden" name="thickness[]" /></div></td><td><select class="form-control select2 selPdct" data-batch="NA" data-category="service" name="product_id[]" required><option></option></select></td><td><input type="number" name='qty[]' class="w-100 border-0 text-end qty" placeholder="0" min='1' step="1" required /></td><td><input type="number" name='unit_price[]' class="w-100 border-0 text-end price" placeholder="0.00" min='1' step="any" required readonly /></td><td><input type="number" name='total[]' class="w-100 border-0 text-end total" placeholder="0.00" min='1' step="any" required readonly /></td></tr>`);
             }
             var xdata = $.map(res, function(obj){
                 obj.text = obj.name || obj.id;
@@ -263,7 +323,7 @@ function addStoreOrderRow(category){
 
 function calculateTotal(){
     var subtotal = 0; var nettot = 0;
-    $(".powerbox tr").each(function(){ 
+    $(".powerbox tr, .medicineBox tr").each(function(){ 
         var dis = $(this); 
         var qty = parseInt(dis.find(".qty").val()); var price = parseFloat(dis.find(".price").val()); var total = parseFloat(qty*price);
         dis.find(".total").val(total.toFixed(2));

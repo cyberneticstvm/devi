@@ -77,7 +77,7 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
     Route::prefix('/ajax')->controller(AjaxController::class)->group(function () {
         Route::post('/appointment/time', 'getAppointmentTime')->name('ajax.appointment.time');
         Route::get('/product/{category}', 'getProductsByCategory')->name('ajax.product.get');
-        Route::get('/productprice/{product}', 'getProductPrice')->name('ajax.productprice.get');
+        Route::get('/productprice/{product}/{category}/{batch}', 'getProductPrice')->name('ajax.productprice.get');
         Route::get('/product/batch/{branch}/{product}/{category}', 'getProductBatch')->name('ajax.productbatch.get');
         Route::get('/product/type/{category}/{attribute}', 'getProductTypes')->name('ajax.product.type');
         Route::get('/product/by/type/{type}', 'getProductsByType')->name('ajax.product.type.get');
@@ -278,7 +278,9 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
 
     Route::prefix('/backend/pharmacy/order')->controller(PharmacyOrderController::class)->group(function () {
         Route::get('/', 'index')->name('pharmacy.order');
-        Route::get('/create', 'create')->name('pharmacy.order.create');
+        Route::post('/', 'fetch')->name('pharmacy.order.fetch');
+        Route::get('/proceed', '')->name('pharmacy.order.proceed');
+        Route::get('/create/{id}', 'create')->name('pharmacy.order.create');
         Route::post('/create', 'store')->name('pharmacy.order.save');
         Route::get('/edit/{id}', 'edit')->name('pharmacy.order.edit');
         Route::post('/edit/{id}', 'update')->name('pharmacy.order.update');

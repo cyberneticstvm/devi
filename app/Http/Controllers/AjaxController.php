@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\ProductSubcategory;
+use App\Models\PurchaseDetail;
 use Illuminate\Http\Request;
 
 class AjaxController extends Controller
@@ -33,9 +34,13 @@ class AjaxController extends Controller
         return response()->json($products);
     }
 
-    public function getProductPrice($pid)
+    public function getProductPrice($pid, $category, $batch)
     {
-        $product = Product::findOrFail($pid);
+        if ($category == 'pharmacy') :
+            $product = PurchaseDetail::selectRaw("unit_price_sales AS selling_price")->where('product_id', $pid)->where('batch_number', $batch)->firstOrFail();
+        else :
+            $product = Product::findOrFail($pid);
+        endif;
         return response()->json($product);
     }
 

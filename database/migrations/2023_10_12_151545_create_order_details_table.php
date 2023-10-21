@@ -14,9 +14,12 @@ return new class extends Migration
         Schema::create('order_details', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('order_id');
+            $table->unsignedBigInteger('product_type')->nullable();
             $table->unsignedBigInteger('product_id');
-            $table->integer('qty')->default(0);
             $table->string('batch_number')->nullable();
+            $table->integer('qty')->default(0);
+            $table->string('dosage')->nullable();
+            $table->string('duration')->nullable();
             $table->enum('eye', ['re', 'le', 'both', 'frame', 'service'])->nullable();
             $table->string('sph', 7)->nullable();
             $table->string('cyl', 7)->nullable();

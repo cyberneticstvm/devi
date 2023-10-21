@@ -172,5 +172,5 @@ function getInventory($branch, $product, $category)
             $stock = DB::select("SELECT '$bname' AS branch, p.name AS product_name, SUM(CASE WHEN t.to_branch_id = ? AND t.transfer_status = 1 THEN td.qty ELSE 0 END) AS purchasedQty, SUM(CASE WHEN t.from_branch_id = ? AND t.transfer_status = 1 THEN td.qty ELSE 0 END) AS transferredQty, SUM(CASE WHEN o.branch_id = ? THEN od.qty ELSE 0 END) AS soldQty, SUM(CASE WHEN t.to_branch_id = ? AND t.transfer_status = 1 THEN td.qty ELSE 0 END) - (SUM(CASE WHEN t.from_branch_id = ? AND t.transfer_status = 1 THEN td.qty ELSE 0 END) + SUM(CASE WHEN o.branch_id = ? THEN od.qty ELSE 0 END)) AS balanceQty FROM transfer_details td LEFT JOIN products p ON p.id = td.product_id LEFT JOIN transfers t ON t.id = td.transfer_id LEFT JOIN order_details od ON od.product_id = td.product_id LEFT JOIN orders o ON o.id = od.order_id WHERE IF(? > 0, td.product_id = ?, 1) AND t.deleted_at IS NULL AND o.deleted_at IS NULL GROUP BY p.name, td.product_id", [$branch->id, $branch->id, $branch->id, $branch->id, $branch->id, $branch->id, $product, $product]);
         endif;
     endif;
-    return $stock;
+    return collect($stock);
 }

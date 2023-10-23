@@ -344,7 +344,7 @@
     $(".sidebar-wrapper nav ul li a").filter(function () {
       var link = $(this).attr("href");
       if (link) {
-        if (current.indexOf(link) != -1) {
+        if (link.indexOf(current) != -1) {
           $(this).parents().children("a").addClass("active");
           $(this).parents().parents().children("ul").css("display", "block");
           $(this).addClass("active");

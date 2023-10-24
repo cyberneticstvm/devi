@@ -64,7 +64,9 @@
     <div class="page-header">
       <div class="header-wrapper row m-0">
         <div class="header-logo-wrapper col-auto p-0">
-          <div class="logo-wrapper"><a href="{{ route('dashboard') }}"><img class="img-fluid" src="{{ asset('/backend/assets/images/logo/devi-logo-devi.png') }}" alt=""></a></div>
+          <div class="logo-wrapper">
+            <a href="{{ route('dashboard') }}"><img class="img-fluid" src="{{ asset('/backend/assets/images/logo/devi-logo-devi.png') }}" alt=""></a>
+          </div>
           <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="align-center"></i></div>
         </div>
         <div class="nav-right col-xxl-7 col-xl-6 col-md-7 col-8 pull-right right-header p-0 ms-auto">
@@ -91,7 +93,7 @@
       <!-- Page Sidebar Start-->
       <div class="sidebar-wrapper" sidebar-layout="stroke-svg">
         <div>
-          <div class="logo-wrapper"><a href="{{ route('dashboard') }}"><img class="img-fluid for-light" src="{{ asset('/backend/assets/images/logo/devi-logo-devi.png') }}" alt=""><img class="img-fluid for-dark" src="{{ asset('/backend/assets/images/logo/logo_dark.png') }}" alt=""></a>
+          <div class="logo-wrapper"><a href="{{ route('dashboard') }}"><img class="img-fluid for-light" src="{{ asset('/backend/assets/images/logo/devi-logo-devi.png') }}" alt=""><img class="img-fluid for-dark" src="{{ asset('/backend/assets/images/logo/devi-logo-devi.png') }}" alt=""></a>
             <div class="back-btn"><i class="fa fa-angle-left"></i></div>
             <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="grid"> </i></div>
           </div>

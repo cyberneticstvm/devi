@@ -8,8 +8,10 @@ use App\Http\Controllers\CampPatientController;
 use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\HeadController;
 use App\Http\Controllers\HelperController;
 use App\Http\Controllers\ImportExportController;
+use App\Http\Controllers\IncomeExpenseController;
 use App\Http\Controllers\ManufacturerController;
 use App\Http\Controllers\MedicalRecordController;
 use App\Http\Controllers\PatientController;
@@ -339,6 +341,24 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::get('/edit/{id}', 'edit')->name('frame.transfer.edit');
         Route::post('/edit/{id}', 'update')->name('frame.transfer.update');
         Route::get('/delete/{id}', 'destroy')->name('frame.transfer.delete');
+    });
+
+    Route::prefix('/backend/head')->controller(HeadController::class)->group(function () {
+        Route::get('/', 'index')->name('heads');
+        Route::get('/create', 'create')->name('head.create');
+        Route::post('/create', 'store')->name('head.save');
+        Route::get('/edit/{id}', 'edit')->name('head.edit');
+        Route::post('/edit/{id}', 'update')->name('head.update');
+        Route::get('/delete/{id}', 'destroy')->name('head.delete');
+    });
+
+    Route::prefix('/backend/iande')->controller(IncomeExpenseController::class)->group(function () {
+        Route::get('/', 'index')->name('iande');
+        Route::get('/create', 'create')->name('iande.create');
+        Route::post('/create', 'store')->name('iande.save');
+        Route::get('/edit/{id}', 'edit')->name('iande.edit');
+        Route::post('/edit/{id}', 'update')->name('iande.update');
+        Route::get('/delete/{id}', 'destroy')->name('iande.delete');
     });
 
     Route::prefix('/backend/payment')->controller(PaymentController::class)->group(function () {

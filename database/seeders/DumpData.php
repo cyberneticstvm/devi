@@ -49,6 +49,8 @@ class DumpData extends Seeder
             'pharmacy-transfer-list', 'pharmacy-transfer-create', 'pharmacy-transfer-edit', 'pharmacy-transfer-delete',
             'lens-transfer-list', 'lens-transfer-create', 'lens-transfer-edit', 'lens-transfer-delete',
             'frame-transfer-list', 'frame-transfer-create', 'frame-transfer-edit', 'frame-transfer-delete',
+            'head-list', 'head-create', 'head-edit', 'head-delete',
+            'income-expense-list', 'income-expense-create', 'income-expense-edit', 'income-expense-delete',
         ];
 
         foreach ($permissions as $permission) {
@@ -91,6 +93,7 @@ class DumpData extends Seeder
             'allow_sales_at_zero_qty' => 0,
             'tax_type' => 'GST',
             'currency' => '₹',
+            'daily_expense_limit' => 1000.00
         ]);
 
         ConsultationType::insert([

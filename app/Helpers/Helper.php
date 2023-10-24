@@ -6,6 +6,7 @@ use App\Models\Branch;
 use App\Models\Consultation;
 use App\Models\ConsultationType;
 use App\Models\Doctor;
+use App\Models\IncomeExpense;
 use App\Models\Patient;
 use App\Models\Setting;
 use App\Models\Transfer;
@@ -37,6 +38,15 @@ function branches()
 function branch()
 {
     return Branch::findOrFail(Session::get('branch'));
+}
+
+function isExpenseLimitReached($amount, $ded = 0)
+{
+    $tot = IncomeExpense::where('category', 'expense')->whereDate('date', Carbon::today())->where('branch_id', branch()->id)->sum('amount');
+    $tot = ($tot + $amount) - $ded;
+    if ($tot > settings()->daily_expense_limit)
+        return 1;
+    return 0;
 }
 
 function patientId()
@@ -142,6 +152,11 @@ function orderStatuses()
 function casetypes()
 {
     return array('box' => 'Box', 'rexine' => 'Rexine', 'other' => 'Other');
+}
+
+function headcategory()
+{
+    return array('expense' => 'Expense', 'income' => 'Income', 'other' => 'Other');
 }
 
 function checkOrderedProductsAvailability($request)

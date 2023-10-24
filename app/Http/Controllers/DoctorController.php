@@ -10,12 +10,13 @@ class DoctorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    function __construct(){
-        $this->middleware('permission:doctor-list|doctor-create|doctor-edit|doctor-delete', ['only' => ['index','store']]);
-        $this->middleware('permission:doctor-create', ['only' => ['create','store']]);
-        $this->middleware('permission:doctor-edit', ['only' => ['edit','update']]);
+    function __construct()
+    {
+        $this->middleware('permission:doctor-list|doctor-create|doctor-edit|doctor-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:doctor-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:doctor-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:doctor-delete', ['only' => ['destroy']]);
-   }
+    }
 
     public function index()
     {
@@ -48,7 +49,7 @@ class DoctorController extends Controller
         $input['updated_by'] = $request->user()->id;
         Doctor::create($input);
         return redirect()->route('doctors')
-                        ->with('success','Doctor has been created successfully');
+            ->with('success', 'Doctor has been created successfully');
     }
 
     /**
@@ -75,8 +76,8 @@ class DoctorController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'code' => 'required|unique:doctors,code,'.$id,
-            'email' => 'required|email:rfc,dns,filter|unique:doctors,email,'.$id,
+            'code' => 'required|unique:doctors,code,' . $id,
+            'email' => 'required|email:rfc,dns,filter|unique:doctors,email,' . $id,
             'mobile' => 'required|numeric|digits:10',
             'fee' => 'required',
         ]);
@@ -85,7 +86,7 @@ class DoctorController extends Controller
         $doc = Doctor::findOrFail($id);
         $doc->update($input);
         return redirect()->route('doctors')
-                        ->with('success','Doctor has been updated successfully');
+            ->with('success', 'Doctor has been updated successfully');
     }
 
     /**
@@ -95,6 +96,6 @@ class DoctorController extends Controller
     {
         Doctor::findOrFail(decrypt($id))->delete();
         return redirect()->route('doctors')
-                        ->with('success','Doctor has been deleted successfully');
+            ->with('success', 'Doctor has been deleted successfully');
     }
 }

@@ -63,6 +63,7 @@
                 <li><a href="{{ route('patients') }}">Patient Register</a></li>
                 <li><a href="{{ route('consultations') }}">Consultation Register</a></li>
                 <li><a href="{{ route('mrecords') }}">Medical Record Register</a></li>
+                <li><a href="{{ route('patient.procedures') }}">Patient Procedure Register</a></li>
             </ul>
         </li>
         <li class="sidebar-list"><i class="fa fa-thumb-tack"> </i>
@@ -106,6 +107,20 @@
             </a>
             <ul class="sidebar-submenu">
                 <li><a href="{{ route('doctors') }}">Doctor Register</a></li>
+            </ul>
+        </li>
+        <li class="sidebar-list"><i class="fa fa-thumb-tack"> </i>
+            <a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                <svg class="stroke-icon">
+                    <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#stroke-file') }}"></use>
+                </svg>
+                <svg class="fill-icon">
+                    <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#fill-file') }}"></use>
+                </svg>
+                <span>Procedure Management</span>
+            </a>
+            <ul class="sidebar-submenu">
+                <li><a href="{{ route('procedures') }}">Procedure Register</a></li>
             </ul>
         </li>
         <li class="sidebar-list"><i class="fa fa-thumb-tack"> </i>

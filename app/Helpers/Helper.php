@@ -8,6 +8,7 @@ use App\Models\ConsultationType;
 use App\Models\Doctor;
 use App\Models\IncomeExpense;
 use App\Models\Patient;
+use App\Models\Procedure;
 use App\Models\Setting;
 use App\Models\Transfer;
 use Illuminate\Support\Facades\DB;
@@ -33,6 +34,11 @@ function qrCodeText()
 function branches()
 {
     return Branch::all();
+}
+
+function procedures()
+{
+    return Procedure::orderBy('name')->get();
 }
 
 function branch()

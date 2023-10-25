@@ -15,9 +15,11 @@ use App\Http\Controllers\IncomeExpenseController;
 use App\Http\Controllers\ManufacturerController;
 use App\Http\Controllers\MedicalRecordController;
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\PatientProcedureController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\PharmacyOrderController;
+use App\Http\Controllers\ProcedureController;
 use App\Http\Controllers\ProductFrameController;
 use App\Http\Controllers\ProductLensController;
 use App\Http\Controllers\ProductPharmacyController;
@@ -147,6 +149,26 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::get('/edit/{id}', 'edit')->name('doctor.edit');
         Route::post('/edit/{id}', 'update')->name('doctor.update');
         Route::get('/delete/{id}', 'destroy')->name('doctor.delete');
+    });
+
+    Route::prefix('/backend/procedure')->controller(ProcedureController::class)->group(function () {
+        Route::get('/', 'index')->name('procedures');
+        Route::get('/create', 'create')->name('procedure.create');
+        Route::post('/save', 'store')->name('procedure.save');
+        Route::get('/edit/{id}', 'edit')->name('procedure.edit');
+        Route::post('/edit/{id}', 'update')->name('procedure.update');
+        Route::get('/delete/{id}', 'destroy')->name('procedure.delete');
+    });
+
+    Route::prefix('/backend/patients/procedure')->controller(PatientProcedureController::class)->group(function () {
+        Route::get('/', 'index')->name('patient.procedures');
+        Route::post('/', 'fetch')->name('patient.procedure.fetch');
+        Route::get('/proceed', '')->name('patient.procedure.proceed');
+        Route::get('/create/{id}', 'create')->name('patient.procedure.create');
+        Route::post('/create', 'store')->name('patient.procedure.save');
+        Route::get('/edit/{id}', 'edit')->name('patient.procedure.edit');
+        Route::post('/edit/{id}', 'update')->name('patient.procedure.update');
+        Route::get('/delete/{id}', 'destroy')->name('patient.procedure.delete');
     });
 
     Route::prefix('/backend/patient')->controller(PatientController::class)->group(function () {

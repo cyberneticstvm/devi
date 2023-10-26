@@ -71,10 +71,10 @@
                     <label class="text-muted" for="checkbox1">Remember password</label>
                   </div>
                   <div class="text-end mt-3">
-                    <button class="btn btn-primary btn-submit btn-block w-100" type="submit">Sign in</button>
+                    <button class="btn btn-secondary btn-submit btn-block w-100" type="submit">Sign in</button>
                   </div>
                 </div>
-                <h6 class="text-muted mt-4 or">Or Sign in with</h6>
+                <h6 class="text-center text-muted mt-4">Or Sign in with OTP</h6>
               </form>
             </div>
           </div>

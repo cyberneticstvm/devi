@@ -12,11 +12,13 @@ class Patient extends Model
 
     protected $guarded = [];
 
-    public function status(){
+    public function status()
+    {
         return ($this->deleted_at) ? "<span class='badge badge-danger'>Deleted</span>" : "<span class='badge badge-success'>Active</span>";
     }
 
-    public function consultation(){
-        return $this->hasMany(Consultation::class, 'patient_id', 'id')->withTrashed();
+    public function consultation()
+    {
+        return $this->hasMany(Consultation::class, 'patient_id', 'id');
     }
 }

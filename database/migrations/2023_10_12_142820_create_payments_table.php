@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('payment_mode');
             $table->text('notes')->nullable();
             $table->unsignedBigInteger('branch_id');
-            $table->enum('payment_type', ['advance', 'partial', 'balance', 'pharmacy', 'other'])->nullable();
+            $table->enum('payment_type', ['complete', 'advance', 'partial', 'balance', 'pharmacy', 'outside', 'other'])->nullable();
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by');
             $table->foreign('created_by')->references('id')->on('users');

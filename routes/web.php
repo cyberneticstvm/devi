@@ -85,6 +85,8 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::get('/product/batch/{branch}/{product}/{category}', 'getProductBatch')->name('ajax.productbatch.get');
         Route::get('/product/type/{category}/{attribute}', 'getProductTypes')->name('ajax.product.type');
         Route::get('/product/by/type/{type}', 'getProductsByType')->name('ajax.product.type.get');
+
+        Route::get('/payment/details/{consultation}', 'getPaymentDetailsByConsultation')->name('ajax.payment.by.consultation');
     });
 
     Route::prefix('/backend')->controller(HelperController::class)->group(function () {
@@ -384,11 +386,13 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
     });
 
     Route::prefix('/backend/payment')->controller(PaymentController::class)->group(function () {
-        Route::get('/', 'index')->name('payments');
-        Route::get('/create', 'create')->name('payment.create');
-        Route::post('/create', 'store')->name('payment.save');
-        Route::get('/edit/{id}', 'edit')->name('payment.edit');
-        Route::post('/edit/{id}', 'update')->name('payment.update');
-        Route::get('/delete/{id}', 'destroy')->name('payment.delete');
+        Route::get('/', 'index')->name('patient.payments');
+        Route::post('/', 'fetch')->name('patient.payment.fetch');
+        Route::get('/proceed', '')->name('patient.payment.proceed');
+        Route::get('/create/{id}', 'create')->name('patient.payment.create');
+        Route::post('/create', 'store')->name('patient.payment.save');
+        Route::get('/edit/{id}', 'edit')->name('patient.payment.edit');
+        Route::post('/edit/{id}', 'update')->name('patient.payment.update');
+        Route::get('/delete/{id}', 'destroy')->name('patient.payment.delete');
     });
 });

@@ -229,7 +229,7 @@
                 <span>Payments</span>
             </a>
             <ul class="sidebar-submenu">
-                <li><a href="{{ route('payments') }}">Payment Register</a></li>
+                <li><a href="{{ route('patient.payments') }}">Payment Register</a></li>
             </ul>
         </li>
         <li class="sidebar-main-title">

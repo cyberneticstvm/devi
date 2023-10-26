@@ -53,6 +53,7 @@ class DumpData extends Seeder
             'income-expense-list', 'income-expense-create', 'income-expense-edit', 'income-expense-delete',
             'procedure-list', 'procedure-create', 'procedure-edit', 'procedure-delete',
             'patient-procedure-list', 'patient-procedure-create', 'patient-procedure-edit', 'patient-procedure-delete',
+            'payment-list', 'payment-create', 'payment-edit', 'payment-delete',
         ];
 
         foreach ($permissions as $permission) {

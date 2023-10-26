@@ -172,6 +172,22 @@ $(function(){
         });
     });
 
+    $(document).on("click", ".paymentDetails", function(){
+        var drawer = $(this).data('drawer');
+        var cid = $(this).data('consultation-id'); 
+        $.ajax({
+            type: 'GET',
+            url: '/ajax/payment/details/'+cid,
+            success: function(res){
+                $("#"+drawer).drawer('toggle');
+                $("#"+drawer).find(".drawer-body").html(res);
+            },
+            error: function(err){
+                console.log(err)
+            }
+        });
+    })
+
 });
 
 function addMedicineRowForOrder(category, attribute){
@@ -318,7 +334,7 @@ function addStoreOrderRow(category){
                 data: xdata
             });
         }
-    });    
+    });
 }
 
 function calculateTotal(){

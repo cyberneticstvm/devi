@@ -7,7 +7,9 @@ use App\Models\Consultation;
 use App\Models\ConsultationType;
 use App\Models\Doctor;
 use App\Models\IncomeExpense;
+use App\Models\Order;
 use App\Models\Patient;
+use App\Models\PatientProcedure;
 use App\Models\Procedure;
 use App\Models\Setting;
 use App\Models\Transfer;
@@ -165,12 +167,30 @@ function headcategory()
     return array('expense' => 'Expense', 'income' => 'Income', 'other' => 'Other');
 }
 
+function paymentypes()
+{
+    return array('complete' => 'Complete', 'advance' => 'Advance', 'partial' => 'Partial', 'balance' => 'Balance', 'outside' => 'Outside', 'other' => 'Other');
+}
+
 function checkOrderedProductsAvailability($request)
 {
     foreach ($request->product_id as $key => $item) :
         $stockin = Transfer::with('details')->where('to_branch_id', branch()->id)->get();
         $stockincount = $stockin->details()->where('product_id', $item)->sum('qty');
     endforeach;
+}
+
+function owedTotal($consultation_id)
+{
+    $consultation = Consultation::findOrFail($consultation_id);
+    $registration_fee = Patient::findOrFail($consultation->patient_id)->registration_fee;
+    $consultation_fee = $consultation->doctor_fee;
+    $procedure_fee = PatientProcedure::join('patient_procedure_details as pd', 'pd.patient_procedure_id', 'patient_procedures.id')->where('consultation_id', $consultation_id)->sum('pd.fee');
+    $pharmacy = Order::where('category', 'pharmacy')->where('consultation_id', $consultation_id)->sum('invoice_total');
+    $store = Order::where('category', 'store')->where('consultation_id', $consultation_id)->sum('invoice_total');
+    return json_encode([
+        'registration_fee' => $registration_fee, 'consultation_fee' => $consultation_fee, 'procedure_fee' => $procedure_fee, 'pharmacy' => $pharmacy, 'store' => $store
+    ]);
 }
 
 function getInventory($branch, $product, $category)

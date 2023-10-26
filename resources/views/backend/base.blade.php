@@ -33,6 +33,7 @@
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.6.0/bootstrap-tagsinput.min.css" rel="stylesheet" type="text/css" />
   <!-- Plugins css Ends-->
+  <link rel="stylesheet" type="text/css" href="{{ asset('/backend/assets/css/vendors/drawer/bootstrap-drawer.css') }}">
   <!-- Bootstrap css-->
   <link rel="stylesheet" type="text/css" href="{{ asset('/backend/assets/css/vendors/bootstrap.css') }}">
   <!-- App css-->
@@ -132,6 +133,8 @@
   <!-- Sidebar jquery-->
   <script src="{{ asset('/backend/assets/js/config.js') }}"></script>
   <!-- Plugins JS start-->
+  <script src="{{ asset('/backend/assets/js/drawer/source.js') }}"></script>
+  <script src="{{ asset('/backend/assets/js/drawer/bootstrap-drawer.js') }}"></script>
   <script src="{{ asset('/backend/assets/js/sidebar-menu.js') }}"></script>
   <script src="{{ asset('/backend/assets/js/sidebar-pin.js') }}"></script>
   <script src="{{ asset('/backend/assets/js/slick/slick.min.js') }}"></script>

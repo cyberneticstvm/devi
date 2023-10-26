@@ -36,4 +36,9 @@ class Consultation extends Model
     {
         return $this->hasOne(MedicalRecord::class, 'id', 'consultation_id');
     }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class, 'consultation_id', 'id');
+    }
 }

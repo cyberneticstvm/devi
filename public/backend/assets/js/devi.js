@@ -186,7 +186,27 @@ $(function(){
                 console.log(err)
             }
         });
-    })
+    });
+
+    $(document).on("click", ".dayBook", function(){
+        var drawer = $(this).data('drawer');
+        var fdate = $(this).data('from-date');
+        var tdate = $(this).data('to-date');
+        var branch = $(this).data('branch');
+        var type = $(this).data('type');
+        $.ajax({
+            type: 'GET',
+            url: '/ajax/daybook/details/',
+            data: {'from_date': fdate, 'to_date': tdate, 'branch': branch, 'type': type},
+            success: function(res){
+                $("#"+drawer).drawer('toggle');
+                $("#"+drawer).find(".drawer-content").html(res);
+            },
+            error: function(err){
+                console.log(err)
+            }
+        });
+    });
 
 });
 

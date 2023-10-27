@@ -13,4 +13,9 @@ class PatientProcedureDetail extends Model
     {
         return $this->belongsTo(Procedure::class, 'procedure_id', 'id');
     }
+
+    public function patientProcedure()
+    {
+        return $this->belongsTo(PatientProcedure::class, 'patient_procedure_id', 'id');
+    }
 }

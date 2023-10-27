@@ -27,7 +27,9 @@ use App\Http\Controllers\ProductServiceController;
 use App\Http\Controllers\PurchaseFrameController;
 use App\Http\Controllers\PurchaseLensController;
 use App\Http\Controllers\PurchasePharmacyController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StoreOrderController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TransferFrameController;
@@ -85,6 +87,7 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::get('/product/batch/{branch}/{product}/{category}', 'getProductBatch')->name('ajax.productbatch.get');
         Route::get('/product/type/{category}/{attribute}', 'getProductTypes')->name('ajax.product.type');
         Route::get('/product/by/type/{type}', 'getProductsByType')->name('ajax.product.type.get');
+        Route::get('/daybook/details', 'getDaybookDetailed')->name('ajax.daybook.detailed');
 
         Route::get('/payment/details/{consultation}', 'getPaymentDetailsByConsultation')->name('ajax.payment.by.consultation');
     });
@@ -394,5 +397,14 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::get('/edit/{id}', 'edit')->name('patient.payment.edit');
         Route::post('/edit/{id}', 'update')->name('patient.payment.update');
         Route::get('/delete/{id}', 'destroy')->name('patient.payment.delete');
+    });
+
+    Route::prefix('/backend/report')->controller(ReportController::class)->group(function () {
+        Route::get('/daybook', 'daybook')->name('report.daybook');
+        Route::post('/daybook', 'fetchDaybook')->name('report.daybook.fetch');
+    });
+
+    Route::prefix('/backend/report')->controller(SettingController::class)->group(function () {
+        Route::get('/settings', 'settings')->name('setting.global');
     });
 });

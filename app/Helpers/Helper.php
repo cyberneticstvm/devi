@@ -8,8 +8,11 @@ use App\Models\ConsultationType;
 use App\Models\Doctor;
 use App\Models\IncomeExpense;
 use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\Patient;
 use App\Models\PatientProcedure;
+use App\Models\PatientProcedureDetail;
+use App\Models\Payment;
 use App\Models\Procedure;
 use App\Models\Setting;
 use App\Models\Transfer;
@@ -193,6 +196,111 @@ function owedTotal($consultation_id)
     ]);
 }
 
+function getDayBook($fdate, $tdate, $branch)
+{
+    $from_date = Carbon::parse($fdate)->startOfDay();
+    $to_date = Carbon::parse($tdate)->endOfDay();
+    $reg_fee_total = getRegFeeTotal($from_date, $to_date, $branch);
+    $consultation_fee_total = getConsultationFeeTotal($from_date, $to_date, $branch);
+    $procedure_fee_total = getProcedureFeeTotal($from_date, $to_date, $branch);
+    $order_total = getOrderTotal($fdate, $tdate, $branch);
+    $pharmacy_total = getPharmacyTotal($fdate, $tdate, $branch);
+    $paid_total = getPaidTotal($from_date, $to_date, $branch);
+    $expense_total = getExpenseTotal($fdate, $tdate, $branch);
+    $paid_total_cash = getPaidTotalByMode($from_date, $to_date, $branch, $mode = [1]);
+    $paid_total_other = getPaidTotalByMode($from_date, $to_date, $branch, $mode = [2, 3, 4, 5]);
+    return json_encode([
+        'reg_fee_total' => $reg_fee_total,
+        'consultation_fee_total' => $consultation_fee_total,
+        'procedure_fee_total' => $procedure_fee_total,
+        'order_total' => $order_total,
+        'pharmacy_total' => $pharmacy_total,
+        'paid_total' => $paid_total,
+        'expense_total' => $expense_total,
+        'paid_total_cash' => $paid_total_cash,
+        'paid_total_other' => $paid_total_other,
+    ]);
+}
+function getPaidTotalByMode($from_date, $to_date, $branch, $mode)
+{
+    return Payment::whereBetween('created_at', [$from_date, $to_date])->whereIn('payment_mode', $mode)->when($branch > 0, function ($q) use ($branch) {
+        return $q->where('branch_id', $branch);
+    })->sum('amount');
+}
+
+function getRegFeeTotal($from_date, $to_date, $branch)
+{
+    return Patient::whereBetween('created_at', [$from_date, $to_date])->when($branch > 0, function ($q) use ($branch) {
+        return $q->where('branch_id', $branch);
+    })->sum('registration_fee');
+}
+function getRegFeeDetailed($from_date, $to_date, $branch)
+{
+    return Patient::whereBetween('created_at', [$from_date, $to_date])->where('registration_fee', '>', 0)->when($branch > 0, function ($q) use ($branch) {
+        return $q->where('branch_id', $branch);
+    })->get();
+}
+function getConsultationFeeTotal($from_date, $to_date, $branch)
+{
+    return Consultation::whereBetween('created_at', [$from_date, $to_date])->when($branch > 0, function ($q) use ($branch) {
+        return $q->where('branch_id', $branch);
+    })->sum('doctor_fee');
+}
+function getConsultationFeeDetailed($from_date, $to_date, $branch)
+{
+    return Consultation::whereBetween('created_at', [$from_date, $to_date])->where('doctor_fee', '>', 0)->when($branch > 0, function ($q) use ($branch) {
+        return $q->where('branch_id', $branch);
+    })->get();
+}
+function getProcedureFeeTotal($from_date, $to_date, $branch)
+{
+    return PatientProcedureDetail::join('patient_procedures AS p', 'p.id', 'patient_procedure_details.patient_procedure_id')->whereNull('p.deleted_at')->whereBetween('created_at', [$from_date, $to_date])->when($branch > 0, function ($q) use ($branch) {
+        return $q->where('p.branch_id', $branch);
+    })->sum('fee');
+}
+function getProcedureFeeDetailed($from_date, $to_date, $branch)
+{
+    return PatientProcedure::whereBetween('created_at', [$from_date, $to_date])->when($branch > 0, function ($q) use ($branch) {
+        return $q->where('branch_id', $branch);
+    })->get();
+}
+function getOrderTotal($from_date, $to_date, $branch)
+{
+    return Order::whereBetween('order_date', [$from_date, $to_date])->where('category', 'store')->when($branch > 0, function ($q) use ($branch) {
+        return $q->where('branch_id', $branch);
+    })->sum('invoice_total');
+}
+function getOrderDetailed($from_date, $to_date, $branch)
+{
+    return Order::whereBetween('order_date', [$from_date, $to_date])->where('invoice_total', '>', 0)->where('category', 'store')->when($branch > 0, function ($q) use ($branch) {
+        return $q->where('branch_id', $branch);
+    })->get();
+}
+function getPharmacyTotal($from_date, $to_date, $branch)
+{
+    return Order::whereBetween('order_date', [$from_date, $to_date])->where('invoice_total', '>', 0)->where('category', 'pharmacy')->when($branch > 0, function ($q) use ($branch) {
+        return $q->where('branch_id', $branch);
+    })->sum('invoice_total');
+}
+function getPharmacyDetailed($from_date, $to_date, $branch)
+{
+    return Order::whereBetween('order_date', [$from_date, $to_date])->where('invoice_total', '>', 0)->where('category', 'pharmacy')->when($branch > 0, function ($q) use ($branch) {
+        return $q->where('branch_id', $branch);
+    })->get();
+}
+function getPaidTotal($from_date, $to_date, $branch)
+{
+    return Payment::whereBetween('created_at', [$from_date, $to_date])->when($branch > 0, function ($q) use ($branch) {
+        return $q->where('branch_id', $branch);
+    })->sum('amount');
+}
+function getExpenseTotal($from_date, $to_date, $branch)
+{
+    return IncomeExpense::whereBetween('date', [$from_date, $to_date])->where('category', 'expense')->when($branch > 0, function ($q) use ($branch) {
+        return $q->where('branch_id', $branch);
+    })->sum('amount');
+}
+
 function getInventory($branch, $product, $category)
 {
     $stock = [];
@@ -202,15 +310,15 @@ function getInventory($branch, $product, $category)
         else :
             $branch = Branch::findOrFail($branch);
             $bname = $branch->name;
-            $stock = DB::select("SELECT tbl1.batch_number, tbl1.product_name, tbl1.purchasedQty, tbl1.transferredQty, SUM(CASE WHEN o.branch_id = ? AND o.deleted_at IS NULL THEN od.qty ELSE 0 END) AS soldQty, tbl1.purchasedQty - (tbl1.transferredQty + SUM(CASE WHEN o.branch_id = ? AND o.deleted_at IS NULL THEN od.qty ELSE 0 END)) AS balanceQty FROM(SELECT p.id AS product_id, p.name AS product_name, td.batch_number, SUM(CASE WHEN t.to_branch_id = ? AND t.deleted_at IS null THEN td.qty ELSE 0 END) AS purchasedQty, SUM(CASE WHEN t.from_branch_id = ? AND t.deleted_at IS NULL THEN td.qty ELSE 0 END) AS transferredQty FROM transfer_details td LEFT JOIN products p ON p.id = td.product_id LEFT JOIN transfers t ON t.id = td.transfer_id WHERE IF(? > 0, td.product_id = ?, 1) AND td.batch_number IS NOT NULL GROUP BY p.id, p.name, td.batch_number) AS tbl1 LEFT JOIN order_details od ON od.product_id = tbl1.product_id AND od.batch_number = tbl1.batch_number LEFT JOIN orders o ON o.id=od.order_id GROUP BY batch_number, product_name, purchasedQty, transferredQty HAVING balanceQty > 0;", [$branch->id, $branch->id, $branch->id, $branch->id, $product, $product]);
+            $stock = DB::select("SELECT '$bname' AS branch, tbl1.batch_number, tbl1.product_name, tbl1.purchasedQty, tbl1.transferredQty, SUM(CASE WHEN o.branch_id = ? AND o.deleted_at IS NULL THEN od.qty ELSE 0 END) AS soldQty, tbl1.purchasedQty - (tbl1.transferredQty + SUM(CASE WHEN o.branch_id = ? AND o.deleted_at IS NULL THEN od.qty ELSE 0 END)) AS balanceQty FROM(SELECT p.id AS product_id, p.name AS product_name, td.batch_number, SUM(CASE WHEN t.to_branch_id = ? AND t.deleted_at IS NULL THEN td.qty ELSE 0 END) AS purchasedQty, SUM(CASE WHEN t.from_branch_id = ? AND t.deleted_at IS NULL THEN td.qty ELSE 0 END) AS transferredQty FROM transfer_details td LEFT JOIN products p ON p.id = td.product_id LEFT JOIN transfers t ON t.id = td.transfer_id WHERE IF(? > 0, td.product_id = ?, 1) AND t.transfer_status = 1 AND td.batch_number IS NOT NULL GROUP BY p.id, p.name, td.batch_number) AS tbl1 LEFT JOIN order_details od ON od.product_id = tbl1.product_id AND od.batch_number = tbl1.batch_number LEFT JOIN orders o ON o.id=od.order_id GROUP BY batch_number, product_name, purchasedQty, transferredQty HAVING balanceQty > 0", [$branch->id, $branch->id, $branch->id, $branch->id, $product, $product]);
         endif;
     else :
         if ($branch == 0) :
-            $stock = DB::select("SELECT 'Main Stock' AS branch, pdct.name AS product_name, SUM(pd.qty) AS purchasedQty, SUM(CASE WHEN t.from_branch_id = 0 THEN td.qty AND t.deleted_at IS NULL ELSE 0 END) AS transferredQty, SUM(pd.qty)-SUM(CASE WHEN t.from_branch_id = 0 AND t.transfer_status = 1 THEN td.qty ELSE 0 END) AS balanceQty FROM purchase_details pd LEFT JOIN products pdct ON pd.product_id = pdct.id LEFT JOIN transfer_details td ON pd.product_id = td.product_id LEFT JOIN transfers t ON t.id = td.transfer_id WHERE IF(? > 0, pd.product_id = ?, 1) GROUP BY branch, product_name", [$product, $product]);
+            $stock = DB::select("SELECT 'Main Stock' AS branch, tbl1.product_name, tbl1.purchasedQty, SUM(CASE WHEN t.from_branch_id = 0 AND t.deleted_at IS NULL THEN td.qty ELSE 0 END) AS transferredQty, tbl1.purchasedQty - SUM(CASE WHEN t.from_branch_id = 0 AND t.deleted_at IS NULL THEN td.qty ELSE 0 END) AS balanceQty FROM (SELECT pdct.id AS product_id, pdct.name AS product_name, SUM(pd.qty) AS purchasedQty FROM purchase_details pd LEFT JOIN products pdct ON pd.product_id = pdct.id WHERE IF(? > 0, pd.product_id = ?, 1) GROUP BY pdct.id, pdct.name) AS tbl1 LEFT JOIN transfer_details td ON tbl1.product_id = td.product_id LEFT JOIN transfers t ON t.id = td.transfer_id WHERE t.transfer_status = 1 GROUP BY product_name, purchasedQty HAVING balanceQty > 0", [$product, $product]);
         else :
             $branch = Branch::findOrFail($branch);
             $bname = $branch->name;
-            $stock = DB::select("SELECT '$bname' AS branch, p.name AS product_name, SUM(CASE WHEN t.to_branch_id = ? AND t.transfer_status = 1 AND t.deleted_at IS NULL THEN td.qty ELSE 0 END) AS purchasedQty, SUM(CASE WHEN t.from_branch_id = ? AND t.transfer_status = 1 AND t.deleted_at IS NULL THEN td.qty ELSE 0 END) AS transferredQty, SUM(CASE WHEN o.branch_id = ? AND o.deleted_at IS NULL THEN od.qty ELSE 0 END) AS soldQty, SUM(CASE WHEN t.to_branch_id = ? AND t.transfer_status = 1 AND t.deleted_at IS NULL THEN td.qty ELSE 0 END) - (SUM(CASE WHEN t.from_branch_id = ? AND t.transfer_status = 1 AND t.deleted_at IS NULL THEN td.qty ELSE 0 END) + SUM(CASE WHEN o.branch_id = ? AND o.deleted_at IS NULL THEN od.qty ELSE 0 END)) AS balanceQty FROM transfer_details td LEFT JOIN products p ON p.id = td.product_id LEFT JOIN transfers t ON t.id = td.transfer_id LEFT JOIN order_details od ON od.product_id = td.product_id LEFT JOIN orders o ON o.id = od.order_id WHERE IF(? > 0, td.product_id = ?, 1) GROUP BY p.name, td.product_id", [$branch->id, $branch->id, $branch->id, $branch->id, $branch->id, $branch->id, $product, $product]);
+            $stock = DB::select("SELECT '$bname' AS branch, tbl1.product_name, tbl1.purchasedQty, tbl1.transferredQty, SUM(CASE WHEN o.branch_id = ? AND o.deleted_at IS NULL THEN od.qty ELSE 0 END) AS soldQty, tbl1.purchasedQty - (tbl1.transferredQty+SUM(CASE WHEN o.branch_id = ? AND o.deleted_at IS NULL THEN od.qty ELSE 0 END)) AS balanceQty FROM (SELECT pdct.id AS product_id, pdct.name AS product_name, SUM(CASE WHEN t.to_branch_id = ? THEN td.qty ELSE 0 END) AS purchasedQty, SUM(CASE WHEN t.from_branch_id = ? THEN td.qty ELSE 0 END) AS transferredQty FROM transfer_details td LEFT JOIN transfers t ON t.id = td.transfer_id LEFT JOIN products pdct ON td.product_id = pdct.id WHERE IF(? > 0, td.product_id = ?, 1) AND t.deleted_at IS NULL AND t.transfer_status = 1 GROUP BY pdct.id, pdct.name) AS tbl1 LEFT JOIN order_details od ON od.product_id = tbl1.product_id LEFT JOIN orders o ON o.id = od.order_id GROUP BY product_name, purchasedQty, transferredQty HAVING balanceQty > 0", [$branch->id, $branch->id, $branch->id, $branch->id, $product, $product]);
         endif;
     endif;
     return collect($stock);

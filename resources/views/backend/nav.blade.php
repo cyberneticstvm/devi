@@ -309,38 +309,15 @@
         <li class="sidebar-list"><i class="fa fa-thumb-tack"></i>
             <a class="sidebar-link sidebar-title" href="javascript:void(0)">
                 <svg class="stroke-icon">
-                    <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#stroke-form') }}"></use>
+                    <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#stroke-knowledgebase') }}"></use>
                 </svg>
-                <span>Forms</span>
+                <svg class="fill-icon">
+                    <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#fill-knowledgebase') }}"></use>
+                </svg>
+                <span>Reports</span>
             </a>
             <ul class="sidebar-submenu">
-                <li><a class="submenu-title" href="#">Form Controls<span class="sub-arrow"><i class="fa fa-angle-right"></i></span></a>
-                    <ul class="nav-sub-childmenu submenu-content">
-                        <li><a href="form-validation.html">Form Validation</a></li>
-                        <li><a href="base-input.html">Base Inputs</a></li>
-                        <li><a href="radio-checkbox-control.html">Checkbox & Radio</a></li>
-                        <li><a href="input-group.html">Input Groups</a></li>
-                        <li> <a href="input-mask.html">Input Mask</a></li>
-                        <li><a href="megaoptions.html">Mega Options</a></li>
-                    </ul>
-                </li>
-                <li><a class="submenu-title" href="#">Form Widgets<span class="sub-arrow"><i class="fa fa-angle-right"></i></span></a>
-                    <ul class="nav-sub-childmenu submenu-content">
-                        <li><a href="datepicker.html">Datepicker</a></li>
-                        <li><a href="touchspin.html">Touchspin</a></li>
-                        <li><a href="select2.html">Select2</a></li>
-                        <li><a href="switch.html">Switch</a></li>
-                        <li><a href="typeahead.html">Typeahead</a></li>
-                        <li><a href="clipboard.html">Clipboard</a></li>
-                    </ul>
-                </li>
-                <li><a class="submenu-title" href="#">Form layout<span class="sub-arrow"><i class="fa fa-angle-right"></i></span></a>
-                    <ul class="nav-sub-childmenu submenu-content">
-                        <li><a href="form-wizard.html">Form Wizard 1</a></li>
-                        <li><a href="form-wizard-two.html">Form Wizard 2</a></li>
-                        <li><a href="two-factor.html">Two Factor</a></li>
-                    </ul>
-                </li>
+                <li><a href="{{ route('report.daybook') }}">Daybook</a></li>
             </ul>
         </li>
         <li class="sidebar-main-title">
@@ -348,28 +325,18 @@
                 <h6>Settings</h6>
             </div>
         </li>
-        <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)">
+        <li class="sidebar-list"><i class="fa fa-thumb-tack"></i>
+            <a class="sidebar-link sidebar-title" href="javascript:void(0)">
                 <svg class="stroke-icon">
-                    <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#stroke-ui-kits') }}"></use>
+                    <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#stroke-icons') }}"></use>
                 </svg>
                 <svg class="fill-icon">
-                    <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#fill-ui-kits') }}"></use>
-                </svg><span>Ui Kits</span></a>
+                    <use href="{{ asset('/backend/assets/svg/icon-sprite.svg#fill-icons') }}"></use>
+                </svg>
+                <span>Settings</span>
+            </a>
             <ul class="sidebar-submenu">
-                <li><a href="typography.html">Typography</a></li>
-                <li><a href="avatars.html">Avatars</a></li>
-                <li><a href="helper-classes.html">helper classes</a></li>
-                <li><a href="grid.html">Grid</a></li>
-                <li><a href="tag-pills.html">Tag & pills</a></li>
-                <li><a href="progress-bar.html">Progress</a></li>
-                <li><a href="modal.html">Modal</a></li>
-                <li><a href="alert.html">Alert</a></li>
-                <li><a href="popover.html">Popover</a></li>
-                <li><a href="tooltip.html">Tooltip</a></li>
-                <li><a href="dropdown.html">Dropdown</a></li>
-                <li><a href="according.html">Accordion</a></li>
-                <li><a href="tab-bootstrap.html">Tabs</a></li>
-                <li><a href="list.html">Lists</a></li>
+                <li><a href="{{ route('setting.global') }}">Settings</a></li>
             </ul>
         </li>
     </ul>

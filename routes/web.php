@@ -96,6 +96,8 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::get('/pending/transfer', 'pendingTransfer')->name('pending.transfer');
         Route::get('/pending/transfer/edit/{id}', 'pendingTransferEdit')->name('pending.transfer.edit');
         Route::post('/pending/transfer/edit/{id}', 'pendingTransferUpdate')->name('pending.transfer.update');
+        Route::get('/search', 'search')->name('search');
+        Route::post('/search', 'searchFetch')->name('search.fetch');
     });
 
     Route::prefix('/backend/export')->controller(ImportExportController::class)->group(function () {

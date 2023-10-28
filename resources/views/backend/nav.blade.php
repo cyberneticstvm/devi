@@ -29,6 +29,7 @@
                 <li><a href="{{ route('appointment.list') }}">Today's Appointment</a></li>
                 <li><a class="" href="{{ route('store.order') }}">Order Register</a></li>
                 <li><a class="" href="{{ route('pharmacy.order') }}">Pharmacy Register</a></li>
+                <li><a class="" href="{{ route('search') }}">Search</a></li>
             </ul>
         </li>
         <li class="sidebar-main-title">

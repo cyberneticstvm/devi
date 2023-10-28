@@ -41,4 +41,9 @@ class Consultation extends Model
     {
         return $this->hasMany(Payment::class, 'consultation_id', 'id');
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'consultation_id', 'id');
+    }
 }

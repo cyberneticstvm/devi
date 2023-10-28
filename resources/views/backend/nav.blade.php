@@ -25,6 +25,8 @@
             </a>
             <ul class="sidebar-submenu">
                 <li><a class="" href="{{ route('dashboard') }}">Patient Register</a></li>
+                <li><a href="{{ route('consultations') }}">Consultation Register</a></li>
+                <li><a href="{{ route('appointment.list') }}">Today's Appointment</a></li>
                 <li><a class="" href="{{ route('store.order') }}">Order Register</a></li>
                 <li><a class="" href="{{ route('pharmacy.order') }}">Pharmacy Register</a></li>
             </ul>

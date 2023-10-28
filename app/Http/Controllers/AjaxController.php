@@ -98,7 +98,7 @@ class AjaxController extends Controller
             case 'con':
                 $data = getConsultationFeeDetailed($request->from_date, $request->to_date, $request->branch);
                 $op = '<div class="drawer-header">
-                <h6 class="drawer-title" id="drawer-3-title">Consultation Fee Detailed</h6></div><div class="drawer-body table-responsive">';
+                <h6 class="drawer-title" id="drawer-3-title">Consultation Fee Detailed' . $request->from_date . '</h6></div><div class="drawer-body table-responsive">';
                 $op .= '<table class="table table-bordered table-striped"><thead><tr><th>SL No</th><th>Patient Name</th><th>Patient ID</th><th>MRN</th><th>Fee</th></tr></thead><tbody>';
                 foreach ($data as $key => $item) :
                     $op .= "<tr>";

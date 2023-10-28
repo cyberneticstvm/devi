@@ -201,7 +201,7 @@ function getDayBook($fdate, $tdate, $branch)
     $from_date = Carbon::parse($fdate)->startOfDay();
     $to_date = Carbon::parse($tdate)->endOfDay();
     $reg_fee_total = getRegFeeTotal($from_date, $to_date, $branch);
-    $consultation_fee_total = getConsultationFeeTotal($from_date, $to_date, $branch);
+    $consultation_fee_total = getConsultationFeeTotal($fdate, $tdate, $branch);
     $procedure_fee_total = getProcedureFeeTotal($from_date, $to_date, $branch);
     $order_total = getOrderTotal($fdate, $tdate, $branch);
     $pharmacy_total = getPharmacyTotal($fdate, $tdate, $branch);

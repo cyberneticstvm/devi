@@ -9,6 +9,7 @@ use App\Models\Payment;
 use App\Models\Product;
 use App\Models\ProductSubcategory;
 use App\Models\PurchaseDetail;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AjaxController extends Controller
@@ -78,9 +79,11 @@ class AjaxController extends Controller
     public function getDaybookDetailed(Request $request)
     {
         $op = "";
+        $fdate = Carbon::parse($request->from_date)->startOfDay();
+        $tdate = Carbon::parse($request->to_date)->endOfDay();
         switch ($request->type):
             case 'reg':
-                $data = getRegFeeDetailed($request->from_date, $request->to_date, $request->branch);
+                $data = getRegFeeDetailed($fdate, $tdate, $request->branch);
                 $op = '<div class="drawer-header">
                 <h6 class="drawer-title" id="drawer-3-title">Registration Fee Detailed</h6></div><div class="drawer-body table-responsive">';
                 $op .= '<table class="table table-bordered table-striped"><thead><tr><th>SL No</th><th>Patient Name</th><th>Patient ID</th><th>Fee</th></tr></thead><tbody>';
@@ -96,9 +99,9 @@ class AjaxController extends Controller
                 $op .= '</div><div class="drawer-footer">Daybook</div>';
                 break;
             case 'con':
-                $data = getConsultationFeeDetailed($request->from_date, $request->to_date, $request->branch);
+                $data = getConsultationFeeDetailed($fdate, $tdate, $request->branch);
                 $op = '<div class="drawer-header">
-                <h6 class="drawer-title" id="drawer-3-title">Consultation Fee Detailed' . $request->from_date . '</h6></div><div class="drawer-body table-responsive">';
+                <h6 class="drawer-title" id="drawer-3-title">Consultation Fee Detailed</h6></div><div class="drawer-body table-responsive">';
                 $op .= '<table class="table table-bordered table-striped"><thead><tr><th>SL No</th><th>Patient Name</th><th>Patient ID</th><th>MRN</th><th>Fee</th></tr></thead><tbody>';
                 foreach ($data as $key => $item) :
                     $op .= "<tr>";
@@ -114,7 +117,7 @@ class AjaxController extends Controller
                 break;
             case 'proc':
                 $tot = 0;
-                $data = getProcedureFeeDetailed($request->from_date, $request->to_date, $request->branch);
+                $data = getProcedureFeeDetailed($fdate, $tdate, $request->branch);
                 $op = '<div class="drawer-header">
                 <h6 class="drawer-title" id="drawer-3-title">Procedure Fee Detailed</h6></div><div class="drawer-body table-responsive">';
                 $op .= '<table class="table table-bordered table-striped"><thead><tr><th>SL No</th><th>Patient Name</th><th>Patient ID</th><th>MRN</th><th>Fee</th></tr></thead><tbody>';

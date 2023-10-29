@@ -10,18 +10,20 @@ use App\Models\Patient;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Validation\Rule;
 
 class ConsultationController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    function __construct(){
-        $this->middleware('permission:consultation-list|consultation-create|consultation-edit|consultation-delete', ['only' => ['index','store']]);
-        $this->middleware('permission:consultation-create', ['only' => ['create','store']]);
-        $this->middleware('permission:consultation-edit', ['only' => ['edit','update']]);
+    function __construct()
+    {
+        $this->middleware('permission:consultation-list|consultation-create|consultation-edit|consultation-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:consultation-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:consultation-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:consultation-delete', ['only' => ['destroy']]);
-   }
+    }
 
     public function index()
     {
@@ -52,19 +54,24 @@ class ConsultationController extends Controller
             'department_id' => 'required',
             'doctor_id' => 'required',
         ]);
-        Consultation::create([
-            'mrn' => mrn()->mrid,
-            'patient_id' => $request->patient_id,
-            'doctor_id' => $request->doctor_id,
-            'doctor_fee' => getDocFee($request->doctor_id, $request->patient_id, $request->consultation_type),
-            'department_id' => $request->department_id,
-            'consultation_type' => $request->consultation_type,
-            'review' => 1,
-            'branch_id' => branch()->id,
-            'created_by' => $request->user()->id,
-            'updated_by' => $request->user()->id,
-        ]);
-        return redirect()->route('consultations')->with('success', 'Consultation has been created successfully!');
+        $exists = Consultation::where('patient_id', $request->patient_id)->whereDate('created_at', Carbon::today())->first();
+        if ($exists) :
+            return redirect()->back()->with("error", "Patient already have a MRN today - " . $exists->mrn)->withInput($request->all());
+        else :
+            Consultation::create([
+                'mrn' => mrn()->mrid,
+                'patient_id' => $request->patient_id,
+                'doctor_id' => $request->doctor_id,
+                'doctor_fee' => getDocFee($request->doctor_id, $request->patient_id, $request->consultation_type),
+                'department_id' => $request->department_id,
+                'consultation_type' => $request->consultation_type,
+                'review' => 1,
+                'branch_id' => branch()->id,
+                'created_by' => $request->user()->id,
+                'updated_by' => $request->user()->id,
+            ]);
+            return redirect()->route('consultations')->with('success', 'Consultation has been created successfully!');
+        endif;
     }
 
     /**

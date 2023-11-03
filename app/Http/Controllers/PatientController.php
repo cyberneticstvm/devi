@@ -43,7 +43,7 @@ class PatientController extends Controller
         $ctypes = ConsultationType::pluck('name', 'id');
         $depts = Department::pluck('name', 'id');
         $doctors = Doctor::pluck('name', 'id');
-        $patient = collect();
+        $patient = [];
         if ($type_id > 0) :
             if ($type == 'Appointment') :
                 $patient = Appointment::findOrFail($type_id);

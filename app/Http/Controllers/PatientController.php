@@ -52,8 +52,6 @@ class PatientController extends Controller
                 $patient = CampPatient::findOrFail($type_id);
             endif;
         endif;
-        dd($patient);
-        die;
         return view('backend.patient.create', compact('ctypes', 'depts', 'doctors', 'type', 'type_id', 'patient'));
     }
 

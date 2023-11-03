@@ -21,10 +21,11 @@ class PatientController extends Controller
     /**
      * Display a listing of the resource.
      */
-    function __construct(){
-        $this->middleware('permission:patient-list|patient-create|patient-edit|patient-delete', ['only' => ['index','store']]);
-        $this->middleware('permission:patient-create', ['only' => ['create','store']]);
-        $this->middleware('permission:patient-edit', ['only' => ['edit','update']]);
+    function __construct()
+    {
+        $this->middleware('permission:patient-list|patient-create|patient-edit|patient-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:patient-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:patient-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:patient-delete', ['only' => ['destroy']]);
     }
 
@@ -43,14 +44,16 @@ class PatientController extends Controller
         $depts = Department::pluck('name', 'id');
         $doctors = Doctor::pluck('name', 'id');
         $patient = collect();
-        if($type_id > 0):
-            if($type == 'Appointment'):
+        if ($type_id > 0) :
+            if ($type == 'Appointment') :
                 $patient = Appointment::findOrFail($type_id);
             endif;
-            if($type == 'Camp'):
+            if ($type == 'Camp') :
                 $patient = CampPatient::findOrFail($type_id);
             endif;
         endif;
+        dd($patient);
+        die;
         return view('backend.patient.create', compact('ctypes', 'depts', 'doctors', 'type', 'type_id', 'patient'));
     }
 
@@ -69,10 +72,10 @@ class PatientController extends Controller
             'department_id' => 'required',
             'doctor_id' => 'required',
         ]);
-        try{
+        try {
             $patient = Patient::where('mobile', $request->mobile)->get();
-            if($patient->isEmpty() || Session::has('exists')):
-                DB::transaction(function() use ($request){
+            if ($patient->isEmpty() || Session::has('exists')) :
+                DB::transaction(function () use ($request) {
                     $patient = Patient::create([
                         'name' => $request->name,
                         'patient_id' => patientId()->pid,
@@ -99,23 +102,23 @@ class PatientController extends Controller
                         'created_by' => $request->user()->id,
                         'updated_by' => $request->user()->id,
                     ]);
-                    if($request->type_id > 0):
-                        if($request->type == 'Appointment'):
+                    if ($request->type_id > 0) :
+                        if ($request->type == 'Appointment') :
                             Appointment::findOrFail($request->type_id)->update(['patient_id' => $patient->id]);
                         endif;
-                        if($request->type == 'Camp'):
+                        if ($request->type == 'Camp') :
                             CampPatient::findOrFail($request->type_id)->update(['patient_id' => $patient->id]);
                         endif;
                     endif;
                 });
-                if(Session::has('exists')):
-                    Session::forget('exists'); 
-                endif;              
-            else:
+                if (Session::has('exists')) :
+                    Session::forget('exists');
+                endif;
+            else :
                 Session::put('exists', true);
                 return redirect()->back()->with('warning', 'We found an existing records with provided Mobile Number')->withInput($request->all());
             endif;
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage())->withInput($request->all());
         }
         return redirect()->route('consultations')->with('success', 'Patient has been registered successfully!');
@@ -136,7 +139,6 @@ class PatientController extends Controller
     {
         $patient = Patient::findOrFail(decrypt($id));
         return view('backend.patient.edit', compact('patient'));
-
     }
 
     /**
